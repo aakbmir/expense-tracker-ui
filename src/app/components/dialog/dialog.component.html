@@ -13,24 +13,27 @@
                 <input class="form-control" type="text" formControlName="budget" id="budget" />
             </div>
         </div>
+        <br/>
         <div class="form-group row">
-            <div class="col">
-            <button class="btn btn-primary">Update</button>
+            <div class="col" style="text-align: center;">
+                <button class="btn btn-primary" style="margin-right: 1em;">Update</button>
+                <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
         </div>
-        <div class="col">
-            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-        </div>
-    </div>
     </form>
 </div>
 
 
-<div style="margin:2em" *ngIf="screen ==='category' && feature === 'delete'">
-    <h1>Delete category</h1>
-    <h3>Are you sure?</h3>
+<div style="margin:2em; text-align: center;" *ngIf="screen ==='category' && feature === 'delete'">
+    <h2>Delete category</h2>
+    <p></p>
+    <span>Deleting this category will uncategorize the items.
+        <p></p> Are you sure?</span>
+    <p></p>
     <div class="form-group row">
-        <button class="btn btn-primary">Delete</button>
-        <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        <div class="col" style="text-align: center;">
+            <button class="btn btn-primary" style="margin-right: 1em;">Delete</button>
+            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
     </div>
-s
 </div>

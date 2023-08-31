@@ -46,8 +46,8 @@ export class CategoryComponent implements OnInit {
 
   openDialog(category: any, screen: string, feature: string) {
     let dialogRef = this.dialog.open(DialogComponent, {
-      height:'65%',
-      width:'50%',
+      height:'35%',
+      width:'80%',
       data : {
         category: category,
         screen: screen,
