@@ -18,12 +18,14 @@ export class CategoryComponent implements OnInit {
   
   ngOnInit(): void {
     let category1 = {
+      id:1,
       categoryName:"hello",
       budget:"1000"
     }
     this.categories.push(category1);
 
     let category2 = {
+      id:2,
       categoryName:"World",
       budget:"2000"
     }

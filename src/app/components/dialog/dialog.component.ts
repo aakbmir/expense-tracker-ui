@@ -9,7 +9,7 @@ import { CategoryService } from 'src/app/services/category.service';
   styleUrls: ['./dialog.component.css'],
 })
 export class DialogComponent {
-  screen : any;
+  screen: any;
   feature: any;
 
   constructor(
@@ -18,8 +18,8 @@ export class DialogComponent {
     private categoryService: CategoryService
   ) {
     console.log(this.data);
-  this.screen = this.data.screen;
-  this.feature = this.data.feature;
+    this.screen = this.data.screen;
+    this.feature = this.data.feature;
   }
 
   onCancel(): void {

@@ -1,0 +1,49 @@
+.navbar {
+    position: fixed; /* Use 'fixed' to overlap content */
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff; /* Adjust background color as needed */
+    z-index: 1000; /* Ensure it's above other elements */
+    height: 60px; /* Adjust navbar height as needed */
+    overflow: auto; /* Add scrollbar if content overflows */
+  }
+  
+  /* Navbar Links */
+  .navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .navbar li {
+    display: inline;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #333; /* Link color */
+    font-weight: bold;
+  }
+  
+  /* Content Below Navbar Styles */
+  .content-below-navbar {
+    margin-top: 70px; /* Adjust margin to accommodate navbar height */
+    padding: 20px;
+  }
+  
+  /* Responsive Design (Adjust as needed) */
+  @media (max-width: 768px) {
+    .navbar {
+      height: auto;
+      overflow: visible;
+    }
+  
+    .content-below-navbar {
+      margin-top: 10px;
+    }
+  }

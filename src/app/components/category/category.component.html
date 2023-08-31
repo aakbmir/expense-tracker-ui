@@ -1,33 +1,35 @@
-<h2>Expense Categories</h2>
-<hr/>
-<table class="table table-striped table-responsive">
-    <thead>
-        <tr>
-            <th style="width:30%">Category Name</th>
-            <th style="width:30%">Budget</th>
-            <th style="width:20%"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let category of categories">
-            <td *ngIf="!isUpdate">{{category.categoryName}}</td>
-            <td *ngIf="!isUpdate">{{category.budget}}</td>
-            <td>
-                <button class="hideBtn" title="Edit" (click)="openDialog(category,'category', 'edit')"><i
-                        class="fa fa-pencil blue-color"></i></button>
-                        <button class="hideBtn" title="Delete" (click)="openDialog(category,'category','delete')"><i
+<div >
+    <h2>Expense Categories</h2>
+    <hr />
+    <table class="table table-striped table-responsive">
+        <thead>
+            <tr>
+                <th style="width:30%">Category Name</th>
+                <th style="width:30%">Budget</th>
+                <th style="width:20%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of categories">
+                <td *ngIf="!isUpdate">{{category.categoryName}}</td>
+                <td *ngIf="!isUpdate">{{category.budget}}</td>
+                <td>
+                    <button class="hideBtn" title="Edit" (click)="openDialog(category,'category', 'edit')"><i
+                            class="fa fa-pencil blue-color"></i></button>
+                    <button class="hideBtn" title="Delete" (click)="openDialog(category,'category','delete')"><i
                             class="fa fa-trash red-color"></i></button>
-                <!-- <button *ngIf="isUpdate" class="hideBtn" title="Edit" (click)="modifyScreen('fill')"><i
+                    <!-- <button *ngIf="isUpdate" class="hideBtn" title="Edit" (click)="modifyScreen('fill')"><i
                         class="fa fa-check blue-color"></i></button>
                 <button class="hideBtn" title="Delete"><i class="fa fa-trash red-color"></i></button>
                 <button class="hideBtn" title="Update"><i class="fa fa-sign-in blue-color"></i></button> -->
-            </td>
-        </tr>
-    </tbody>
-</table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<div class="clear"></div>
+    <div class="clear"></div>
 
-<div style="text-align: center;">
-    <button class="btn btn-outline-primary m-auto"><i class="fa fa-plus m-2"></i>Add New Category</button>
+    <div style="text-align: center;">
+        <button class="btn btn-outline-primary m-auto"><i class="fa fa-plus m-2"></i>Add New Category</button>
+    </div>
 </div>

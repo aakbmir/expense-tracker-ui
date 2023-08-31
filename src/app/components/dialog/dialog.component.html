@@ -1,19 +1,14 @@
-<div style="margin:2em" *ngIf="screen ==='category' && feature === 'edit'">
+<div style="margin:2em;background-color: yellow;" *ngIf="screen ==='category' && feature === 'edit'">
     <h1>Edit category</h1>
     <form [formGroup]="categoryForm" (ngSubmit)="updateCategory()">
-        <div class="form-group row">
-            <label for="category" class="col-form-label">Category</label>
-            <div>
-                <input class="form-control" type="text" formControlName="categoryName" id="categoryName" />
-            </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 5em;">Category</span>
+            <input class="form-control" type="text" formControlName="categoryName" id="categoryName" />
         </div>
-        <div class="form-group row">
-            <label for="budget" class="col-form-label">Budget</label>
-            <div>
-                <input class="form-control" type="text" formControlName="budget" id="budget" />
-            </div>
-        </div>
-        <br/>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 5em;">Budget</span>
+            <input class="form-control" type="text" formControlName="budget" id="budget" />
+        </div> <br />
         <div class="form-group row">
             <div class="col" style="text-align: center;">
                 <button class="btn btn-primary" style="margin-right: 1em;">Update</button>
@@ -28,7 +23,8 @@
     <h2>Delete category</h2>
     <p></p>
     <span>Deleting this category will uncategorize the items.
-        <p></p> Are you sure?</span>
+        <p></p> Are you sure?
+    </span>
     <p></p>
     <div class="form-group row">
         <div class="col" style="text-align: center;">
