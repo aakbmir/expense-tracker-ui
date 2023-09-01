@@ -11,8 +11,20 @@
     color: #dc3545
 }
 
+.grey-color {
+    color: #6c757d
+}
+
 .clear {
     margin: 4em;
 }
 
+table tr td, table tr th, select, option{
+    background-color: #FAFFF7 !important;
+}
 
+input {
+    width: 50%;
+    height: 2.5em; 
+    font-size: 1em;
+}

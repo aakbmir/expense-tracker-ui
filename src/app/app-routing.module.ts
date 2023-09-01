@@ -4,32 +4,37 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { IncomeComponent } from './components/income/income.component';
 import { ExpenseComponent } from './components/expense/expense.component';
 import { CategoryComponent } from './components/category/category.component';
+import { BudgetComponent } from './components/budget/budget.component';
 
 const routes: Routes = [
   {
-    path: "",
-    component: ReportsComponent
+    path: '',
+    component: CategoryComponent,
   },
   {
-    path: "reports",
-    component: ReportsComponent
+    path: 'reports',
+    component: ReportsComponent,
   },
   {
-    path: "income",
-    component: IncomeComponent
+    path: 'income',
+    component: IncomeComponent,
   },
   {
-    path: "expense",
-    component: ExpenseComponent
+    path: 'expense',
+    component: ExpenseComponent,
   },
   {
-    path: "category",
-    component: CategoryComponent
-  }
+    path: 'budget',
+    component: BudgetComponent,
+  },
+  {
+    path: 'category',
+    component: CategoryComponent,
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

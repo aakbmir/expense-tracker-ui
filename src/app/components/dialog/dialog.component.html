@@ -1,26 +1,51 @@
-<div style="margin:2em;background-color: yellow;" *ngIf="screen ==='category' && feature === 'edit'">
-    <h1>Edit category</h1>
-    <form [formGroup]="categoryForm" (ngSubmit)="updateCategory()">
+<div style="margin:1em;" *ngIf="screen ==='Category-Add'">
+    <h3>Add Category</h3>
+    <hr />
+    <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 5em;">Category</span>
-            <input class="form-control" type="text" formControlName="categoryName" id="categoryName" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
+            <input class="form-control" type="text" formControlName="category" id="category" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 5em;">Budget</span>
-            <input class="form-control" type="text" formControlName="budget" id="budget" />
-        </div> <br />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Umbrella</span>
+            <input class="form-control" type="text" formControlName="umbrella" id="umbrella" />
+        </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
-                <button class="btn btn-primary" style="margin-right: 1em;">Update</button>
-                <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">Add</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
             </div>
         </div>
     </form>
 </div>
 
+<div style="margin:1em;" *ngIf="screen ==='Category-Edit'">
+    <h3>Update Category</h3>
+    <hr />
+    <form [formGroup]="editCategoryForm" (ngSubmit)="updateCategory()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
+            <input class="form-control" type="text" formControlName="category" id="category" />
+        </div>
 
-<div style="margin:2em; text-align: center;" *ngIf="screen ==='category' && feature === 'delete'">
-    <h2>Delete category</h2>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Umbrella</span>
+            <select class="form-select" formControlName="umbrella">
+                <option *ngFor="let umbrella of umbrellaCategoryList" [ngValue]="umbrella">
+                    {{umbrella}}</option>
+            </select>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:2em; text-align: center;" *ngIf="screen ==='Category-Delete'">
+    <h3>Delete Category</h3>
     <p></p>
     <span>Deleting this category will uncategorize the items.
         <p></p> Are you sure?
@@ -28,8 +53,56 @@
     <p></p>
     <div class="form-group row">
         <div class="col" style="text-align: center;">
-            <button class="btn btn-primary" style="margin-right: 1em;">Delete</button>
+            <button class="btn btn-primary" style="margin-right: 1em;" (click)="deleteCategory()">Delete</button>
             <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
         </div>
     </div>
+</div>
+
+
+<div style="margin:1em;" *ngIf="screen ==='Budget-Edit'">
+    <h3>Edit Budget</h3>
+    <hr />
+    <form [formGroup]="editBudgetForm" (ngSubmit)="editBudget()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
+            <input class="form-control" type="text" formControlName="category" readonly id="category" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3" >
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <!-- <mat-form-field class="example-full-width">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field> -->
+
+              <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
 </div>

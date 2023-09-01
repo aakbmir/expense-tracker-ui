@@ -10,6 +10,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 export class CategoryComponent implements OnInit {
   categories: any = [];
   isUpdate = false;
+  loading = false;
+  count = 0;
 
   constructor(
     private categoryService: CategoryService,
@@ -17,25 +19,8 @@ export class CategoryComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
-    let category1 = {
-      id:1,
-      categoryName:"hello",
-      budget:"1000"
-    }
-    this.categories.push(category1);
-
-    let category2 = {
-      id:2,
-      categoryName:"World",
-      budget:"2000"
-    }
-    this.categories.push(category2);
-
-    
-    // this.categoryService.getAllCategories().subscribe((data: any) => {
-    //   console.log(data);
-    //   this.categories = data;
-    // });
+    this.loading = true;
+    this.fetchAllCategories();
   }
 
   modifyScreen(button: any) {
@@ -46,18 +31,33 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  openDialog(category: any, screen: string, feature: string) {
+  openDialog(category: any, screen: string, height: number, width:number) {
     let dialogRef = this.dialog.open(DialogComponent, {
-      height:'35%',
-      width:'80%',
+      panelClass: 'custom-modalbox',
+      maxHeight:height+'vh',
+      width:width+'vw',
+      position: {top:'0px'},
       data : {
         category: category,
-        screen: screen,
-        feature: feature
+        screen: screen
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        // Make an API call and refresh the component
+        this.fetchAllCategories();
+      }
+    });
+  }
+
+  fetchAllCategories() {
+    this.categories = [];
+    this.categoryService.getAllCategories().subscribe((data: any) => {
+      this.categories = data;
+      this.loading = false;
+      this.count = this.categories.length;
     });
   }
 }

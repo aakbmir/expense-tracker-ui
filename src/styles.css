@@ -2,3 +2,17 @@
 @import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import './../node_modules/font-awesome/css/font-awesome.css';
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+body {
+    background-color: #FAFFF7;
+    /* font-size: 3.2vw; */
+}
+
+::ng-deep {
+    background-color: #FAFFF7;
+}
+
+.mat-dialog-content {
+    max-height: 50vh;
+  }

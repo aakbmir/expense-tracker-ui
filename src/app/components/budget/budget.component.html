@@ -1,31 +1,28 @@
 <div class="container-fluid" *ngIf="!loading">
     <span style="margin-right:1em">Expense Categories</span>
-    <button type="button" class="btn btn-outline-primary" (click)="openDialog('', 'Category-Add', 100, 100)">
-        <i class="fa fa-plus"></i>
-    </button>
     <hr />
     <table class="table table-stripe table-responsive" style="background: none;" *ngIf="count > 0">
         <thead>
             <tr>
-                <th style="width:30%">Umbrella</th>
                 <th style="width:30%">Category</th>
-                <td style="width:20%"><span style="color:red">{{count}}</span></td>
+                <th style="width:30%">Budget</th>
+                <td style="width:20%"><span style="color:red"></span></td>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let category of categories">
-                <td *ngIf="!isUpdate">{{category.umbrella}}</td>
-                <td *ngIf="!isUpdate">{{category.category}}</td>
+            <tr *ngFor="let budget of budgetList">
+                <td *ngIf="!isUpdate">{{budget.category}}</td>
+                <td *ngIf="!isUpdate">{{budget.price}}</td>
                 <td>
                     <div class="d-flex" style="text-align: center;">
                         <button style="text-decoration: none;background: none;border: none;"
                             [matMenuTriggerFor]="beforeMenu"><i class="fa fa-ellipsis-h blue-color"></i></button>
                         <mat-menu #beforeMenu="matMenu" xPosition="before">
                             <button mat-menu-item
-                                (click)="openDialog(category, 'Category-Edit', 100, 100)">Edit</button>
+                                (click)="openDialog(budget, 'Budget-Edit', 100, 100)">Edit</button>
 
                             <button mat-menu-item
-                                (click)="openDialog(category, 'Category-Delete', 100, 100)">Delete</button>
+                                (click)="openDialog(budget, 'Budget-Delete', 100, 100)">Delete</button>
                         </mat-menu>
                     </div>
                 </td>
