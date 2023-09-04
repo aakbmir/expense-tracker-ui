@@ -1,19 +1,28 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://192.168.164.117:8080/api/v1/budget';
+const baseUrl = 'http://192.168.164.117:8080/api/v1/reports';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetService {
+export class ReportService {
   constructor(private http: HttpClient) {}
 
-  getCurrentBudget(month: any, year: any): Observable<any> {
+  totalOverview(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/get-current-budget`, { params: queryParams });
+    return this.http.get(`${baseUrl}/total-overview`, {
+      params: queryParams,
+    });
+  }
+
+  totalMonthlyView(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${baseUrl}/total-monthly-view`, {
+      params: queryParams,
+    });
   }
 
   get(budgetName: any) {

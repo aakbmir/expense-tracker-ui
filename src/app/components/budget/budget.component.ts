@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { BudgetService } from 'src/app/services/budget.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-budget',
@@ -10,26 +11,20 @@ import { BudgetService } from 'src/app/services/budget.service';
 })
 export class BudgetComponent implements OnInit {
   budgetList: any = [];
-  isUpdate = false;
   loading = false;
   count = 0;
-
+  total: number = 0;
+  month = this.commonService.getCurrentMonth();
+  year = this.commonService.getCurrentYear();
+  
   constructor(
     private budgetService: BudgetService,
-    private dialog: MatDialog
+    private dialog: MatDialog, private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
     this.loading = true;
     this.fetchAllBudgetList();
-  }
-
-  modifyScreen(button: any) {
-    if (button === 'edit') {
-      this.isUpdate = true;
-    } else if ((button = 'fill')) {
-      this.isUpdate = false;
-    }
   }
 
   openDialog(budget: any, screen: string, height: number, width: number) {
@@ -39,14 +34,13 @@ export class BudgetComponent implements OnInit {
       width: width + 'vw',
       position: { top: '0px' },
       data: {
-        category: budget,
+        item: budget,
         screen: screen,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.fetchAllBudgetList();
       }
     });
@@ -54,10 +48,16 @@ export class BudgetComponent implements OnInit {
 
   fetchAllBudgetList() {
     this.budgetList = [];
-    this.budgetService.getAllBudgets().subscribe((data: any) => {
+    this.budgetService.getCurrentBudget(this.month, this.year).subscribe((data: any) => {
       this.budgetList = data;
       this.loading = false;
       this.count = this.budgetList.length;
+      this.total = 0;
+      for(let bud of this.budgetList) {
+        if(bud.price != null && bud.price !== '') {
+          this.total = this.total +  Number(bud.price);
+        }
+      }
     });
   }
 }

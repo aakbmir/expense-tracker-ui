@@ -28,6 +28,17 @@ export class CommonService {
   getCurrentMonth() {
     var a = new Date();
     console.log(a);
+    let mnth = a.getMonth() + 1;
+    if(mnth.toString.length == 1) {
+      return "0"+mnth;
+    } else {
+      return mnth;
+    }
+  }
+  
+  getCurrentMonthString() {
+    var a = new Date();
+    console.log(a);
     var monthString = a.getMonth() + 1;
     console.log(monthString);
     switch (monthString) {
@@ -76,6 +87,7 @@ export class CommonService {
     var a = new Date();
     var currentDateString = a.getFullYear();
     console.log(currentDateString);
+    return currentDateString;
   }
 
 }

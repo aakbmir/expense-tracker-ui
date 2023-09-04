@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://localhost:8080/api/v1/category';
+const baseUrl = 'http://192.168.164.117:8080/api/v1/category';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +29,8 @@ export class CategoryService {
     return this.http.get(`${baseUrl}/filter-category`, { params: queryParams });
   }
 
-  fetchUmbrellaCategory() {
-    return this.http.get(`${baseUrl}/fetch-umbrella-category`);
+  fetchParentCategory() {
+    return this.http.get(`${baseUrl}/fetch-parent-category`);
   }
 
   saveCategory(data: any) {

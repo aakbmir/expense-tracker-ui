@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://localhost:8080/api/v1/expense';
+const baseUrl = 'http://192.168.164.117:8080/api/v1/expense';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +10,18 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
+  getCurrentExpense(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${baseUrl}/get-current-expense`, { params: queryParams });
+  }
+
   getAllExpenses(): Observable<any> {
     return this.http.get(`${baseUrl}/get-all-expenses`);
   }
 
-  get(expenseName: any) {
-    return this.http.get(`${baseUrl}/${expenseName}`);
+  get(name: any) {
+    return this.http.get(`${baseUrl}/${name}`);
   }
 
   updateExpense(form: any) {
@@ -29,8 +34,8 @@ export class ExpenseService {
     return this.http.get(`${baseUrl}/filter-expense`, { params: queryParams });
   }
 
-  fetchUmbrellaExpense() {
-    return this.http.get(`${baseUrl}/fetch-umbrella-expense`);
+  fetchParentExpense() {
+    return this.http.get(`${baseUrl}/fetch-parent-expense`);
   }
 
   saveExpense(data: any) {
@@ -40,6 +45,5 @@ export class ExpenseService {
   deleteExpense(id: any) {
     return this.http.delete(`${baseUrl}/del-expense/${id}`);
   }
-
 
 }

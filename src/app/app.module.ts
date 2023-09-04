@@ -21,6 +21,7 @@ import { ExpenseComponent } from './components/expense/expense.component';
 import { IncomeComponent } from './components/income/income.component';
 import { CategoryComponent } from './components/category/category.component';
 import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -36,6 +37,7 @@ import { BudgetComponent } from './components/budget/budget.component';
     ReportsComponent,
     DialogComponent,
     BudgetComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

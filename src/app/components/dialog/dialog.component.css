@@ -3,3 +3,7 @@ input {
     height: 2.5em; /* Set height using em units (adjust as needed) */
     font-size: 1em; /* Set font size using em units (adjust as needed) */
 }
+
+mat-form-field {
+    width:60% !important
+}

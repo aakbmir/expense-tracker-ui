@@ -8,10 +8,6 @@ import { BudgetComponent } from './components/budget/budget.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: CategoryComponent,
-  },
-  {
     path: 'reports',
     component: ReportsComponent,
   },
@@ -30,6 +26,11 @@ const routes: Routes = [
   {
     path: 'category',
     component: CategoryComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'expense',
+    pathMatch: 'full',
   },
 ];
 

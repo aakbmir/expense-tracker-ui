@@ -11,7 +11,7 @@ export class CategoryComponent implements OnInit {
   categories: any = [];
   isUpdate = false;
   loading = false;
-  count = 0;
+  total = 0;
 
   constructor(
     private categoryService: CategoryService,
@@ -38,7 +38,7 @@ export class CategoryComponent implements OnInit {
       width:width+'vw',
       position: {top:'0px'},
       data : {
-        category: category,
+        item: category,
         screen: screen
       }
     });
@@ -57,7 +57,7 @@ export class CategoryComponent implements OnInit {
     this.categoryService.getAllCategories().subscribe((data: any) => {
       this.categories = data;
       this.loading = false;
-      this.count = this.categories.length;
+      this.total = this.categories.length;
     });
   }
 }

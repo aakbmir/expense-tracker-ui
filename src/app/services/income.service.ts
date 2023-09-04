@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://localhost:8080/api/v1/income';
+const baseUrl = 'http://192.168.164.117:8080/api/v1/income';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +10,18 @@ export class IncomeService {
 
   constructor(private http: HttpClient) {}
 
-  getAllIncome(): Observable<any> {
-    return this.http.get(`${baseUrl}/get-all-income`);
+  getCurrentIncome(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${baseUrl}/get-current-income`, { params: queryParams });
   }
 
-  get(incomeName: any) {
-    return this.http.get(`${baseUrl}/${incomeName}`);
+  getAllIncomes(): Observable<any> {
+    return this.http.get(`${baseUrl}/get-all-incomes`);
+  }
+
+  get(name: any) {
+    return this.http.get(`${baseUrl}/${name}`);
   }
 
   updateIncome(form: any) {
@@ -28,8 +34,8 @@ export class IncomeService {
     return this.http.get(`${baseUrl}/filter-income`, { params: queryParams });
   }
 
-  fetchUmbrellaIncome() {
-    return this.http.get(`${baseUrl}/fetch-umbrella-income`);
+  fetchParentIncome() {
+    return this.http.get(`${baseUrl}/fetch-parent-income`);
   }
 
   saveIncome(data: any) {
@@ -39,6 +45,5 @@ export class IncomeService {
   deleteIncome(id: any) {
     return this.http.delete(`${baseUrl}/del-income/${id}`);
   }
-
 
 }

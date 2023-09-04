@@ -7,12 +7,12 @@
             <input class="form-control" type="text" formControlName="category" id="category" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Umbrella</span>
-            <input class="form-control" type="text" formControlName="umbrella" id="umbrella" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Parent</span>
+            <input class="form-control" type="text" formControlName="parent" id="parent" />
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
-                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">Add</button>
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Add</button>
                 <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
             </div>
         </div>
@@ -29,15 +29,12 @@
         </div>
 
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Umbrella</span>
-            <select class="form-select" formControlName="umbrella">
-                <option *ngFor="let umbrella of umbrellaCategoryList" [ngValue]="umbrella">
-                    {{umbrella}}</option>
-            </select>
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Parent</span>
+            <input class="form-control" type="text" formControlName="parent" id="parent" />
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
-                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">Update</button>
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
                 <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
             </div>
         </div>
@@ -53,12 +50,11 @@
     <p></p>
     <div class="form-group row">
         <div class="col" style="text-align: center;">
-            <button class="btn btn-primary" style="margin-right: 1em;" (click)="deleteCategory()">Delete</button>
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteCategory()">Delete</button>
             <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
         </div>
     </div>
 </div>
-
 
 <div style="margin:1em;" *ngIf="screen ==='Budget-Edit'">
     <h3>Edit Budget</h3>
@@ -72,37 +68,219 @@
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
             <input class="form-control" type="text" formControlName="price" id="price" />
         </div>
-        <div class="input-group input-group-sm mb-3" >
+        <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
-            <!-- <mat-form-field class="example-full-width">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker">
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field> -->
-
-              <mat-form-field class="example-form-field">
+            <mat-form-field class="example-form-field">
                 <mat-label>Choose a date</mat-label>
                 <input matInput [matDatepicker]="datepicker" formControlName="date">
-                <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
                 <mat-datepicker #datepicker>
-                  <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel>Cancel</button>
-                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                  </mat-datepicker-actions>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
                 </mat-datepicker>
-              </mat-form-field>
-
+            </mat-form-field>
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
-                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">Update</button>
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
                 <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
             </div>
         </div>
     </form>
+</div>
+
+<div style="margin:1em;" *ngIf="screen ==='Income-Add'">
+    <h3>Add Income</h3>
+    <hr />
+    <form [formGroup]="addIncomeForm" (ngSubmit)="addIncome()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Name</span>
+            <input class="form-control" type="text" formControlName="name" id="name" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
+            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Add</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:1em;" *ngIf="screen ==='Income-Edit'">
+    <h3>Edit Income</h3>
+    <hr />
+    <form [formGroup]="editIncomeForm" (ngSubmit)="editIncome()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Name</span>
+            <input class="form-control" type="text" formControlName="name" id="name" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
+            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:2em; text-align: center;" *ngIf="screen ==='Income-Delete'">
+    <h3>Delete Income</h3>
+    <p></p>
+    <span>Deleting this Income will impact 
+        <p></p>the budget and reports.
+        <p></p> Are you sure?
+    </span>
+    <p></p>
+    <div class="form-group row">
+        <div class="col" style="text-align: center;">
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteIncome()">Delete</button>
+            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div style="margin:1em;" *ngIf="screen ==='Expense-Add'">
+    <h3>Add Expense</h3>
+    <hr />
+    <form [formGroup]="addExpenseForm" (ngSubmit)="addExpense()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
+            <select class="form-select" formControlName="category">
+                <option *ngFor="let category of categoryList" [ngValue]="category.category">
+                    {{category.category}}</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
+            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Add</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:1em;" *ngIf="screen ==='Expense-Edit'">
+    <h3>Edit Expense</h3>
+    <hr />
+    <form [formGroup]="editExpenseForm" (ngSubmit)="editExpense()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
+            <select class="form-select" formControlName="category">
+                <option *ngFor="let category of categoryList" [ngValue]="category.category">
+                    {{category.category}}</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
+            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:2em; text-align: center;" *ngIf="screen ==='Expense-Delete'">
+    <h3>Delete Expense</h3>
+    <p></p>
+    <span>Deleting this Expense will impact 
+        <p></p>the budget and reports.
+        <p></p> Are you sure?
+    </span>
+    <p></p>
+    <div class="form-group row">
+        <div class="col" style="text-align: center;">
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteExpense()">Delete</button>
+            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
 </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { ExpenseService } from 'src/app/services/expense.service';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-expense',
   templateUrl: './expense.component.html',
@@ -9,56 +11,55 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 
 export class ExpenseComponent implements OnInit {
-  categories: any = [];
-  isUpdate = false;
+  expenseList: any = [];
   loading = false;
   count = 0;
-
-  constructor(
-    private categoryService: CategoryService,
-    private dialog: MatDialog
-  ) {}
+  total: number = 0;
+  month = this.commonService.getCurrentMonth();
+  year = this.commonService.getCurrentYear();
   
+  constructor(
+    private expenseService: ExpenseService,
+    private dialog: MatDialog, private commonService: CommonService
+  ) {}
+
   ngOnInit(): void {
     this.loading = true;
-    this.fetchAllCategories();
+    this.fetchAllExpenseList();
   }
 
-  modifyScreen(button: any) {
-    if (button === 'edit') {
-      this.isUpdate = true;
-    } else if ((button = 'fill')) {
-      this.isUpdate = false;
-    }
-  }
-
-  openDialog(category: any, screen: string, height: number, width:number) {
+  openDialog(expense: any, screen: string, height: number, width: number) {
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
-      maxHeight:height+'vh',
-      width:width+'vw',
-      position: {top:'0px'},
-      data : {
-        category: category,
-        screen: screen
-      }
+      maxHeight: height + 'vh',
+      width: width + 'vw',
+      position: { top: '0px' },
+      data: {
+        item: expense,
+        screen: screen,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
-        // Make an API call and refresh the component
-        this.fetchAllCategories();
+        this.fetchAllExpenseList();
       }
     });
   }
 
-  fetchAllCategories() {
-    this.categories = [];
-    this.categoryService.getAllCategories().subscribe((data: any) => {
-      this.categories = data;
+  fetchAllExpenseList() {
+    this.expenseList = [];
+    this.expenseService.getCurrentExpense(this.month, this.year).subscribe((data: any) => {
+      this.expenseList = data;
       this.loading = false;
-      this.count = this.categories.length;
+      this.count = this.expenseList.length > 0 ? this.expenseList.length : 0;
+      this.total = 0;
+      for(let bud of this.expenseList) {
+        if(bud.price != null && bud.price !== '') {
+          this.total = this.total +  Number(bud.price);
+        }
+      }
+      console.log(this.count);
     });
   }
 }
