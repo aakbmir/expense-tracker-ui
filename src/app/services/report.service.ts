@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://192.168.164.117:8080/api/v1/reports';
+const baseUrl = 'http://192.168.1.22:8080/api/v1/reports';
 
 @Injectable({
   providedIn: 'root',
@@ -9,18 +9,18 @@ const baseUrl = 'http://192.168.164.117:8080/api/v1/reports';
 export class ReportService {
   constructor(private http: HttpClient) {}
 
-  totalOverview(month: any, year: any): Observable<any> {
+  overviewCategory(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/total-overview`, {
+    return this.http.get(`${baseUrl}/overview-category`, {
       params: queryParams,
     });
   }
 
-  totalMonthlyView(month: any, year: any): Observable<any> {
+  monthlyCategory(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/total-monthly-view`, {
+    return this.http.get(`${baseUrl}/monthly-category`, {
       params: queryParams,
     });
   }
