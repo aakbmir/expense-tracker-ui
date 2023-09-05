@@ -6,8 +6,8 @@
             <span style="color:#6d9773;  border-radius: 5px;">Reports</span>
         </div>
         <div class="col-6">
-            <button type="button" style="float: right;background-color: #6d9773;" class="btn" (click)="filterOn = !filterOn"><i
-                    class="fa fa-filter">
+            <button type="button" style="float: right;background-color: #6d9773;" class="btn"
+                (click)="filterOn = !filterOn"><i class="fa fa-filter">
                     <span style="margin-left:5px">Add Filter</span></i>
             </button>
         </div>
@@ -42,7 +42,7 @@
         <li>Umbrella View (Each item vs target)</li>
         <li>Month on Month</li>
     </ul> -->
-<div style="margin-top: 0.5em;" class="container row" style="margin-top: 0.5em !important;margin: auto;">
+<div class="container row" style="margin-top: 0.5em !important;margin: auto;">
     <button class="col-3 reportBtn" (click)="showReport('overview')"
         [ngStyle]="{'background': overviewFlag ? '#fff':'#6d9773', 'color': overviewFlag ? '#6d9773':'#fff', 'border-left': overviewFlag ? '1px solid #6d9773':'1px solid #fff'}">
         Overview
@@ -60,40 +60,33 @@
         Trends
     </button>
 </div>
-<br />
 
-<div *ngIf="overviewFlag" style="margin-top: 5em;" class="row">
-    <div class="col-1"></div>
-    <span class="col-5" style="padding: 0.5em; border: 1px solid #fff; background:#39623f;color:#fff">
-        <h3>Total Income</h3>
+<div *ngIf="overviewFlag" style="margin-top: 5em;" class="container">
+    <span class="row" style="padding: 0.5em; text-align: center;background:#39623f;color:#fff">
+        <h1>Total Income</h1>
     </span>
-    <span class="col-5" style="padding: 0.5em; border: 1px solid #fff; text-align: center;color:#fff"
-        [ngStyle]="{'background': overview.totalDeviation > 0 ? '#6d9773':'red'}">
-        <h4>{{overview.totalBudget}}</h4>
+    <span class="row" style="padding: 0.5em; text-align: center"
+        [ngStyle]="{'color': overview.totalDeviation > 0 ? 'green':'red'}">
+        <h2>{{overview.totalBudget}}</h2>
     </span>
-    <div class="col-1"></div>
-    <div class="col-1"></div>
-    <span class="col-5" style="padding: 0.5em; border: 1px solid #fff; background:#39623f;color:#fff">
-        <h3>Total Expense</h3>
+    <span class="row" style="padding: 0.5em; text-align: center;background:#39623f;color:#fff">
+        <h1>Total Expense</h1>
     </span>
-    <span class="col-5" style="padding: 0.5em; border: 1px solid #fff; text-align: center;color:#fff"
-        [ngStyle]="{'background': overview.totalDeviation > 0 ? '#6d9773':'red'}">
-        <h4>{{overview.totalExpense}}</h4>
+    <span class="row" style="padding: 0.5em; text-align: center"
+        [ngStyle]="{'color': overview.totalDeviation > 0 ? 'green':'red'}">
+        <h2>{{overview.totalExpense}}</h2>
     </span>
-    <div class="col-1"></div>
-    <div class="col-1"></div>
-    <span class="col-5" style="padding: 0.5em; border: 1px solid #fff; background:#39623f;color:#fff">
-        <h3>Total Margin</h3>
+    <span class="row" style="padding: 0.5em; text-align: center;background:#39623f;color:#fff">
+        <h1>Total Margin</h1>
     </span>
-    <span class="col-5" style="padding: 0.5em; border: 1px solid #fff; text-align: center;color:#fff"
-        [ngStyle]="{'background': overview.totalDeviation > 0 ? '#6d9773':'red'}">
-        <h4>{{overview.totalDeviation}}</h4>
+    <span class="row" style="padding: 0.5em; text-align: center"
+        [ngStyle]="{'color': overview.totalDeviation > 0 ? 'green':'red'}">
+        <h2>{{overview.totalDeviation}}</h2>
     </span>
-    <div class="col-1"></div>
 </div>
 
 <div *ngIf="monthlyFlag" class="table-container">
-    <table class="table table-striped table-responsiv" style="background: none;">
+    <table class="table table-striped table-responsive table-bordered" style="background: none;">
         <thead>
             <tr>
                 <th style="width:30%">Category</th>
@@ -103,13 +96,55 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let monthlyView of responseList">
+            <tr *ngFor="let monthlyView of responseList; let i=index">
                 <td>{{monthlyView.category}}</td>
                 <td>{{monthlyView.budget}}</td>
                 <td>{{monthlyView.expense}}</td>
-                <td>
-                    {{monthlyView.budget - monthlyView.expense}} 
+                <td
+                    [ngStyle]="{'color': monthlyView.deviate == 0 ? 'black': (monthlyView.deviate < 0) ? 'red' : 'green'}">
+                    {{monthlyView.deviate}}
                 </td>
+            </tr>
+            <tr>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">Total</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{monthlyBudgetTotal}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{monthlyExpenseTotal}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;"
+                    [ngStyle]="{'color': monthlyDeviateTotal == 0 ? 'black': (monthlyDeviateTotal < 0) ? 'red' : 'green'}">
+                    {{monthlyDeviateTotal | number:'1.2-2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div *ngIf="targetFlag" class="table-container">
+    <table class="table table-striped table-responsive table-bordered" style="background: none;">
+        <thead>
+            <tr>
+                <th style="width:30%">Category</th>
+                <th style="width:30%">Budget</th>
+                <th style="width:30%">Expense</th>
+                <td style="width:20%">Deviation</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let targetView of responseList; let i=index">
+                <td>{{targetView.category}}</td>
+                <td>{{targetView.budget}}</td>
+                <td>{{targetView.expense}}</td>
+                <td
+                    [ngStyle]="{'color': targetView.deviate == 0 ? 'black': (targetView.deviate < 0) ? 'red' : 'green'}">
+                    {{targetView.deviate}}
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">Total</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{targetBudgetTotal}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{targetExpenseTotal}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;"
+                    [ngStyle]="{'color': targetDeviateTotal == 0 ? 'black': (targetDeviateTotal < 0) ? 'red' : 'green'}">
+                    {{targetDeviateTotal | number:'1.2-2'}}</td>
             </tr>
         </tbody>
     </table>

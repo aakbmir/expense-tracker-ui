@@ -197,6 +197,13 @@
             </select>
         </div>
         <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Parent</span>
+            <select class="form-select" formControlName="parent">
+                <option *ngFor="let parent of parentCategoryList" [ngValue]="parent">
+                    {{parent}}</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
             <input class="form-control" type="text" formControlName="price" id="price" />
         </div>
@@ -236,6 +243,13 @@
             <select class="form-select" formControlName="category">
                 <option *ngFor="let category of categoryList" [ngValue]="category.category">
                     {{category.category}}</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Parent</span>
+            <select class="form-select" formControlName="parent">
+                <option *ngFor="let parent of parentCategoryList" [ngValue]="parent">
+                    {{parent}}</option>
             </select>
         </div>
         <div class="input-group input-group-sm mb-3">

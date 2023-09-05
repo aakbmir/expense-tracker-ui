@@ -32,9 +32,8 @@ input {
     font-size: 1em;
 }
 
-
 .table-container {
-    max-height: 78vh;
+    max-height: 65vh;
     overflow-y: auto;
 }
 

@@ -17,16 +17,24 @@ export class ReportsComponent implements OnInit {
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
-  
+
   overview: any = {};
-  monthlyView: any = {};
   overviewFlag = true;
+
   monthlyFlag = false;
+  monthlyBudgetTotal = 0;
+  monthlyExpenseTotal = 0;
+  monthlyDeviateTotal = 0;
+
   targetFlag = false;
+  targetBudgetTotal = 0;
+  targetExpenseTotal = 0;
+  targetDeviateTotal = 0;
+  
   trendFlag = false;
-  
-  responseList : any = [];
-  
+
+  responseList: any = [];
+
   constructor(
     private reportService: ReportService,
     private commonService: CommonService
@@ -69,6 +77,7 @@ export class ReportsComponent implements OnInit {
       this.monthlyFlag = false;
       this.targetFlag = true;
       this.trendFlag = false;
+      this.fetchMonthlyParent(this.month, this.year);
     } else if (value === 'trend') {
       this.overviewFlag = false;
       this.monthlyFlag = false;
@@ -78,23 +87,27 @@ export class ReportsComponent implements OnInit {
   }
 
   applyFilters() {
-    console.log('inside');
     if (this.overviewFlag) {
-      console.log('overview');
       this.overview = [];
       this.fetchOverviewCategory(
         this.filterForm.controls.filterMonth.value,
         this.filterForm.controls.filterYear.value
       );
     } else if (this.monthlyFlag) {
-      this.fetchMonthlyCategory(this.month, this.year);
-      console.log('monthly');
+      this.responseList = [];
+      this.fetchMonthlyCategory(
+        this.filterForm.controls.filterMonth.value,
+        this.filterForm.controls.filterYear.value
+      );
     } else if (this.targetFlag) {
-      console.log('target');
+      this.responseList = [];
+      this.fetchMonthlyParent(
+        this.filterForm.controls.filterMonth.value,
+        this.filterForm.controls.filterYear.value
+      );
     } else if (this.trendFlag) {
       console.log('trend');
     }
-    
   }
 
   fetchOverviewCategory(month: any, year: any) {
@@ -104,8 +117,31 @@ export class ReportsComponent implements OnInit {
   }
 
   fetchMonthlyCategory(month: any, year: any) {
+    this.monthlyBudgetTotal = 0;
+    this.monthlyExpenseTotal = 0;
+    this.monthlyDeviateTotal = 0;
     this.reportService.monthlyCategory(month, year).subscribe((data) => {
       this.responseList = data;
+      for (let ove of data) {
+        this.monthlyBudgetTotal += ove.budget;
+        this.monthlyExpenseTotal += ove.expense;
+        this.monthlyDeviateTotal += ove.deviate;
+      }
     });
   }
+
+  fetchMonthlyParent(month: any, year: any) {
+    this.targetBudgetTotal = 0;
+    this.targetExpenseTotal = 0;
+    this.targetDeviateTotal = 0;
+    this.reportService.monthlyParent(month, year).subscribe((data) => {
+      this.responseList = data;
+      for (let ove of data) {
+        this.targetBudgetTotal += ove.budget;
+        this.targetExpenseTotal += ove.expense;
+        this.targetDeviateTotal += ove.deviate;
+      }
+    });
+  }
+  
 }

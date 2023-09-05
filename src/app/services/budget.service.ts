@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://192.168.0.141:8080/api/v1/budget';
+const baseUrl = 'http://192.168.1.22:8080/api/v1/budget';
 
 @Injectable({
   providedIn: 'root',

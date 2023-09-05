@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { BudgetService } from 'src/app/services/budget.service';
 import { IncomeService } from 'src/app/services/income.service';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { distinct } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog',
@@ -17,6 +18,7 @@ export class DialogComponent {
   feature: any;
   parentCategoryList: any = [];
   categoryList: any = [];
+  parentList: any = [];
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
@@ -34,6 +36,7 @@ export class DialogComponent {
     if (this.screen === 'Expense-Add' || this.screen === 'Expense-Edit') {
       this.categoryService.getAllCategories().subscribe(data => {
         this.categoryList = data;
+         this.parentCategoryList = Array.from(new Set(data.map((item:any) => item.parent)));
       })
     }
   }
@@ -73,6 +76,7 @@ export class DialogComponent {
 
   addExpenseForm = new FormGroup({
     category: new FormControl(this.data.item.category, Validators.required),
+    parent: new FormControl(this.data.item.parent, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
     note: new FormControl(this.data.item.date, Validators.required),
@@ -81,6 +85,7 @@ export class DialogComponent {
   editExpenseForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
+    parent: new FormControl(this.data.item.parent, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
     note: new FormControl(this.data.item.note, Validators.required),
