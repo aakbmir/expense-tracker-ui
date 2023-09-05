@@ -5,12 +5,12 @@
 
 
 body {
-    background-color: #FAFFF7;
+    background-color: #fff;
     /* font-size: 3.2vw; */
 }
 
 ::ng-deep {
-    background-color: #FAFFF7;
+    background-color: #fff;
 }
 
 .mat-dialog-content {

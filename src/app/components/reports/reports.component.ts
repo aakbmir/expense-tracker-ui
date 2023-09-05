@@ -14,8 +14,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ReportsComponent implements OnInit {
   filterOn = false;
   months = this.commonService.getMonths();
-  years = this.commonService.getYears();
   month = this.commonService.getCurrentMonth();
+  years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
   
   overview: any = {};
@@ -27,11 +27,15 @@ export class ReportsComponent implements OnInit {
   
   responseList : any = [];
   
-  
   constructor(
     private reportService: ReportService,
     private commonService: CommonService
-  ) {}
+  ) {
+    this.months = this.commonService.getMonths();
+    this.month = this.commonService.getCurrentMonth();
+    this.years = this.commonService.getYears();
+    this.year = this.commonService.getCurrentYear();
+  }
 
   filterForm = new FormGroup({
     filterMonth: new FormControl(this.month),
@@ -39,6 +43,10 @@ export class ReportsComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.months = this.commonService.getMonths();
+    this.month = this.commonService.getCurrentMonth();
+    this.years = this.commonService.getYears();
+    this.year = this.commonService.getCurrentYear();
     this.fetchOverviewCategory(this.month, this.year);
     this.overviewFlag = true;
   }
@@ -86,7 +94,7 @@ export class ReportsComponent implements OnInit {
     } else if (this.trendFlag) {
       console.log('trend');
     }
-    this.filterOn = false;
+    
   }
 
   fetchOverviewCategory(month: any, year: any) {

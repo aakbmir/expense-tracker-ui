@@ -4,7 +4,7 @@
 }
 
 .primary-color {
-    color: #2875f0
+    color: #6d9773
 }
 
 .red-color {
@@ -20,7 +20,7 @@
 }
 
 table tr td, table tr th, select, option{
-    background-color: #FAFFF7 !important;
+    background-color: #fff !important;
 }
 
 input {

@@ -27,6 +27,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BudgetComponent } from './components/budget/budget.component';
 
+import { NgChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +57,7 @@ import { BudgetComponent } from './components/budget/budget.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
+    NgChartsModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],

@@ -4,7 +4,7 @@
 }
 
 .primary-color {
-    color: #2875f0
+    color: #6d9773
 }
 
 .red-color {
@@ -23,7 +23,7 @@ table tr td,
 table tr th,
 select,
 option {
-    background-color: #FAFFF7 !important;
+    background-color: #fff !important;
 }
 
 input {
@@ -40,8 +40,8 @@ input {
 
 .reportBtn {
     padding: 0.5em;
-    border-top: 1px solid #ffc107;
-    border-bottom: 1px solid #ffc107;
+    border-top: 1px solid #6d9773;
+    border-bottom: 1px solid #6d9773;
     border-right: 1px solid #fff;
     border-left: none;
     

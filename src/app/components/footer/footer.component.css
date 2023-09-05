@@ -8,7 +8,7 @@
   }
   
   .sidebar-social a span {
-    color: black;
+    color: #39623f;
     font-size: 0.75em;
     display: block;
     text-transform: uppercase;
@@ -33,5 +33,5 @@
   }
 
   .active {
-    color:#ffc107 !important;
+    color:#39623f !important;
   }
