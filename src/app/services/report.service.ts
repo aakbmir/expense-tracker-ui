@@ -33,35 +33,13 @@ export class ReportService {
     });
   }
 
-  get(budgetName: any) {
-    return this.http.get(`${baseUrl}/${budgetName}`);
-  }
-
-  updateBudget(form: any) {
-    return this.http.post(`${baseUrl}/update-budget`, form);
-  }
-
-  filterBudget(month: any, year: any) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/filter-budget`, { params: queryParams });
-  }
-
-  fetchParentBudget() {
-    return this.http.get(`${baseUrl}/fetch-parent-budget`);
-  }
-
   fetchParentCategoryDetails(item: any,month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('parent', item).append('month', month).append('year', year);
     return this.http.get(`${baseUrl}/fetch-Parent-Category-Details`, { params: queryParams });
   }
 
-  saveBudget(data: any) {
-    return this.http.post(`${baseUrl}/save-budget`, data);
-  }
-
-  deleteBudget(id: any) {
-    return this.http.delete(`${baseUrl}/del-budget/${id}`);
+  fetchTrendsOverview() {
+    return this.http.get(`${baseUrl}/trends-overview`);
   }
 }

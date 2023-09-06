@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryService } from 'src/app/services/category.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
@@ -19,23 +18,23 @@ export class ReportsComponent implements OnInit {
   year = this.commonService.getCurrentYear();
 
   overview: any = {};
-  overviewFlag = false;
+  overviewFlag = true;
 
   monthlyFlag = false;
   monthlyBudgetTotal = 0;
   monthlyExpenseTotal = 0;
   monthlyDeviateTotal = 0;
 
-  targetFlag = true;
+  targetFlag = false;
   targetBudgetTotal = 0;
   targetExpenseTotal = 0;
   targetDeviateTotal = 0;
-  
+
   trendFlag = false;
 
   responseList: any = [];
 
-  filterForm: any; 
+  filterForm: any;
   constructor(
     private reportService: ReportService,
     private commonService: CommonService,
@@ -46,8 +45,6 @@ export class ReportsComponent implements OnInit {
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
   }
-
-
 
   ngOnInit(): void {
     this.months = this.commonService.getMonths();
@@ -60,13 +57,13 @@ export class ReportsComponent implements OnInit {
       filterMonth: new FormControl(this.month),
       filterYear: new FormControl('2023'),
     });
-    this.fetchMonthlyParent(this.month, this.year);
-    this.targetFlag = true;
+    this.fetchOverviewCategory(this.month, this.year);
+    this.overviewFlag = true;
   }
 
   showReport(value: string) {
     this.responseList = [];
-    this.overview =[];
+    this.overview = [];
     if (value === 'overview') {
       this.overviewFlag = true;
       this.monthlyFlag = false;
@@ -90,6 +87,7 @@ export class ReportsComponent implements OnInit {
       this.monthlyFlag = false;
       this.targetFlag = false;
       this.trendFlag = true;
+      this.fetchTrendsOverview();
     }
   }
 
@@ -112,14 +110,27 @@ export class ReportsComponent implements OnInit {
         this.filterForm.controls.filterMonth.value,
         this.filterForm.controls.filterYear.value
       );
-    } else if (this.trendFlag) {
-      console.log('trend');
     }
   }
 
   fetchOverviewCategory(month: any, year: any) {
     this.reportService.overviewCategory(month, year).subscribe((data) => {
       this.overview = data;
+    });
+  }
+
+  fetchTrendsOverview() {
+    this.monthlyBudgetTotal = 0;
+    this.monthlyExpenseTotal = 0;
+    this.monthlyDeviateTotal = 0;
+    this.overview = '';
+    this.reportService.fetchTrendsOverview().subscribe((data: any) => {
+      for (let ove of data) {
+        const obj = ove;
+        obj['deviate'] = ove['totalBudget'] - ove['totalExpense'];
+        console.log(obj);
+        this.responseList.push(obj);
+      }
     });
   }
 
@@ -150,13 +161,13 @@ export class ReportsComponent implements OnInit {
       }
     });
   }
-  
+
   openDialog(parent: any, screen: string, height: number, width: number) {
     let item = {
-      "parent":parent,
-      "month": this.month,
-      "year": this.year
-    }
+      parent: parent,
+      month: this.month,
+      year: this.year,
+    };
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
