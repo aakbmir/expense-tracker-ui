@@ -45,8 +45,6 @@ export class CategoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
-        // Make an API call and refresh the component
         this.fetchAllCategories();
       }
     });

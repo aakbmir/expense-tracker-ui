@@ -79,7 +79,6 @@ export class ExpenseComponent implements OnInit {
             this.total = this.total + Number(bud.price);
           }
         }
-        console.log(this.count);
       });
   }
 

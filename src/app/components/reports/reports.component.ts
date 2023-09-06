@@ -19,14 +19,14 @@ export class ReportsComponent implements OnInit {
   year = this.commonService.getCurrentYear();
 
   overview: any = {};
-  overviewFlag = true;
+  overviewFlag = false;
 
   monthlyFlag = false;
   monthlyBudgetTotal = 0;
   monthlyExpenseTotal = 0;
   monthlyDeviateTotal = 0;
 
-  targetFlag = false;
+  targetFlag = true;
   targetBudgetTotal = 0;
   targetExpenseTotal = 0;
   targetDeviateTotal = 0;
@@ -35,9 +35,11 @@ export class ReportsComponent implements OnInit {
 
   responseList: any = [];
 
+  filterForm: any; 
   constructor(
     private reportService: ReportService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private dialog: MatDialog
   ) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
@@ -45,21 +47,26 @@ export class ReportsComponent implements OnInit {
     this.year = this.commonService.getCurrentYear();
   }
 
-  filterForm = new FormGroup({
-    filterMonth: new FormControl(this.month),
-    filterYear: new FormControl(this.year),
-  });
+
 
   ngOnInit(): void {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
-    this.fetchOverviewCategory(this.month, this.year);
-    this.overviewFlag = true;
+    console.log(this.month);
+    console.log(this.year);
+    this.filterForm = new FormGroup({
+      filterMonth: new FormControl(this.month),
+      filterYear: new FormControl('2023'),
+    });
+    this.fetchMonthlyParent(this.month, this.year);
+    this.targetFlag = true;
   }
 
   showReport(value: string) {
+    this.responseList = [];
+    this.overview =[];
     if (value === 'overview') {
       this.overviewFlag = true;
       this.monthlyFlag = false;
@@ -144,4 +151,26 @@ export class ReportsComponent implements OnInit {
     });
   }
   
+  openDialog(parent: any, screen: string, height: number, width: number) {
+    let item = {
+      "parent":parent,
+      "month": this.month,
+      "year": this.year
+    }
+    let dialogRef = this.dialog.open(DialogComponent, {
+      panelClass: 'custom-modalbox',
+      maxHeight: height + 'vh',
+      width: width + 'vw',
+      position: { top: '10px' },
+      data: {
+        item: item,
+        screen: screen,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+      }
+    });
+  }
 }

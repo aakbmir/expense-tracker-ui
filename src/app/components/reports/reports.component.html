@@ -1,8 +1,8 @@
 <div style="padding:0.7em; background-color: #39623f !important;
                 box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); border: none !important;">
-    <h5 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker</h5>
+    <h5 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker (Reports)</h5>
     <div class="row">
-        <div class="col-6">
+        <!-- <div class="col-6">
             <span style="color:#6d9773;  border-radius: 5px;">Reports</span>
         </div>
         <div class="col-6">
@@ -10,19 +10,19 @@
                 (click)="filterOn = !filterOn"><i class="fa fa-filter">
                     <span style="margin-left:5px">Add Filter</span></i>
             </button>
-        </div>
+        </div> -->
 
         <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
-            <div style="text-align: center;margin-top:1em" *ngIf="filterOn" class="row">
+            <div style="text-align: center;margin-top:1em" class="row">
                 <div class="col-5">
                     <select class="form-select" formControlName="filterMonth">
-                        <option *ngFor="let month of months">
+                        <option *ngFor="let month of months" [ngValue]="month">
                             {{month}}</option>
                     </select>
                 </div>
                 <div class="col-5">
                     <select class="form-select" formControlName="filterYear">
-                        <option *ngFor="let year of years">
+                        <option *ngFor="let year of years" [ngValue]="year">
                             {{year}}</option>
                     </select>
                 </div>
@@ -67,21 +67,21 @@
     </span>
     <span class="row" style="padding: 0.5em; text-align: center"
         [ngStyle]="{'color': overview.totalDeviation > 0 ? 'green':'red'}">
-        <h2>{{overview.totalBudget}}</h2>
+        <h2>{{overview.totalBudget | number:'1.2-2'}}</h2>
     </span>
     <span class="row" style="padding: 0.5em; text-align: center;background:#39623f;color:#fff">
         <h1>Total Expense</h1>
     </span>
     <span class="row" style="padding: 0.5em; text-align: center"
         [ngStyle]="{'color': overview.totalDeviation > 0 ? 'green':'red'}">
-        <h2>{{overview.totalExpense}}</h2>
+        <h2>{{overview.totalExpense | number:'1.2-2'}}</h2>
     </span>
     <span class="row" style="padding: 0.5em; text-align: center;background:#39623f;color:#fff">
         <h1>Total Margin</h1>
     </span>
     <span class="row" style="padding: 0.5em; text-align: center"
         [ngStyle]="{'color': overview.totalDeviation > 0 ? 'green':'red'}">
-        <h2>{{overview.totalDeviation}}</h2>
+        <h2>{{overview.totalDeviation | number:'1.2-2'}}</h2>
     </span>
 </div>
 
@@ -89,26 +89,31 @@
     <table class="table table-striped table-responsive table-bordered" style="background: none;">
         <thead>
             <tr>
-                <th style="width:30%">Category</th>
-                <th style="width:30%">Budget</th>
-                <th style="width:30%">Expense</th>
+
+                <th style="width:20%">Parent</th>
+                <th style="width:20%">Category</th>
+                <th style="width:18%">Budget</th>
+                <th style="width:20%">Expense</th>
                 <td style="width:20%">Deviation</td>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let monthlyView of responseList; let i=index">
-                <td>{{monthlyView.category}}</td>
-                <td>{{monthlyView.budget}}</td>
-                <td>{{monthlyView.expense}}</td>
+                <td  [ngStyle]="{'background-color': monthlyView.deviate == 0 ? '#fafacd':  ''}">{{monthlyView.parent}}</td>
+                <td  [ngStyle]="{'background-color': monthlyView.deviate == 0 ? '#fafacd':  ''}">{{monthlyView.category}}</td>
+                <td  [ngStyle]="{'background-color': monthlyView.deviate == 0 ? '#fafacd':  ''}">{{monthlyView.budget}}</td>
+                <td  [ngStyle]="{'background-color': monthlyView.deviate == 0 ? '#fafacd':  ''}">{{monthlyView.expense}}</td>
                 <td
-                    [ngStyle]="{'color': monthlyView.deviate == 0 ? 'black': (monthlyView.deviate < 0) ? 'red' : 'green'}">
+                    [ngStyle]="{'color': monthlyView.deviate == 0 ? 'black': (monthlyView.deviate < 0) ? 'red' : 'green',
+                    'background-color': monthlyView.deviate == 0 ? '#fafacd':  ''}">
                     {{monthlyView.deviate}}
                 </td>
             </tr>
             <tr>
-                <td style="background-color: #6d9773 !important;font-weight: bold;">Total</td>
+                <td colspan="2" style="background-color: #6d9773 !important;font-weight: bold;">Total</td>
                 <td style="background-color: #6d9773 !important;font-weight: bold;">{{monthlyBudgetTotal}}</td>
-                <td style="background-color: #6d9773 !important;font-weight: bold;">{{monthlyExpenseTotal}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{monthlyExpenseTotal |
+                    number:'1.2-2'}}</td>
                 <td style="background-color: #6d9773 !important;font-weight: bold;"
                     [ngStyle]="{'color': monthlyDeviateTotal == 0 ? 'black': (monthlyDeviateTotal < 0) ? 'red' : 'green'}">
                     {{monthlyDeviateTotal | number:'1.2-2'}}</td>
@@ -130,7 +135,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let targetView of responseList; let i=index">
-                <td>{{targetView.category}}</td>
+                <td>
+                    <a style="text-decoration: underline;cursor: pointer;"
+                        (click)="openDialog(targetView.parent, 'fetch-target-details', 100, 100)">{{targetView.parent}}</a>
+                </td>
                 <td>{{targetView.budget}}</td>
                 <td>{{targetView.expense}}</td>
                 <td
@@ -140,8 +148,10 @@
             </tr>
             <tr>
                 <td style="background-color: #6d9773 !important;font-weight: bold;">Total</td>
-                <td style="background-color: #6d9773 !important;font-weight: bold;">{{targetBudgetTotal}}</td>
-                <td style="background-color: #6d9773 !important;font-weight: bold;">{{targetExpenseTotal}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{targetBudgetTotal |
+                    number:'1.2-2'}}</td>
+                <td style="background-color: #6d9773 !important;font-weight: bold;">{{targetExpenseTotal |
+                    number:'1.2-2'}}</td>
                 <td style="background-color: #6d9773 !important;font-weight: bold;"
                     [ngStyle]="{'color': targetDeviateTotal == 0 ? 'black': (targetDeviateTotal < 0) ? 'red' : 'green'}">
                     {{targetDeviateTotal | number:'1.2-2'}}</td>

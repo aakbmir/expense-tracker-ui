@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-const baseUrl = 'http://192.168.1.22:8080/api/v1/reports';
+const baseUrl = 'http://192.168.0.141:8080/api/v1/reports';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +49,12 @@ export class ReportService {
 
   fetchParentBudget() {
     return this.http.get(`${baseUrl}/fetch-parent-budget`);
+  }
+
+  fetchParentCategoryDetails(item: any,month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('parent', item).append('month', month).append('year', year);
+    return this.http.get(`${baseUrl}/fetch-Parent-Category-Details`, { params: queryParams });
   }
 
   saveBudget(data: any) {

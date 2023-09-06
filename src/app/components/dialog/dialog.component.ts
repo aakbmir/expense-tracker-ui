@@ -7,6 +7,7 @@ import { BudgetService } from 'src/app/services/budget.service';
 import { IncomeService } from 'src/app/services/income.service';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { distinct } from 'rxjs/operators';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-dialog',
@@ -19,6 +20,13 @@ export class DialogComponent {
   parentCategoryList: any = [];
   categoryList: any = [];
   parentList: any = [];
+  parentCategoryDetailsList: any = [];
+  
+  
+  parent = '';
+  targetBudgetTotal = 0;
+  targetExpenseTotal = 0;
+  targetDeviateTotal = 0;
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
@@ -27,12 +35,24 @@ export class DialogComponent {
     private incomeService: IncomeService,
     private expenseService: ExpenseService,
     private budgetService: BudgetService,
+    private reportsService: ReportService,
     private snackBar: MatSnackBar
   ) {
     this.screen = this.data.screen;
-
-    console.log(this.screen);
-
+    if (this.screen === 'fetch-target-details') {
+      this.targetBudgetTotal = 0;
+      this.targetExpenseTotal = 0;
+      this.targetDeviateTotal = 0;
+      this.parent = this.data.item.parent;
+      this.reportsService.fetchParentCategoryDetails(this.data.item.parent,this.data.item.month,this.data.item.year).subscribe(data => {
+        this.parentCategoryDetailsList = data;
+        for (let ove of data) {
+          this.targetBudgetTotal += ove.budget;
+          this.targetExpenseTotal += ove.expense;
+          this.targetDeviateTotal += ove.deviate;
+        }
+      })
+    }
     if (this.screen === 'Expense-Add' || this.screen === 'Expense-Edit') {
       this.categoryService.getAllCategories().subscribe(data => {
         this.categoryList = data;
@@ -97,7 +117,6 @@ export class DialogComponent {
         this.dialogRef.close(true);
       },
       (error) => {
-        console.log(error);
         this.onCancel();
       }
     );
@@ -118,7 +137,6 @@ export class DialogComponent {
   }
 
   editBudget() {
-    console.log(this.editBudgetForm.value);
     this.budgetService
       .updateBudget(this.editBudgetForm.value)
       .subscribe((data) => {
@@ -132,14 +150,12 @@ export class DialogComponent {
         this.dialogRef.close(true);
       },
       (error) => {
-        console.log(error);
         this.onCancel();
       }
     );
   }
 
   editIncome() {
-    console.log(this.editIncomeForm.value);
     this.incomeService
       .updateIncome(this.editIncomeForm.value)
       .subscribe((data) => {
@@ -159,14 +175,12 @@ export class DialogComponent {
         this.dialogRef.close(true);
       },
       (error) => {
-        console.log(error);
         this.onCancel();
       }
     );
   }
 
   editExpense() {
-    console.log(this.editExpenseForm.value);
     this.expenseService
       .updateExpense(this.editExpenseForm.value)
       .subscribe((data) => {

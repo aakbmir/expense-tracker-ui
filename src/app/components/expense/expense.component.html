@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="col-5">
-                <span style="float: right; font-weight: bold; color:#6d9773">Total : {{total}}</span>
+                <span style="float: right; font-weight: bold; color:#6d9773">Total : {{total | number:'1.2-2'}}</span>
             </div>
             <div class="col-2">
                 <button type="button" style="float: right;background-color: #6d9773;" class="btn"
@@ -49,7 +49,7 @@
                 <tr>
                     <th style="width:25%">Date</th>
                     <th style="width:25%">Category</th>
-                    <th style="width:20%">Note</th>
+                    <th style="width:20%">Parent</th>
                     <th style="width:20%">Price</th>
                     <td style="width:5%"></td>
                 </tr>
@@ -58,7 +58,7 @@
                 <tr *ngFor="let expense of expenseList">
                     <td>{{expense.date | date:'MMM, dd'}}</td>
                     <td>{{expense.category}}</td>
-                    <td>{{ (expense.note.length>5)? (expense.note | slice:0:5)+'...':(expense.note ) }}</td>
+                    <td>{{ (expense.parent.length>4)? (expense.parent | slice:0:4)+'..':(expense.parent ) }}</td>
                     <td>{{expense.price}}</td>
                     <td>
                         <div class="d-flex" style="text-align: center;">

@@ -86,7 +86,6 @@ export class IncomeComponent implements OnInit {
           this.total = this.total + Number(bud.price);
         }
       }
-      console.log(this.count);
     });
   }
 

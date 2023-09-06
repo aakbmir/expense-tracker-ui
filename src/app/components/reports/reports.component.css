@@ -23,7 +23,7 @@ table tr td,
 table tr th,
 select,
 option {
-    background-color: #fff !important;
+    background-color: #fff ;
 }
 
 input {
