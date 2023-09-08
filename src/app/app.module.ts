@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -28,6 +28,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BudgetComponent } from './components/budget/budget.component';
 
 import { NgChartsModule } from 'ng2-charts';
+import { AppConfigService } from './providers/app-config.service';
+
+export function initConfig(appConfig: AppConfigService) {
+  return () => appConfig.loadConfig();
+}
 
 @NgModule({
   declarations: [
@@ -39,7 +44,7 @@ import { NgChartsModule } from 'ng2-charts';
     ReportsComponent,
     DialogComponent,
     BudgetComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,9 +62,17 @@ import { NgChartsModule } from 'ng2-charts';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    NgChartsModule
+    NgChartsModule,
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initConfig,
+      deps: [AppConfigService],
+      multi: true,
+    },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

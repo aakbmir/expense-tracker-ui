@@ -1,0 +1,5 @@
+{
+    "production": true,
+    "name": "Dev",
+    "bffServiceUrl": "https://tracker-expense-be.onrender.com"
+}

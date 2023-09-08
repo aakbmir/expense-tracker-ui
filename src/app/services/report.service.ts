@@ -1,18 +1,22 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-const baseUrl = 'https://tracker-expense-be.onrender.com/api/v1/reports';
+import { AppConfigService } from '../providers/app-config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportService {
-  constructor(private http: HttpClient) {}
+  baseUrl: any;
+
+  constructor(private http: HttpClient, private config: AppConfigService) {
+    this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/reports';
+  }
 
   overviewCategory(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/overview-category`, {
+    return this.http.get(`${this.baseUrl}/overview-category`, {
       params: queryParams,
     });
   }
@@ -20,7 +24,7 @@ export class ReportService {
   monthlyCategory(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/monthly-category`, {
+    return this.http.get(`${this.baseUrl}/monthly-category`, {
       params: queryParams,
     });
   }
@@ -28,18 +32,27 @@ export class ReportService {
   monthlyParent(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/monthly-parent`, {
+    return this.http.get(`${this.baseUrl}/monthly-parent`, {
       params: queryParams,
     });
   }
 
-  fetchParentCategoryDetails(item: any,month: any, year: any): Observable<any> {
+  fetchParentCategoryDetails(
+    item: any,
+    month: any,
+    year: any
+  ): Observable<any> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append('parent', item).append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/fetch-Parent-Category-Details`, { params: queryParams });
+    queryParams = queryParams
+      .append('parent', item)
+      .append('month', month)
+      .append('year', year);
+    return this.http.get(`${this.baseUrl}/fetch-Parent-Category-Details`, {
+      params: queryParams,
+    });
   }
 
   fetchTrendsOverview() {
-    return this.http.get(`${baseUrl}/trends-overview`);
+    return this.http.get(`${this.baseUrl}/trends-overview`);
   }
 }

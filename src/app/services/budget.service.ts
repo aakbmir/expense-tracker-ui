@@ -1,44 +1,49 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
-const baseUrl = 'https://tracker-expense-be.onrender.com/api/v1/budget';
+import { AppConfigService } from '../providers/app-config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BudgetService {
-  constructor(private http: HttpClient) {}
+  baseUrl: any;
+
+  constructor(private http: HttpClient, private config: AppConfigService) {
+    this.baseUrl = this.config.getConfig().bffServiceUrl+'/api/v1/budget';
+  }
 
   getCurrentBudget(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/get-current-budget`, { params: queryParams });
+    return this.http.get(`${this.baseUrl}/get-current-budget`, {
+      params: queryParams,
+    });
   }
 
   get(budgetName: any) {
-    return this.http.get(`${baseUrl}/${budgetName}`);
+    return this.http.get(`${this.baseUrl}/${budgetName}`);
   }
 
   updateBudget(form: any) {
-    return this.http.post(`${baseUrl}/update-budget`, form);
+    return this.http.post(`${this.baseUrl}/update-budget`, form);
   }
 
   filterBudget(month: any, year: any) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${baseUrl}/filter-budget`, { params: queryParams });
+    return this.http.get(`${this.baseUrl}/filter-budget`, { params: queryParams });
   }
 
   fetchParentBudget() {
-    return this.http.get(`${baseUrl}/fetch-parent-budget`);
+    return this.http.get(`${this.baseUrl}/fetch-parent-budget`);
   }
 
   saveBudget(data: any) {
-    return this.http.post(`${baseUrl}/save-budget`, data);
+    return this.http.post(`${this.baseUrl}/save-budget`, data);
   }
 
   deleteBudget(id: any) {
-    return this.http.delete(`${baseUrl}/del-budget/${id}`);
+    return this.http.delete(`${this.baseUrl}/del-budget/${id}`);
   }
 }
