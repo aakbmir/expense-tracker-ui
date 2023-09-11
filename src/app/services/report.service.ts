@@ -52,6 +52,17 @@ export class ReportService {
     });
   }
 
+  fetchCategoryDetails(item: any, month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams
+      .append('category', item)
+      .append('month', month)
+      .append('year', year);
+    return this.http.get(`${this.baseUrl}/fetch-Category-Details`, {
+      params: queryParams,
+    });
+  }
+
   fetchTrendsOverview() {
     return this.http.get(`${this.baseUrl}/trends-overview`);
   }

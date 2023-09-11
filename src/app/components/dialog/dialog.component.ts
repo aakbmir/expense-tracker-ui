@@ -6,7 +6,6 @@ import { CategoryService } from 'src/app/services/category.service';
 import { BudgetService } from 'src/app/services/budget.service';
 import { IncomeService } from 'src/app/services/income.service';
 import { ExpenseService } from 'src/app/services/expense.service';
-import { distinct } from 'rxjs/operators';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -21,8 +20,8 @@ export class DialogComponent {
   categoryList: any = [];
   parentList: any = [];
   parentCategoryDetailsList: any = [];
-  
-  
+
+  categoryDetailsList: any = [];
   parent = '';
   targetBudgetTotal = 0;
   targetExpenseTotal = 0;
@@ -39,25 +38,63 @@ export class DialogComponent {
     private snackBar: MatSnackBar
   ) {
     this.screen = this.data.screen;
-    if (this.screen === 'fetch-target-details') {
+    this.parentCategoryList = [];
+    this.categoryList = [];
+    this.parentList = [];
+    this.parentCategoryDetailsList = [];
+
+    this.categoryDetailsList = [];
+    this.parent = '';
+
+    if (this.screen === 'fetch-parent-details') {
       this.targetBudgetTotal = 0;
       this.targetExpenseTotal = 0;
       this.targetDeviateTotal = 0;
       this.parent = this.data.item.parent;
-      this.reportsService.fetchParentCategoryDetails(this.data.item.parent,this.data.item.month,this.data.item.year).subscribe(data => {
-        this.parentCategoryDetailsList = data;
-        for (let ove of data) {
-          this.targetBudgetTotal += ove.budget;
-          this.targetExpenseTotal += ove.expense;
-          this.targetDeviateTotal += ove.deviate;
-        }
-      })
-    }
-    if (this.screen === 'Expense-Add' || this.screen === 'Expense-Edit') {
-      this.categoryService.getAllCategories().subscribe(data => {
+      this.reportsService
+        .fetchParentCategoryDetails(
+          this.data.item.parent,
+          this.data.item.month,
+          this.data.item.year
+        )
+        .subscribe((data) => {
+          this.parentCategoryDetailsList = data;
+          for (let ove of data) {
+            this.targetBudgetTotal += ove.budget;
+            this.targetExpenseTotal += ove.expense;
+            this.targetDeviateTotal += ove.deviate;
+          }
+        });
+    } else if (this.screen === 'fetch-monthly-details') {
+      this.targetBudgetTotal = 0;
+      this.targetExpenseTotal = 0;
+      this.targetDeviateTotal = 0;
+      console.log(this.data.item)
+      this.parent = this.data.item.parent;
+      this.reportsService
+        .fetchCategoryDetails(
+          this.data.item.parent,
+          this.data.item.month,
+          this.data.item.year
+        )
+        .subscribe((data) => {
+          this.categoryDetailsList = data;
+          for (let ove of data) {
+            this.targetBudgetTotal += ove.budget;
+            this.targetExpenseTotal += ove.expense;
+            this.targetDeviateTotal += ove.deviate;
+          }
+        });
+    } else if (
+      this.screen === 'Expense-Add' ||
+      this.screen === 'Expense-Edit'
+    ) {
+      this.categoryService.getAllCategories().subscribe((data) => {
         this.categoryList = data;
-         this.parentCategoryList = Array.from(new Set(data.map((item:any) => item.parent)));
-      })
+        this.parentCategoryList = Array.from(
+          new Set(data.map((item: any) => item.parent))
+        );
+      });
     }
   }
 
