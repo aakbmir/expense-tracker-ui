@@ -34,8 +34,9 @@ export class CategoryComponent implements OnInit {
   openDialog(category: any, screen: string, height: number, width:number) {
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
-      maxHeight:height+'vh',
-      width:width+'vw',
+      maxHeight: height + 'vh',
+      width: width + 'vw',
+      maxWidth: width-3 + 'vw',
       position: {top:'0px'},
       data : {
         item: category,

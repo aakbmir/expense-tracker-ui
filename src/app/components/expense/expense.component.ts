@@ -51,6 +51,7 @@ export class ExpenseComponent implements OnInit {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
       width: width + 'vw',
+      maxWidth: width-3 + 'vw',
       position: { top: '0px' },
       data: {
         item: expense,
@@ -71,6 +72,7 @@ export class ExpenseComponent implements OnInit {
       .getCurrentExpense(month, year)
       .subscribe((data: any) => {
         this.expenseList = data;
+        this.groupDataByDate(data);
         this.loading = false;
         this.count = this.expenseList.length > 0 ? this.expenseList.length : 0;
         this.total = 0;
@@ -80,6 +82,28 @@ export class ExpenseComponent implements OnInit {
           }
         }
       });
+  }
+
+  groupedData: { [key: string]: any[] } = {};
+  groupedDataArray: { date: string, items: any[] }[] = [];
+  
+  groupDataByDate(data: any) {
+    this.groupedData = data.reduce((grouped, item) => {
+      const date = item.date; // Assuming 'date' is the property name for the date
+  
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+  
+      grouped[date].push(item);
+  
+      return grouped;
+    }, {});
+    this.groupedDataArray = Object.keys(this.groupedData).map(date => ({
+      date,
+      items: this.groupedData[date]
+    }));
+    console.log(this.groupedDataArray);
   }
 
   applyFilters() {

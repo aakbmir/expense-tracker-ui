@@ -51,6 +51,7 @@ export class BudgetComponent implements OnInit {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
       width: width + 'vw',
+      maxWidth: width-3 + 'vw',
       position: { top: '0px' },
       data: {
         item: budget,

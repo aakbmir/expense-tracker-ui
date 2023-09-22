@@ -140,12 +140,35 @@ export class ReportsComponent implements OnInit {
     this.monthlyDeviateTotal = 0;
     this.reportService.monthlyCategory(month, year).subscribe((data) => {
       this.responseList = data;
+      this.groupDataByDate(data);
       for (let ove of data) {
         this.monthlyBudgetTotal += ove.budget;
         this.monthlyExpenseTotal += ove.expense;
         this.monthlyDeviateTotal += ove.deviate;
       }
     });
+  }
+
+  groupedData: { [key: string]: any[] } = {};
+  groupedDataArray: { parent: string; items: any[] }[] = [];
+
+  groupDataByDate(data: any) {
+    this.groupedData = data.reduce((grouped, item) => {
+      const parent = item.parent; // Assuming 'date' is the property name for the date
+
+      if (!grouped[parent]) {
+        grouped[parent] = [];
+      }
+
+      grouped[parent].push(item);
+
+      return grouped;
+    }, {});
+    this.groupedDataArray = Object.keys(this.groupedData).map((parent) => ({
+      parent,
+      items: this.groupedData[parent],
+    }));
+    console.log(this.groupedDataArray);
   }
 
   fetchMonthlyParent(month: any, year: any) {
@@ -172,6 +195,7 @@ export class ReportsComponent implements OnInit {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
       width: width + 'vw',
+      maxWidth: width-3 + 'vw',
       position: { top: '10px' },
       data: {
         item: item,
