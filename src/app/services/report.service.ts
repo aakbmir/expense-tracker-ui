@@ -7,6 +7,7 @@ import { AppConfigService } from '../providers/app-config.service';
   providedIn: 'root',
 })
 export class ReportService {
+  
   baseUrl: any;
 
   constructor(private http: HttpClient, private config: AppConfigService) {
@@ -65,5 +66,9 @@ export class ReportService {
 
   fetchTrendsOverview() {
     return this.http.get(`${this.baseUrl}/trends-overview`);
+  }
+
+  fetchDistinctCategories() {
+    return this.http.get(`${this.baseUrl}/get-distinct-categories`);
   }
 }

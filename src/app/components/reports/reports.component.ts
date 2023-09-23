@@ -4,6 +4,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ExpenseService } from 'src/app/services/expense.service';
 
 @Component({
   selector: 'app-reports',
@@ -11,6 +12,10 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./reports.component.css'],
 })
 export class ReportsComponent implements OnInit {
+
+  selectedCategory = '';
+  categoryList: any = [];
+  categoryTransactionList: any = [];
   filterOn = false;
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
@@ -38,6 +43,7 @@ export class ReportsComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private commonService: CommonService,
+    private expenseService: ExpenseService,
     private dialog: MatDialog
   ) {
     this.months = this.commonService.getMonths();
@@ -51,20 +57,29 @@ export class ReportsComponent implements OnInit {
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
-    console.log(this.month);
-    console.log(this.year);
     this.filterForm = new FormGroup({
       filterMonth: new FormControl(this.month),
       filterYear: new FormControl('2023'),
     });
     this.fetchOverviewCategory(this.month, this.year);
     this.overviewFlag = true;
+    this.fetchDistinctCategories();
+    this.fetchTransactions();
+  }
+
+  fetchDistinctCategories() {
+    this.reportService.fetchDistinctCategories().subscribe(data => {
+    this.categoryList = data;
+    },
+    error => {
+    })
   }
 
   showReport(value: string) {
     this.responseList = [];
-    this.overview = [];
+    
     if (value === 'overview') {
+      this.overview = [];
       this.overviewFlag = true;
       this.monthlyFlag = false;
       this.targetFlag = false;
@@ -92,6 +107,7 @@ export class ReportsComponent implements OnInit {
   }
 
   applyFilters() {
+    this.filterOn = false;
     if (this.overviewFlag) {
       this.overview = [];
       this.fetchOverviewCategory(
@@ -123,7 +139,6 @@ export class ReportsComponent implements OnInit {
     this.monthlyBudgetTotal = 0;
     this.monthlyExpenseTotal = 0;
     this.monthlyDeviateTotal = 0;
-    this.overview = '';
     this.reportService.fetchTrendsOverview().subscribe((data: any) => {
       for (let ove of data) {
         const obj = ove;
@@ -207,5 +222,12 @@ export class ReportsComponent implements OnInit {
       if (result) {
       }
     });
+  }
+
+  fetchTransactions() {
+    this.expenseService.fetchTransactionForCategory(this.selectedCategory).subscribe(data => {
+      this.categoryTransactionList = data;
+      console.log(this.categoryTransactionList);
+    })
   }
 }

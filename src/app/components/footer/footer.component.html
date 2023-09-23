@@ -1,5 +1,11 @@
 <footer style="display: flex;align-items: center;justify-content: center;background-color: #f8f9fa;" id="content">
     <div class="row sidebar-social">
+        <div class="col-2" style="justify-content: center;display: flex;width:20%" routerLinkActive="active">
+            <a class="nav-link" [routerLink]="['/reports']" >
+                <i class="fa fa-pie-chart fa-2x"></i>
+                <span>Report</span>
+            </a>
+        </div>
         <div class="col-2" style="justify-content: center;display: flex;width:20%" [routerLinkActive]="['active']">
             <a class="nav-link" [routerLink]="['/expense']" >
                 <i class="fa fa-list-alt fa-2x"></i>
@@ -24,11 +30,6 @@
                 <span>Category</span>
             </a>
         </div>
-        <div class="col-2" style="justify-content: center;display: flex;width:20%" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/reports']" >
-                <i class="fa fa-pie-chart fa-2x"></i>
-                <span>Report</span>
-            </a>
-        </div>
+
     </div>
 </footer>

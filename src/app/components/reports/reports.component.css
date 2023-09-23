@@ -33,15 +33,17 @@ input {
 }
 
 .table-container {
-    max-height: 65vh;
+    max-height: 47vh;
+    overflow-y: auto;
+}
+
+.report-container {
+    max-height: 40vh;
     overflow-y: auto;
 }
 
 .reportBtn {
+    background-color: transparent;
     padding: 0.5em;
-    border-top: 1px solid #6d9773;
-    border-bottom: 1px solid #6d9773;
-    border-right: 1px solid #fff;
-    border-left: none;
-    
+    border: none;
 }
