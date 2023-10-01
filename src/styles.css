@@ -6,7 +6,7 @@
 
 body {
     background-color: #fff;
-    /* font-size: 3.2vw; */
+     font-size: 14px !important; 
 }
 
 ::ng-deep {

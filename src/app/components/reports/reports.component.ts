@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-reports',
@@ -12,7 +13,6 @@ import { ExpenseService } from 'src/app/services/expense.service';
   styleUrls: ['./reports.component.css'],
 })
 export class ReportsComponent implements OnInit {
-
   selectedCategory = '';
   categoryList: any = [];
   categoryTransactionList: any = [];
@@ -23,7 +23,7 @@ export class ReportsComponent implements OnInit {
   year = this.commonService.getCurrentYear();
 
   overview: any = {};
-  overviewFlag = true;
+  overviewFlag = false;
 
   monthlyFlag = false;
   monthlyBudgetTotal = 0;
@@ -36,7 +36,7 @@ export class ReportsComponent implements OnInit {
   targetExpenseTotal = 0;
   targetDeviateTotal = 0;
 
-  trendFlag = false;
+  trendFlag = true;
 
   responseList: any = [];
 
@@ -62,23 +62,24 @@ export class ReportsComponent implements OnInit {
       filterMonth: new FormControl(this.month),
       filterYear: new FormControl('2023'),
     });
-    this.fetchOverviewCategory(this.month, this.year);
-    this.overviewFlag = true;
+    this.fetchTrendsOverview();
+    this.fetchData();
+    this.trendFlag = true;
     this.fetchDistinctCategories();
     this.fetchTransactions();
   }
 
   fetchDistinctCategories() {
-    this.reportService.fetchDistinctCategories().subscribe(data => {
-    this.categoryList = data;
-    },
-    error => {
-    })
+    this.reportService.fetchDistinctCategories().subscribe(
+      (data) => {
+        this.categoryList = data;
+      },
+      (error) => {
+      })
   }
 
   showReport(value: string) {
     this.responseList = [];
-    
     if (value === 'overview') {
       this.overview = [];
       this.overviewFlag = true;
@@ -146,7 +147,6 @@ export class ReportsComponent implements OnInit {
       let totExpense = 0;
       let totSavings = 0;
       for (let ove of data) {
-
         const obj = ove;
         obj['deviate'] = ove['totalBudget'] - ove['totalExpense'];
         totBudget = totBudget + ove['totalBudget'];
@@ -155,10 +155,10 @@ export class ReportsComponent implements OnInit {
         this.responseList.push(obj);
       }
       this.trendsOverview = {
-        "totBudget": totBudget,
-        "totExpense": totExpense,
-        'totSavings': totSavings
-      }
+        totBudget: totBudget,
+        totExpense: totExpense,
+        totSavings: totSavings
+      };
     });
   }
 
@@ -183,13 +183,10 @@ export class ReportsComponent implements OnInit {
   groupDataByDate(data: any) {
     this.groupedData = data.reduce((grouped, item) => {
       const parent = item.parent; // Assuming 'date' is the property name for the date
-
       if (!grouped[parent]) {
         grouped[parent] = [];
       }
-
       grouped[parent].push(item);
-
       return grouped;
     }, {});
     this.groupedDataArray = Object.keys(this.groupedData).map((parent) => ({
@@ -222,7 +219,7 @@ export class ReportsComponent implements OnInit {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
       width: width + 'vw',
-      maxWidth: width-3 + 'vw',
+      maxWidth: width - 3 + 'vw',
       position: { top: '10px' },
       data: {
         item: item,
@@ -237,8 +234,103 @@ export class ReportsComponent implements OnInit {
   }
 
   fetchTransactions() {
-    this.expenseService.fetchTransactionForCategory(this.selectedCategory).subscribe(data => {
-      this.categoryTransactionList = data;
-    })
+    this.expenseService
+      .fetchTransactionForCategory(this.selectedCategory)
+      .subscribe((data) => {
+        this.categoryTransactionList = data;
+      });
+  }
+
+
+  public chart: any;
+  data: any = [];
+
+
+  distinctMonths: any = [];
+  distinctBudgets: any = [];
+  distinctExpense: any = [];
+
+  fetchData() {
+    this.data = [
+      {
+        month: '2023-10',
+        totalBudget: 17717,
+        totalExpense: 0,
+      },
+      {
+        month: '2023-08',
+        totalBudget: 17717,
+        totalExpense: 8035.82,
+      },
+      {
+        month: '2023-09',
+        totalBudget: 17717,
+        totalExpense: 16554.6,
+      },
+    ];
+    for (let da of this.data) {
+      this.distinctMonths.push(da.month);
+      this.distinctBudgets.push(da.totalBudget);
+      this.distinctExpense.push(da.totalExpense);
+    }
+    this.createChart(
+      this.distinctMonths,
+      this.distinctBudgets,
+      this.distinctExpense
+    );
+  }
+
+  createChart(labels: any, budget: any, expense: any) {
+    //this.chart.defaults.datasets.bar.maxBarThickness = 73;
+    this.chart = new Chart('MyChart', {
+      type: 'bar', //this denotes tha type of chart
+
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            data: budget,
+            backgroundColor: '#7C48DA',
+            barPercentage: 0.2,
+            borderRadius: 10,
+            label: 'Budget'
+          },
+          {
+            data: expense,
+            backgroundColor: '#F6A09A',
+            barPercentage: 0.2,
+            borderRadius: 10,
+            label: 'Expense'
+          },
+        ],
+      },
+      options: {
+        indexAxis: 'y',
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            //stacked: true,
+            beginAtZero: true,
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            grid: {
+              display: false,
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            color: 'white'
+          },
+        },
+      },
+    });
   }
 }

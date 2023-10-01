@@ -3,34 +3,29 @@
     background: none;
 }
 
-.primary-color {
-    color: #6d9773
-}
-
-.red-color {
-    color: #dc3545
-}
-
 .grey-color {
     color: #6c757d
 }
 
-.clear {
-    margin: 4em;
-}
-
-table tr td, table tr th, select, option{
-    background-color: #fff !important;
-}
-
 input {
     width: 50%;
-    height: 2.5em; 
+    height: 2.5em;
     font-size: 1em;
 }
-
 
 .table-container {
     max-height: 78vh;
     overflow-y: auto;
+}
+
+h3 {
+    font-size: 1.3em;
+}
+
+h5 {
+    font-size: 1.25em
+}
+
+span {
+    font-size: 1.2em
 }

@@ -34,3 +34,15 @@ input {
     max-height: 78vh;
     overflow-y: auto;
 }
+
+h3 {
+    font-size: 1.3em;
+}
+
+h5 {
+    font-size: 1.25em
+}
+
+span {
+    font-size: 1.2em
+}

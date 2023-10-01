@@ -10,7 +10,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 export class CategoryComponent implements OnInit {
   loading = false;
   total = 0;
-
+  supcatDiv = true;
   groupedData: any = {};
 
   constructor(

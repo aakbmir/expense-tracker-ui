@@ -15,6 +15,7 @@ export class BudgetComponent implements OnInit {
   loading = false;
   count = 0;
   total: number = 0;
+  supcatDiv = true;
 
   groupedData: any = {};
 
@@ -104,7 +105,7 @@ export class BudgetComponent implements OnInit {
     data.forEach((item) => {
       const parentCategory = item.parentCategory;
       const superCategory = item.superCategory;
-
+      
       let cat = {
         category: item.category,
         price: item.price,

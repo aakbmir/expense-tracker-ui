@@ -28,7 +28,7 @@ export class CommonService {
   getCurrentMonth() {
     var a = new Date();
     let mnth = a.getMonth() + 1;
-    if(mnth.toString.length == 1) {
+    if(mnth.toString().length == 1) {
       return "0"+mnth;
     } else {
       return mnth;
