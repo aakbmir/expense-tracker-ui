@@ -1,54 +1,49 @@
-<div *ngIf="!loading">
-    <div style="padding:0.7em; background-color: #39623f !important;
+<div style="padding:0.7em; background-color: #39623f !important;
                 box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); border: none !important;">
-        <h5 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker</h5>
-        <div class="row">
-            <div class="col-8">
-                <button type="button" class="btn" style="background: #6d9773;" (click)="openDialog('', 'Category-Add', 100, 100)">
-                    <i class="fa fa-plus"><span style="margin-left:5px">Add New Category</span></i>
+    <h5 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker</h5>
+    <div class="row">
+        <div class="col-8">
+            <button type="button" class="btn" style="background: #6d9773;"
+                (click)="openDialog('', 'Category-Add', 100, 100)">
+                <i class="fa fa-plus"><span style="margin-left:5px">Add New Category</span></i>
+            </button>
+        </div>
+        <div class="col-4">
+            <span style="float: right; font-weight: bold; color:#6d9773">Total : {{total}}</span>
+        </div>
+    </div>
+</div>
+<div *ngIf="total > 0 && !loading" class="table-container">
+    <div *ngFor="let parent of groupedDataKeys()" style="padding:0.1em; margin:0.5em;margin-bottom: 1em;">
+        <h3 style="color: #6d9773; ">{{ parent}}</h3>
+        <div *ngFor="let subCategory of groupedData[parent] | keys">
+            <h5 style="padding:0.5em;background-color: #6d9773;color:white">{{subCategory.key}}
+            </h5>
+            <div *ngFor="let categoryObj of subCategory.value">
+                <button class="form-grou row" [matMenuTriggerFor]="afterMenu"
+                    style="width: -webkit-fill-available;padding-top: 0.5em;padding-bottom: 0.5em;padding-bottom: 0.5em;border: none;background-color: #eceae875; border-radius: 10px;"
+                    [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                    <div class="col-8" style="text-align: left; ">
+                        <img [src]="'assets/images/' + categoryObj.category + '.png'"
+                            style="width:2em;height:2em;margin-right: 2em;">
+                        <span style="font-size:1.25rem"> {{categoryObj.category}}</span>
+                    </div>
                 </button>
-            </div>
-            <div class="col-4">
-                <span style="float: right; font-weight: bold; color:#6d9773">Total : {{total}}</span>
+                <mat-menu #afterMenu="matMenu" xPosition="after">
+                    <button mat-menu-item
+                        (click)="openDialog(categoryObj, 'Category-Edit', 100, 100)">Edit</button>
+                    <button mat-menu-item
+                        (click)="openDialog(categoryObj, 'Category-Delete', 100, 100)">Delete</button>
+                </mat-menu>
             </div>
         </div>
     </div>
-    <div *ngIf="total > 0" class="table-container">
-        <table class="table table-striped table-responsive" style="background: none;">
-            <thead>
-                <tr>
-                    <th style="width:30%">Parent</th>
-                    <th style="width:30%">Category</th>
-                    <td style="width:20%"></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let category of categories">
-                    <td *ngIf="!isUpdate">{{category.parent}}</td>
-                    <td *ngIf="!isUpdate">{{category.category}}</td>
-                    <td>
-                        <div class="d-flex" style="text-align: center;">
-                            <button style="text-decoration: none;background: none;border: none;"
-                                [matMenuTriggerFor]="beforeMenu"><i class="fa fa-ellipsis-v primary-color"></i></button>
-                            <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                <button mat-menu-item
-                                    (click)="openDialog(category, 'Category-Edit', 100, 100)">Edit</button>
-
-                                <button mat-menu-item
-                                    (click)="openDialog(category, 'Category-Delete', 100, 100)">Delete</button>
-                            </mat-menu>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="" *ngIf="total == 0" style="margin: auto;text-align: center;margin-top:4em">
-        <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-        <p></p>
-        No record in this month
-        <p></p>Tap + to add new category.
-    </div>
+</div>
+<div class="" *ngIf="total == 0 && !loading" style="margin: auto;text-align: center;margin-top:4em">
+    <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
+    <p></p>
+    No record in this month
+    <p></p>Tap + to add new category.
 </div>
 <div *ngIf="loading" style="text-align: center;">
     <img src="./../../../assets/loading.gif" style="height: 15em;">

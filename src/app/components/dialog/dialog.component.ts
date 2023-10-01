@@ -38,6 +38,8 @@ export class DialogComponent {
     private snackBar: MatSnackBar
   ) {
     this.screen = this.data.screen;
+    console.log(this.screen);
+    console.log(this.data.item);
     this.parentCategoryList = [];
     this.categoryList = [];
     this.parentList = [];
@@ -69,7 +71,6 @@ export class DialogComponent {
       this.targetBudgetTotal = 0;
       this.targetExpenseTotal = 0;
       this.targetDeviateTotal = 0;
-      console.log(this.data.item)
       this.parent = this.data.item.parent;
       this.reportsService
         .fetchCategoryDetails(
@@ -101,12 +102,14 @@ export class DialogComponent {
   editCategoryForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
-    parent: new FormControl(this.data.item.parent, Validators.required),
+    superCategory: new FormControl(this.data.item.superCategory, Validators.required),
+    parentCategory: new FormControl(this.data.item.parentCategory, Validators.required),
   });
 
   addCategoryForm = new FormGroup({
     category: new FormControl('', Validators.required),
-    parent: new FormControl('', Validators.required),
+    parentCategory: new FormControl('', Validators.required),
+    superCategory: new FormControl('', Validators.required),
   });
 
   editBudgetForm = new FormGroup({
@@ -142,7 +145,6 @@ export class DialogComponent {
   editExpenseForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
-    parent: new FormControl(this.data.item.parent, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
     note: new FormControl(this.data.item.note, Validators.required),
@@ -168,6 +170,7 @@ export class DialogComponent {
   }
 
   deleteCategory() {
+    console.log(this.data.item.id);
     this.categoryService.deleteCategory(this.data.item.id).subscribe((data) => {
       this.dialogRef.close(true);
     });

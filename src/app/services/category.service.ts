@@ -32,9 +32,6 @@ export class CategoryService {
     return this.http.get(`${this.baseUrl}/filter-category`, { params: queryParams });
   }
 
-  fetchParentCategory() {
-    return this.http.get(`${this.baseUrl}/fetch-parent-category`);
-  }
 
   saveCategory(data: any) {
     return this.http.post(`${this.baseUrl}/save-category`, data);

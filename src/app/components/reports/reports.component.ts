@@ -30,6 +30,7 @@ export class ReportsComponent implements OnInit {
   monthlyExpenseTotal = 0;
   monthlyDeviateTotal = 0;
 
+  trendsOverview: any = {};
   targetFlag = false;
   targetBudgetTotal = 0;
   targetExpenseTotal = 0;
@@ -139,12 +140,24 @@ export class ReportsComponent implements OnInit {
     this.monthlyBudgetTotal = 0;
     this.monthlyExpenseTotal = 0;
     this.monthlyDeviateTotal = 0;
+    this.trendsOverview = {};
     this.reportService.fetchTrendsOverview().subscribe((data: any) => {
+      let totBudget = 0;
+      let totExpense = 0;
+      let totSavings = 0;
       for (let ove of data) {
+
         const obj = ove;
         obj['deviate'] = ove['totalBudget'] - ove['totalExpense'];
-        console.log(obj);
+        totBudget = totBudget + ove['totalBudget'];
+        totExpense = totExpense + ove['totalExpense'];
+        totSavings = totSavings + obj['deviate'];
         this.responseList.push(obj);
+      }
+      this.trendsOverview = {
+        "totBudget": totBudget,
+        "totExpense": totExpense,
+        'totSavings': totSavings
       }
     });
   }
@@ -183,7 +196,6 @@ export class ReportsComponent implements OnInit {
       parent,
       items: this.groupedData[parent],
     }));
-    console.log(this.groupedDataArray);
   }
 
   fetchMonthlyParent(month: any, year: any) {
@@ -227,7 +239,6 @@ export class ReportsComponent implements OnInit {
   fetchTransactions() {
     this.expenseService.fetchTransactionForCategory(this.selectedCategory).subscribe(data => {
       this.categoryTransactionList = data;
-      console.log(this.categoryTransactionList);
     })
   }
 }

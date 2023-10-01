@@ -12,10 +12,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class BudgetComponent implements OnInit {
   filterOn = false;
-  budgetList: any = [];
   loading = false;
   count = 0;
   total: number = 0;
+
+  groupedData: any = {};
+
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
@@ -46,15 +48,25 @@ export class BudgetComponent implements OnInit {
     filterYear: new FormControl(this.year),
   });
 
-  openDialog(budget: any, screen: string, height: number, width: number) {
+  openDialog(cat: any, screen: string, height: number, width: number) {
+    let category = {};
+    if (cat !== '') {
+      category = {
+        category: cat.category,
+        price: cat.price,
+        date: cat.date,
+        id: cat.id,
+      };
+    }
+
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
       width: width + 'vw',
-      maxWidth: width-3 + 'vw',
+      maxWidth: width - 3 + 'vw',
       position: { top: '0px' },
       data: {
-        item: budget,
+        item: category,
         screen: screen,
       },
     });
@@ -67,13 +79,12 @@ export class BudgetComponent implements OnInit {
   }
 
   fetchAllBudgetList(month: any, year: any) {
-    this.budgetList = [];
     this.budgetService.getCurrentBudget(month, year).subscribe((data: any) => {
-      this.budgetList = data;
       this.loading = false;
-      this.count = this.budgetList.length;
+      this.count = data.length;
       this.total = 0;
-      for (let bud of this.budgetList) {
+      this.groupedData = this.groupDataByParent(data);
+      for (let bud of data) {
         if (bud.price != null && bud.price !== '') {
           this.total = this.total + Number(bud.price);
         }
@@ -86,5 +97,38 @@ export class BudgetComponent implements OnInit {
       this.filterForm.controls.filterMonth.value,
       this.filterForm.controls.filterYear.value
     );
+  }
+
+  groupDataByParent(data: any[]): any {
+    const grouped = {};
+    data.forEach((item) => {
+      const parentCategory = item.parentCategory;
+      const superCategory = item.superCategory;
+
+      let cat = {
+        category: item.category,
+        price: item.price,
+        date: item.date,
+        id: item.id,
+      };
+      if (!grouped[parentCategory]) {
+        grouped[parentCategory] = {};
+      }
+      if (!grouped[parentCategory][superCategory]) {
+        grouped[parentCategory][superCategory] = [];
+      }
+      grouped[parentCategory][superCategory].push(cat);
+    });
+    return grouped;
+  }
+
+  groupedDataKeys() {
+    return Object.keys(this.groupedData);
+  }
+
+  addAllBudget() {
+    this.budgetService.addAllBudgets().subscribe((data: any) => {
+      this.fetchAllBudgetList(this.month, this.year);
+    });
   }
 }

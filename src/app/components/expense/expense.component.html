@@ -50,11 +50,11 @@
                 <button class="form-grou row" [matMenuTriggerFor]="beforeMenu"
                     style="width: -webkit-fill-available;padding-top: 0.5em;padding-bottom: 0.5em;border: none;background-color: #eceae875; border-radius: 10px;"
                     [ngStyle]="{'margin-bottom': group.items.length > 0 ? '0.3em': '0px'}">
-                    <div class="col-5" style="text-align: left; ">
+                    <div class="col-6" style="text-align: left;" >
                         <h5 style="color:dimgrey">{{item.category}}</h5>
-                        <p style="margin-bottom:0; color:dimgrey">{{item.parent}}</p>
+                        <p style="margin-bottom:0; color:dimgrey">{{item.superCategory}} - {{item.parentCategory}}</p>
                     </div>
-                    <div class="col-7" style="text-align: right; ">
+                    <div class="col-6" style="text-align: right;">
                         <h5 style="color:dimgrey">{{item.price | number:'1.2-2'}} <small
                                 style="font-size: 0.475em">AED</small></h5>
                         <p style="margin-bottom:0; color:dimgrey">{{item.note}}</p>

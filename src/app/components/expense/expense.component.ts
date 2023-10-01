@@ -12,7 +12,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ExpenseComponent implements OnInit {
   filterOn = false;
-  expenseList: any = [];
   loading = false;
   count = 0;
   total: number = 0;
@@ -67,16 +66,17 @@ export class ExpenseComponent implements OnInit {
   }
 
   fetchAllExpenseList(month: any, year: any) {
-    this.expenseList = [];
+    
     this.expenseService
       .getCurrentExpense(month, year)
       .subscribe((data: any) => {
-        this.expenseList = data;
+        console.log('data', JSON.stringify(data));
         this.groupDataByDate(data);
         this.loading = false;
-        this.count = this.expenseList.length > 0 ? this.expenseList.length : 0;
+        this.count = data.length > 0 ? data.length : 0;
         this.total = 0;
-        for (let bud of this.expenseList) {
+        for (let bud of data) {
+          console.log(bud.category + ' - ' + bud.price);
           if (bud.price != null && bud.price !== '') {
             this.total = this.total + Number(bud.price);
           }
@@ -103,7 +103,6 @@ export class ExpenseComponent implements OnInit {
       date,
       items: this.groupedData[date]
     }));
-    console.log(this.groupedDataArray);
   }
 
   applyFilters() {

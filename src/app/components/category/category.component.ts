@@ -8,43 +8,51 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
-  categories: any = [];
-  isUpdate = false;
   loading = false;
   total = 0;
+
+  groupedData: any = {};
 
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog
   ) {}
-  
+
   ngOnInit(): void {
     this.loading = true;
     this.fetchAllCategories();
   }
 
-  modifyScreen(button: any) {
-    if (button === 'edit') {
-      this.isUpdate = true;
-    } else if ((button = 'fill')) {
-      this.isUpdate = false;
+  openDialog(cat: any, screen: string, height: number, width: number) {
+    let category = {};
+    if (cat !== '') {
+      if (screen == 'Category-Edit') {
+        category = {
+          category: cat.category,
+          parentCategory: cat.parentCategory,
+          superCategory: cat.superCategory,
+          id: cat.id,
+        };
+      } else {
+        category = {
+          category: cat.category,
+          id: cat.id,
+        };
+      }
     }
-  }
-
-  openDialog(category: any, screen: string, height: number, width:number) {
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
       width: width + 'vw',
-      maxWidth: width-3 + 'vw',
-      position: {top:'0px'},
-      data : {
+      maxWidth: width - 3 + 'vw',
+      position: { top: '0px' },
+      data: {
         item: category,
-        screen: screen
-      }
+        screen: screen,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.fetchAllCategories();
       }
@@ -52,11 +60,40 @@ export class CategoryComponent implements OnInit {
   }
 
   fetchAllCategories() {
-    this.categories = [];
     this.categoryService.getAllCategories().subscribe((data: any) => {
-      this.categories = data;
       this.loading = false;
-      this.total = this.categories.length;
+      this.total = data.length;
+      this.groupedData = this.groupDataByParent(data);
     });
+  }
+
+  groupDataByParent(data: any[]): any {
+    const grouped = {};
+    data.forEach((item) => {
+      const parentCategory = item.parentCategory;
+      const superCategory = item.superCategory;
+
+      let cat = {
+        parentCategory: item.parentCategory,
+        superCategory: item.superCategory,
+        category: item.category,
+        id: item.id,
+      };
+
+      if (!grouped[parentCategory]) {
+        grouped[parentCategory] = {};
+      }
+
+      if (!grouped[parentCategory][superCategory]) {
+        grouped[parentCategory][superCategory] = [];
+      }
+
+      grouped[parentCategory][superCategory].push(cat);
+    });
+    return grouped;
+  }
+
+  groupedDataKeys() {
+    return Object.keys(this.groupedData);
   }
 }

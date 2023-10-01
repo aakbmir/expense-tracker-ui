@@ -33,12 +33,12 @@ input {
 }
 
 .table-container {
-    max-height: 47vh;
+    max-height: 55vh;
     overflow-y: auto;
 }
 
 .report-container {
-    max-height: 40vh;
+    max-height: 50vh;
     overflow-y: auto;
 }
 

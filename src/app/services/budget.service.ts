@@ -39,11 +39,7 @@ export class BudgetService {
     return this.http.get(`${this.baseUrl}/fetch-parent-budget`);
   }
 
-  saveBudget(data: any) {
-    return this.http.post(`${this.baseUrl}/save-budget`, data);
-  }
-
-  deleteBudget(id: any) {
-    return this.http.delete(`${this.baseUrl}/del-budget/${id}`);
+  addAllBudgets() {
+    return this.http.get(`${this.baseUrl}/add-all-budgets`);
   }
 }

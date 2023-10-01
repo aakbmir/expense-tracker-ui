@@ -29,6 +29,7 @@ import { BudgetComponent } from './components/budget/budget.component';
 
 import { NgChartsModule } from 'ng2-charts';
 import { AppConfigService } from './providers/app-config.service';
+import { KeysPipe } from './pipes/keyspipe.pipe';
 
 export function initConfig(appConfig: AppConfigService) {
   return () => appConfig.loadConfig();
@@ -45,6 +46,7 @@ export function initConfig(appConfig: AppConfigService) {
     DialogComponent,
     BudgetComponent,
     FooterComponent,
+    KeysPipe,
   ],
   imports: [
     BrowserModule,

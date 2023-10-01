@@ -21,10 +21,6 @@ export class ExpenseService {
     });
   }
 
-  getAllExpenses(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/get-all-expenses`);
-  }
-
   get(name: any) {
     return this.http.get(`${this.baseUrl}/${name}`);
   }
