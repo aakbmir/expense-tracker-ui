@@ -6,7 +6,7 @@
 
 body {
     background-color: #fff;
-     font-size: 14px !important; 
+    font-size: 14px !important;
 }
 
 ::ng-deep {
@@ -15,4 +15,4 @@ body {
 
 .mat-dialog-content {
     max-height: 50vh;
-  }
+}

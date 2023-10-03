@@ -18,7 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { ExpenseComponent } from './components/expense/expense.component';
-import { IncomeComponent } from './components/income/income.component';
 import { CategoryComponent } from './components/category/category.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -29,7 +28,7 @@ import { BudgetComponent } from './components/budget/budget.component';
 
 import { NgChartsModule } from 'ng2-charts';
 import { AppConfigService } from './providers/app-config.service';
-import { KeysPipe } from './pipes/keyspipe.pipe';
+import { KeysPipe } from './pipes/keys.pipe';
 import { OverviewReportComponent } from './components/reports/overview-report/overview-report.component';
 import { CategoryReportComponent } from './components/reports/category-report/category-report.component';
 import { SuperCategoryReportComponent } from './components/reports/super-category-report/super-category-report.component';
@@ -44,7 +43,6 @@ export function initConfig(appConfig: AppConfigService) {
   declarations: [
     AppComponent,
     ExpenseComponent,
-    IncomeComponent,
     CategoryComponent,
     HeaderComponent,
     ReportsComponent,

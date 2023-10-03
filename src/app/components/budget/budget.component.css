@@ -19,16 +19,18 @@
     margin: 4em;
 }
 
-table tr td, table tr th, select, option{
+table tr td,
+table tr th,
+select,
+option {
     background-color: #fff !important;
 }
 
 input {
     width: 50%;
-    height: 2.5em; 
+    height: 2.5em;
     font-size: 1em;
 }
-
 
 .table-container {
     max-height: 78vh;

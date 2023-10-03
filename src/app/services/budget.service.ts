@@ -10,7 +10,7 @@ export class BudgetService {
   baseUrl: any;
 
   constructor(private http: HttpClient, private config: AppConfigService) {
-    this.baseUrl = this.config.getConfig().bffServiceUrl+'/api/v1/budget';
+    this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/budget';
   }
 
   getCurrentBudget(month: any, year: any): Observable<any> {
@@ -27,16 +27,6 @@ export class BudgetService {
 
   updateBudget(form: any) {
     return this.http.post(`${this.baseUrl}/update-budget`, form);
-  }
-
-  filterBudget(month: any, year: any) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/filter-budget`, { params: queryParams });
-  }
-
-  fetchParentBudget() {
-    return this.http.get(`${this.baseUrl}/fetch-parent-budget`);
   }
 
   addAllBudgets() {

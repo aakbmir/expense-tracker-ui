@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReportsComponent } from './components/reports/reports.component';
-import { IncomeComponent } from './components/income/income.component';
 import { ExpenseComponent } from './components/expense/expense.component';
 import { CategoryComponent } from './components/category/category.component';
 import { BudgetComponent } from './components/budget/budget.component';
@@ -25,10 +24,6 @@ const routes: Routes = [
         component: CategoryReportComponent,
       },
       {
-        path: 'super-category',
-        component: SuperCategoryReportComponent,
-      },
-      {
         path: 'trend',
         component: TrendReportComponent,
       },
@@ -39,10 +34,6 @@ const routes: Routes = [
 
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
     ],
-  },
-  {
-    path: 'income',
-    component: IncomeComponent,
   },
   {
     path: 'expense',

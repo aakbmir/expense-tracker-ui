@@ -22,7 +22,8 @@ export class OverviewReportComponent {
 
   constructor(
     private reportService: ReportService,
-    private commonService: CommonService ) {
+    private commonService: CommonService
+  ) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
@@ -60,8 +61,6 @@ export class OverviewReportComponent {
     });
   }
 
-  
-
   createPieChart(labels: any, expense: any) {
     //this.chart.defaults.datasets.bar.maxBarThickness = 73;
     this.chart = new Chart('MyChart', {
@@ -94,7 +93,7 @@ export class OverviewReportComponent {
 
   createBarChart(labels: any, budget: any, expense: any) {
     //this.chart.defaults.datasets.bar.maxBarThickness = 73;
-    
+
     this.chart = new Chart('MyChart', {
       type: 'bar', //this denotes tha type of chart
       data: {

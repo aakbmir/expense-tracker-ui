@@ -6,14 +6,12 @@ import {
   HostListener,
 } from '@angular/core';
 
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent {
-
   isSmallScreen: boolean = false;
   isMediumScreen: boolean = false;
   isLargeScreen: boolean = false;

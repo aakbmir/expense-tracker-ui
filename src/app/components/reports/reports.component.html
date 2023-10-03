@@ -3,32 +3,31 @@
     </h5>
     <div style="border-radius: 20px !important;">
         <div class="container row" style="margin-top: 0.5em !important; margin: auto;">
-            
-            <button class="col-2 reportBtn" (click)="showReport('overview')"
+
+            <button class="col-3 reportBtn" (click)="showReport('overview')"
                 [ngStyle]="{'color': overviewFlag ? '#6d9773':'dimgrey', 'border-bottom': overviewFlag ? '1px solid green' : ''}">
                 <img src="./../../../assets/images/O.png" style="height: 3em;">
             </button>
-            <button class="col-2 reportBtn" (click)="showReport('parent')"
+            <!-- <button class="col-2 reportBtn" (click)="showReport('parent')"
                 [ngStyle]="{'color': parentFlag ? '#6d9773':'dimgrey', 'border-bottom': parentFlag ? '1px solid green' : ''}">
                 <img src="./../../../assets/images/p.png" style="height: 2em;">
             </button>
             <button class="col-2 reportBtn" (click)="showReport('super')"
                 [ngStyle]="{'color': superFlag ? '#6d9773':'dimgrey', 'border-bottom': superFlag ? '1px solid green' : ''}">
                 <img src="./../../../assets/images/s.png" style="height: 1.5em;">
-            </button>
-            <button class="col-2 reportBtn" (click)="showReport('category')"
+            </button> -->
+            <button class="col-3 reportBtn" (click)="showReport('category')"
                 [ngStyle]="{'color': categoryFlag ? '#6d9773':'dimgrey', 'border-bottom': categoryFlag ? '1px solid green' : ''}">
-                <img src="./../../../assets/images/c.png" style="height: 1.5em;">
+                <i class="fa fa-bar-chart fa-lg" style="color: #00c3f5;"></i>
             </button>
-            <button class="col-2 reportBtn" (click)="showReport('trend')"
+            <button class="col-3 reportBtn" (click)="showReport('trend')"
                 [ngStyle]="{'color': trendFlag ? '#6d9773':'dimgrey', 'border-bottom': trendFlag ? '1px solid green' : ''}">
                 <img src="./../../../assets/images/T.png" style="height: 2em;">
             </button>
-            <button class="col-2 reportBtn" (click)="showReport('search')"
+            <button class="col-3 reportBtn" (click)="showReport('search')"
                 [ngStyle]="{'color': searchFlag ? '#6d9773':'dimgrey', 'border-bottom': searchFlag ? '1px solid green' : ''}">
                 <i class="fa fa-search fa-lg" style="color: #00c3f5;"></i>
             </button>
-            
         </div>
     </div>
 </div>

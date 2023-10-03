@@ -18,10 +18,10 @@
 </div>
 <br />
 <div class="table-container" style="padding-top:1em">
-    <div *ngFor="let subCategoryObj of superCategoryList"
-        style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
-         <button class="form-grou row" (click)="openDialog(subCategoryObj.category, 'fetch-category-details', 100, 100)" style="width: -webkit-fill-available; padding-top: 0.5em; padding-bottom: 0.5em; border: none;
-        background-color: rgba(236, 234, 232, 0.46); border-radius: 10px; margin: 0.2em; margin-bottom : 0.3em">
+    <div *ngFor="let subCategoryObj of superCategoryList" style="margin:0.4em; justify-content: center;">
+        <button class="form-grou row"
+            (click)="openDialog(subCategoryObj.superCategory, 'fetch-super-category-report-details', 100, 100)" style="width: -webkit-fill-available; padding-top: 0.5em; padding-bottom: 0.5em; border: none;
+        background-color: rgba(236, 234, 232, 0.46); border-radius: 10px; margin: 0.2em">
             <div class="col-6" style="text-align: left; ">
                 <h5 style="color: #6d9773">{{subCategoryObj.superCategory}}</h5>
                 <h6 style="margin-bottom:0; color:dimgrey;">{{subCategoryObj.budget | number:'1.2-2'}}

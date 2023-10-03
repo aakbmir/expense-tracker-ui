@@ -1,10 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/services/category.service';
 import { BudgetService } from 'src/app/services/budget.service';
-import { IncomeService } from 'src/app/services/income.service';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { ReportService } from 'src/app/services/report.service';
 
@@ -16,22 +15,15 @@ import { ReportService } from 'src/app/services/report.service';
 export class DialogComponent {
   screen: any;
   feature: any;
-  parentCategoryList: any = [];
   categoryList: any = [];
-  parentList: any = [];
-  parentCategoryDetailsList: any = [];
 
-  categoryDetailsList: any = [];
+  reportsDetailsList: any = [];
   parent = '';
-  targetBudgetTotal = 0;
-  targetExpenseTotal = 0;
-  targetDeviateTotal = 0;
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private categoryService: CategoryService,
-    private incomeService: IncomeService,
     private expenseService: ExpenseService,
     private budgetService: BudgetService,
     private reportsService: ReportService,
@@ -40,47 +32,40 @@ export class DialogComponent {
     this.screen = this.data.screen;
     console.log(this.screen);
     console.log(this.data.item);
-    this.parentCategoryList = [];
     this.categoryList = [];
-    this.parentList = [];
-    this.parentCategoryDetailsList = [];
+    this.reportsDetailsList = [];
 
-    this.categoryDetailsList = [];
     this.parent = '';
-
-    if (this.screen === 'fetch-category-details') {
-      this.targetBudgetTotal = 0;
-      this.targetExpenseTotal = 0;
-      this.targetDeviateTotal = 0;
+    if (this.screen === 'fetch-super-category-report-details') {
       this.parent = this.data.item.parent;
+      console.log(this.parent);
       this.reportsService
-        .fetchExpenseCategoryDetails(
+        .fetchSuperCategoryReportDetails(
           this.data.item.parent,
           this.data.item.month,
           this.data.item.year
         )
         .subscribe((data) => {
-          this.parentCategoryDetailsList = data;
-          console.log('this.parentCategoryDetailsList', this.parentCategoryDetailsList);
+          this.reportsDetailsList = data;
+          console.log(
+            'this.fetchSuperCategoryReportDetails',
+            this.reportsDetailsList
+          );
         });
-    } else if (this.screen === 'fetch-monthly-details') {
-      this.targetBudgetTotal = 0;
-      this.targetExpenseTotal = 0;
-      this.targetDeviateTotal = 0;
+    } else if (this.screen === 'fetch-category-report-details') {
       this.parent = this.data.item.parent;
       this.reportsService
-        .fetchCategoryDetails(
+        .fetchCategoryReportDetails(
           this.data.item.parent,
           this.data.item.month,
           this.data.item.year
         )
         .subscribe((data) => {
-          this.categoryDetailsList = data;
-          for (let ove of data) {
-            this.targetBudgetTotal += ove.budget;
-            this.targetExpenseTotal += ove.expense;
-            this.targetDeviateTotal += ove.deviate;
-          }
+          this.reportsDetailsList = data;
+          console.log(
+            'this.reportsDetailsList',
+            this.reportsDetailsList
+          );
         });
     } else if (
       this.screen === 'Expense-Add' ||
@@ -89,9 +74,9 @@ export class DialogComponent {
       console.log(this.data.item);
       this.categoryService.getAllCategories().subscribe((data) => {
         this.categoryList = data;
-        this.parentCategoryList = Array.from(
-          new Set(data.map((item: any) => item.parent))
-        );
+        // this.parentCategoryList = Array.from(
+        //   new Set(data.map((item: any) => item.parent))
+        // );
       });
     }
   }
@@ -99,8 +84,14 @@ export class DialogComponent {
   editCategoryForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
-    superCategory: new FormControl(this.data.item.superCategory, Validators.required),
-    parentCategory: new FormControl(this.data.item.parentCategory, Validators.required),
+    superCategory: new FormControl(
+      this.data.item.superCategory,
+      Validators.required
+    ),
+    parentCategory: new FormControl(
+      this.data.item.parentCategory,
+      Validators.required
+    ),
   });
 
   addCategoryForm = new FormGroup({
@@ -112,8 +103,14 @@ export class DialogComponent {
   editBudgetForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
-    parentCategory: new FormControl(this.data.item.parentCategory, Validators.required),
-    superCategory: new FormControl(this.data.item.superCategory, Validators.required),
+    parentCategory: new FormControl(
+      this.data.item.parentCategory,
+      Validators.required
+    ),
+    superCategory: new FormControl(
+      this.data.item.superCategory,
+      Validators.required
+    ),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
   });
@@ -183,31 +180,6 @@ export class DialogComponent {
       .subscribe((data) => {
         this.dialogRef.close(true);
       });
-  }
-
-  addIncome() {
-    this.incomeService.saveIncome(this.addIncomeForm.value).subscribe(
-      (data) => {
-        this.dialogRef.close(true);
-      },
-      (error) => {
-        this.onCancel();
-      }
-    );
-  }
-
-  editIncome() {
-    this.incomeService
-      .updateIncome(this.editIncomeForm.value)
-      .subscribe((data) => {
-        this.dialogRef.close(true);
-      });
-  }
-
-  deleteIncome() {
-    this.incomeService.deleteIncome(this.data.item.id).subscribe((data) => {
-      this.dialogRef.close(true);
-    });
   }
 
   addExpense() {

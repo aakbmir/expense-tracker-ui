@@ -18,11 +18,13 @@
         <i *ngIf="!supcatDiv" class="fa fa-arrow-down"></i>
         <i *ngIf="supcatDiv" class="fa fa-arrow-up"></i>
     </button>
-    <div *ngFor="let parent of groupedDataKeys()" style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
+    <div *ngFor="let parent of groupedDataKeys()"
+        style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
         <h3 style="color: #6d9773; ">{{ parent}}
         </h3>
         <div *ngFor="let subCategory of groupedData[parent] | keys">
-            <h5 style="padding:0.5em; padding-top:0.8em;padding-bottom:0.8em;background-color: #6d9773; color:white">{{subCategory.key}}
+            <h5 style="padding:0.5em; padding-top:0.8em;padding-bottom:0.8em;background-color: #6d9773; color:white">
+                {{subCategory.key}}
             </h5>
             <div *ngIf="supcatDiv">
                 <div *ngFor="let categoryObj of subCategory.value">

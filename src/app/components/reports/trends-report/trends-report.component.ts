@@ -9,10 +9,9 @@ import { DialogComponent } from '../../dialog/dialog.component';
 @Component({
   selector: 'app-trends-report',
   templateUrl: './trends-report.component.html',
-  styleUrls: ['./trends-report.component.css']
+  styleUrls: ['./trends-report.component.css'],
 })
 export class TrendReportComponent {
-
   filterOn = false;
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
@@ -49,16 +48,15 @@ export class TrendReportComponent {
       filterMonth: new FormControl(this.month),
       filterYear: new FormControl('2023'),
     });
-    this.fetchTrendsOverview();
+    this.fetchTrendsReport();
   }
 
-
-  fetchTrendsOverview() {
+  fetchTrendsReport() {
     this.monthlyBudgetTotal = 0;
     this.monthlyExpenseTotal = 0;
     this.monthlyDeviateTotal = 0;
     this.trendsOverview = {};
-    this.reportService.fetchTrendsOverview().subscribe((data: any) => {
+    this.reportService.trendsReport().subscribe((data: any) => {
       let totBudget = 0;
       let totExpense = 0;
       let totSavings = 0;
@@ -73,7 +71,7 @@ export class TrendReportComponent {
       this.trendsOverview = {
         totBudget: totBudget,
         totExpense: totExpense,
-        totSavings: totSavings
+        totSavings: totSavings,
       };
     });
   }

@@ -107,7 +107,7 @@ export class BudgetComponent implements OnInit {
     data.forEach((item) => {
       const parentCategory = item.parentCategory;
       const superCategory = item.superCategory;
-      
+
       let cat = {
         category: item.category,
         parentCategory: parentCategory,

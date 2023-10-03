@@ -7,20 +7,22 @@ import { DialogComponent } from '../../dialog/dialog.component';
 @Component({
   selector: 'app-super-category-report',
   templateUrl: './super-category-report.component.html',
-  styleUrls: ['./super-category-report.component.css']
+  styleUrls: ['./super-category-report.component.css'],
 })
 export class SuperCategoryReportComponent {
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
-  
-  superCategoryList: any =[];
+
+  superCategoryList: any = [];
   expensesTotal = 0;
 
   constructor(
     private reportService: ReportService,
-    private commonService: CommonService, private dialog: MatDialog) {
+    private commonService: CommonService,
+    private dialog: MatDialog
+  ) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
@@ -38,13 +40,12 @@ export class SuperCategoryReportComponent {
   fetchSuperCategoryReport(month: any, year: any) {
     this.reportService.superCategoryReport(month, year).subscribe((data) => {
       this.superCategoryList = data;
-      
-    for(let dd of data) {
-      this.expensesTotal = this.expensesTotal + dd.expense;
-    }
+
+      for (let dd of data) {
+        this.expensesTotal = this.expensesTotal + dd.expense;
+      }
     });
   }
-
 
   openDialog(category: any, screen: string, height: number, width: number) {
     let item = {

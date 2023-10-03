@@ -7,11 +7,10 @@ import { AppConfigService } from '../providers/app-config.service';
   providedIn: 'root',
 })
 export class CategoryService {
-
   baseUrl: any;
 
   constructor(private http: HttpClient, private config: AppConfigService) {
-    this.baseUrl = this.config.getConfig().bffServiceUrl+'/api/v1/category';
+    this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/category';
   }
 
   getAllCategories(): Observable<any> {
@@ -26,13 +25,6 @@ export class CategoryService {
     return this.http.post(`${this.baseUrl}/update-category`, form);
   }
 
-  filterCategory(month: any, year: any) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/filter-category`, { params: queryParams });
-  }
-
-
   saveCategory(data: any) {
     return this.http.post(`${this.baseUrl}/save-category`, data);
   }
@@ -40,6 +32,4 @@ export class CategoryService {
   deleteCategory(id: any) {
     return this.http.delete(`${this.baseUrl}/del-category/${id}`);
   }
-
-
 }

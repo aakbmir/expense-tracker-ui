@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrendviewComponent } from './trends-report.component';
+import { TrendReportComponent } from './trends-report.component';
 
-describe('TrendviewComponent', () => {
-  let component: TrendviewComponent;
-  let fixture: ComponentFixture<TrendviewComponent>;
+describe('TrendReportComponent', () => {
+  let component: TrendReportComponent;
+  let fixture: ComponentFixture<TrendReportComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TrendviewComponent]
+      declarations: [TrendReportComponent],
     });
-    fixture = TestBed.createComponent(TrendviewComponent);
+    fixture = TestBed.createComponent(TrendReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

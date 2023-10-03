@@ -29,18 +29,6 @@ export class ExpenseService {
     return this.http.post(`${this.baseUrl}/update-expense`, form);
   }
 
-  filterExpense(month: any, year: any) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/filter-expense`, {
-      params: queryParams,
-    });
-  }
-
-  fetchParentExpense() {
-    return this.http.get(`${this.baseUrl}/fetch-parent-expense`);
-  }
-
   saveExpense(data: any) {
     return this.http.post(`${this.baseUrl}/save-expense`, data);
   }

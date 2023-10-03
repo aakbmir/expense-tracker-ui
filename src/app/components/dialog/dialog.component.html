@@ -1,3 +1,4 @@
+<!-- Category -->
 <div style="margin:1em;" *ngIf="screen ==='Category-Add'">
     <h3>Add Category</h3>
     <hr />
@@ -63,6 +64,7 @@
     </div>
 </div>
 
+<!-- Budget -->
 <div style="margin:1em;" *ngIf="screen ==='Budget-Edit'">
     <h3>Edit Budget</h3>
     <hr />
@@ -96,100 +98,6 @@
             </div>
         </div>
     </form>
-</div>
-
-<div style="margin:1em;" *ngIf="screen ==='Income-Add'">
-    <h3>Add Income</h3>
-    <hr />
-    <form [formGroup]="addIncomeForm" (ngSubmit)="addIncome()">
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Name</span>
-            <input class="form-control" type="text" formControlName="name" id="name" />
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
-            <input class="form-control" type="text" formControlName="price" id="price" />
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
-            <mat-form-field class="example-form-field">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="datepicker" formControlName="date">
-                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                <mat-datepicker #datepicker>
-                    <mat-datepicker-actions>
-                        <button mat-button matDatepickerCancel>Cancel</button>
-                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                    </mat-datepicker-actions>
-                </mat-datepicker>
-            </mat-form-field>
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
-            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
-        </div>
-        <div class="form-group row">
-            <div class="col" style="text-align: center;">
-                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Add</button>
-                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<div style="margin:1em;" *ngIf="screen ==='Income-Edit'">
-    <h3>Edit Income</h3>
-    <hr />
-    <form [formGroup]="editIncomeForm" (ngSubmit)="editIncome()">
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Name</span>
-            <input class="form-control" type="text" formControlName="name" id="name" />
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
-            <input class="form-control" type="text" formControlName="price" id="price" />
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
-            <mat-form-field class="example-form-field">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="datepicker" formControlName="date">
-                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                <mat-datepicker #datepicker>
-                    <mat-datepicker-actions>
-                        <button mat-button matDatepickerCancel>Cancel</button>
-                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                    </mat-datepicker-actions>
-                </mat-datepicker>
-            </mat-form-field>
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
-            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
-        </div>
-        <div class="form-group row">
-            <div class="col" style="text-align: center;">
-                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
-                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<div style="margin:2em; text-align: center;" *ngIf="screen ==='Income-Delete'">
-    <h3>Delete Income</h3>
-    <p></p>
-    <span>Deleting this Income will impact
-        <p></p>the budget and reports.
-        <p></p> Are you sure?
-    </span>
-    <p></p>
-    <div class="form-group row">
-        <div class="col" style="text-align: center;">
-            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteIncome()">Delete</button>
-            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-        </div>
-    </div>
 </div>
 
 <div style="margin:1em;" *ngIf="screen ==='Expense-Add'">
@@ -306,19 +214,21 @@
     </div>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='fetch-category-details'">
+<!-- Reports -->
+<div style="margin:1em;" *ngIf="screen ==='fetch-category-report-details'">
     <h3>Expense Details for {{parent}}</h3>
     <hr />
-    <div class="row" *ngFor="let item of parentCategoryDetailsList"
+    <div class="row" *ngFor="let item of reportsDetailsList"
         style="margin-bottom: 1em; border-bottom: 1px solid dimgrey">
         <div class="col-6" style="text-align: left;">
-            <h5 style="color: #6d9773">{{item.note}}</h5>
+            <h6 style="color: #6d9773">{{item.note}}</h6>
+            <h6 style="color: dimgrey">{{item.date | date : 'dd, MMM'}}</h6>
         </div>
         <div class="col-6" style="text-align: right;">
-            <h6 style="color: #6d9773">
+            <h5 style="color: #6d9773">
                 {{item.price | number:'1.2-2'}}
                 <small style="font-size: 0.475em">AED</small>
-            </h6>
+            </h5>
         </div>
     </div>
     <div class="form-group row">
@@ -328,32 +238,20 @@
     </div>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='fetch-monthly-details'">
+<div style="margin:1em;" *ngIf="screen ==='fetch-super-category-report-details'">
     <h3>Expense Details for {{parent}}</h3>
     <hr />
-    <div class="row" *ngFor="let item of categoryDetailsList"
+    <div class="row" *ngFor="let item of reportsDetailsList"
         style="margin-bottom: 1em; border-bottom: 1px solid dimgrey">
         <div class="col-6" style="text-align: left;">
-            <h6>{{item.date | date:'MMM, dd'}}</h6>            
-            <h6 style="margin-bottom:0; color:dimgrey;">{{item.note}}
-            </h6>
+            <h6 style="color: dimgrey">{{item.category}}</h6>
+            <h6 style="color: #6d9773">{{item.note}}</h6>
+            
         </div>
         <div class="col-6" style="text-align: right;">
-
-            <h5 [ngStyle]="{'color': item.expense >= 0 ? '#6d9773':  'red'}">
-                {{item.expense | number:'1.2-2'}}
-                <small style="font-size: 0.475em">AED</small>
-            </h5>
-        </div>
-    </div>
-
-    <div class="row" style="margin-bottom: 1em; padding-top:1em; padding-bottom:1em; border-bottom: 1px solid dimgrey;background-color: rgb(188, 185, 185);">
-        <div class="col-6" style="text-align: left;">
-            <h5 style="color: #6d9773">{{parent}}</h5>
-        </div>
-        <div class="col-6" style="text-align: right;">
-            <h5 [ngStyle]="{'color': targetExpenseTotal >= 0 ? '#6d9773':  'red'}">
-                {{targetExpenseTotal | number:'1.2-2'}}
+            <h6 style="color: dimgrey">{{item.date | date : 'dd, MMM'}}</h6>
+            <h5 style="color: #6d9773">
+                {{item.price | number:'1.2-2'}}
                 <small style="font-size: 0.475em">AED</small>
             </h5>
         </div>

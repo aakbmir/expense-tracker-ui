@@ -1,9 +1,9 @@
 input {
-    width: 50%; /* Set width as a percentage of the parent container (adjust as needed) */
-    height: 2.5em; /* Set height using em units (adjust as needed) */
-    font-size: 1em; /* Set font size using em units (adjust as needed) */
+    width: 50%;
+    height: 2.5em;
+    font-size: 1em;
 }
 
 mat-form-field {
-    width:60% !important
+    width: 60% !important
 }

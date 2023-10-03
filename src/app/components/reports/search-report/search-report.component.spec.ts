@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchviewComponent } from './search-report.component';
+import { SearchReportComponent } from './search-report.component';
 
-describe('SearchviewComponent', () => {
-  let component: SearchviewComponent;
-  let fixture: ComponentFixture<SearchviewComponent>;
+describe('SearchReportComponent', () => {
+  let component: SearchReportComponent;
+  let fixture: ComponentFixture<SearchReportComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchviewComponent]
+      declarations: [SearchReportComponent],
     });
-    fixture = TestBed.createComponent(SearchviewComponent);
+    fixture = TestBed.createComponent(SearchReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

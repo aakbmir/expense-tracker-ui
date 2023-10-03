@@ -17,8 +17,6 @@ export class ReportsComponent {
   constructor(private router: Router) {}
 
   overviewFlag = true;
-  parentFlag = false;
-  superFlag = false;
   categoryFlag = false;
   trendFlag = false;
   searchFlag = false;
@@ -30,45 +28,27 @@ export class ReportsComponent {
   showReport(value: string) {
     if (value === 'overview') {
       this.overviewFlag = true;
-      this.parentFlag = false;
-      this.superFlag = false;
       this.categoryFlag = false;
       this.trendFlag = false;
+      this.searchFlag = false;
       this.router.navigateByUrl('/reports/overview');
-    } else if (value === 'parent') {
-      this.parentFlag = true;
-      this.overviewFlag = false;
-      this.superFlag = false;
-      this.categoryFlag = false;
-      this.trendFlag = false;
-      this.router.navigateByUrl('/reports/parent');
-    } else if (value === 'super') {
-      this.overviewFlag = false;
-      this.parentFlag = false;
-      this.superFlag = true;
-      this.categoryFlag = false;
-      this.trendFlag = false;
-      this.router.navigateByUrl('/reports/super-category');
     } else if (value === 'category') {
       this.overviewFlag = false;
-      this.parentFlag = false;
-      this.superFlag = false;
       this.categoryFlag = true;
       this.trendFlag = false;
+      this.searchFlag = false;
       this.router.navigateByUrl('/reports/category');
     } else if (value === 'trend') {
       this.overviewFlag = false;
-      this.parentFlag = false;
-      this.superFlag = false;
       this.categoryFlag = false;
       this.trendFlag = true;
+      this.searchFlag = false;
       this.router.navigateByUrl('/reports/trend');
     } else if (value === 'search') {
       this.overviewFlag = false;
-      this.parentFlag = false;
-      this.superFlag = false;
       this.categoryFlag = false;
-      this.trendFlag = true;
+      this.trendFlag = false;
+      this.searchFlag = true;
       this.router.navigateByUrl('/reports/search');
     }
   }

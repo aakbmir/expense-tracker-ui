@@ -8,7 +8,7 @@ describe('SuperCategoryReportComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SuperCategoryReportComponent]
+      declarations: [SuperCategoryReportComponent],
     });
     fixture = TestBed.createComponent(SuperCategoryReportComponent);
     component = fixture.componentInstance;
