@@ -46,6 +46,7 @@ export class ExpenseComponent implements OnInit {
   }
 
   openDialog(expense: any, screen: string, height: number, width: number) {
+    console.log('expensee : ', expense);
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
@@ -76,7 +77,6 @@ export class ExpenseComponent implements OnInit {
         this.count = data.length > 0 ? data.length : 0;
         this.total = 0;
         for (let bud of data) {
-          console.log(bud.category + ' - ' + bud.price);
           if (bud.price != null && bud.price !== '') {
             this.total = this.total + Number(bud.price);
           }

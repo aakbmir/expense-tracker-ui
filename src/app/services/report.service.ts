@@ -14,6 +14,32 @@ export class ReportService {
     this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/reports';
   }
 
+  overviewReport(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/overview-report`, {
+      params: queryParams,
+    });
+  }
+
+  categoryReport(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/category-report`, {
+      params: queryParams,
+    });
+  }
+
+  superCategoryReport(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/super-category-report`, {
+      params: queryParams,
+    });
+  }
+
+
+  //
   overviewCategory(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
@@ -22,13 +48,6 @@ export class ReportService {
     });
   }
 
-  monthlyCategory(month: any, year: any): Observable<any> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/monthly-category`, {
-      params: queryParams,
-    });
-  }
 
   monthlyParent(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
@@ -38,17 +57,17 @@ export class ReportService {
     });
   }
 
-  fetchParentCategoryDetails(
+  fetchExpenseCategoryDetails(
     item: any,
     month: any,
     year: any
   ): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams
-      .append('parent', item)
+      .append('category', item)
       .append('month', month)
       .append('year', year);
-    return this.http.get(`${this.baseUrl}/fetch-Parent-Category-Details`, {
+    return this.http.get(`${this.baseUrl}/fetch-expense-category-details`, {
       params: queryParams,
     });
   }

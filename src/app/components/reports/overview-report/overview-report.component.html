@@ -1,0 +1,65 @@
+<div style="background-color: rgb(16, 15, 15);">
+    <div class="row container-fluid" style="padding: 5px;">
+        <div class="col-6">
+            <div class="card" style="background:rgb(16, 15, 15); padding: 1.5em">
+                <h5 style="color: white;">Total Saving</h5>
+                <h3 style="color: #8cff8c;">{{totalSavings}} د.إ</h3>
+            </div>
+        </div>
+        <div class="col-4" style="margin: auto;">
+            <select style="width: 4em;padding:0.5em">
+                <option>ALL</option>
+                <option>JAN</option>
+                <option>FEB</option>
+                <option>MAR</option>
+            </select>
+        </div>
+    </div>
+    <div class="container-fluid" style="height: 18em;">
+        <canvas id="MyChart">{{ chart }}</canvas>
+    </div>
+    <br />
+    <div style="background-color: #39623f; border-top-left-radius: 20px; border-top-right-radius: 20px; height: 40vh;">
+        <br />
+        <div class="row container-fluid">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="card card-bg" style=" margin: auto; padding:2em; text-align: center;">
+                    <h4 style="color: #fff;">Total Savings</h4>
+                    <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalSavings|
+                        number:'1.2-2'}} د.إ</h5>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row" style="margin:2em">
+            <div class="col-6">
+                <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">
+                    <h4 style="color: #fff;">Income</h4>
+                    <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalBudget|
+                        number:'1.2-2'}} د.إ</h5>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">
+                    <h4 style="color: #fff;">Expense</h4>
+                    <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalExpense|
+                        number:'1.2-2'}} د.إ</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- backend:
+total of this month expenses in terms of category:
+
+    //show Super category pie chart:
+
+    //total Expenses
+    Savings
+    invested:
+    Saved
+    Total Saved:  -->

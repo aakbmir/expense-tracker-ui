@@ -1,0 +1,44 @@
+<div style="background-color: rgb(16, 15, 15);">
+    <div class="row container-fluid" style="padding: 5px;">
+        <div class="col-6">
+            <div class="card" style="background:rgb(16, 15, 15); padding: 1.5em">
+                <h5 style="color: white;">Total Expenses</h5>
+                <h3 style="color: #8cff8c;">{{expensesTotal}} د.إ</h3>
+            </div>
+        </div>
+        <div class="col-4" style="margin: auto;">
+            <select style="width: 4em;padding:0.5em">
+                <option>ALL</option>
+                <option>JAN</option>
+                <option>FEB</option>
+                <option>MAR</option>
+            </select>
+        </div>
+    </div>
+</div>
+<br />
+<div class="table-container" style="padding-top:1em">
+    <div *ngFor="let subCategoryObj of superCategoryList"
+        style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
+         <button class="form-grou row" (click)="openDialog(subCategoryObj.category, 'fetch-category-details', 100, 100)" style="width: -webkit-fill-available; padding-top: 0.5em; padding-bottom: 0.5em; border: none;
+        background-color: rgba(236, 234, 232, 0.46); border-radius: 10px; margin: 0.2em; margin-bottom : 0.3em">
+            <div class="col-6" style="text-align: left; ">
+                <h5 style="color: #6d9773">{{subCategoryObj.superCategory}}</h5>
+                <h6 style="margin-bottom:0; color:dimgrey;">{{subCategoryObj.budget | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
+            </div>
+            <div class="col-6" style="text-align: right; ">
+                <h6
+                    [ngStyle]="{'color': subCategoryObj.expense === 0 || subCategoryObj.expense > subCategoryObj.budget ? 'red':  'dimgrey'}">
+                    {{subCategoryObj.expense | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
+                <h5 [ngStyle]="{'color': subCategoryObj.deviate >= 0 ? '#6d9773':  'red'}">
+                    {{subCategoryObj.deviate | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h5>
+            </div>
+        </button>
+    </div>
+</div>

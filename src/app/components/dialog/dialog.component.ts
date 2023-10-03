@@ -48,24 +48,20 @@ export class DialogComponent {
     this.categoryDetailsList = [];
     this.parent = '';
 
-    if (this.screen === 'fetch-parent-details') {
+    if (this.screen === 'fetch-category-details') {
       this.targetBudgetTotal = 0;
       this.targetExpenseTotal = 0;
       this.targetDeviateTotal = 0;
       this.parent = this.data.item.parent;
       this.reportsService
-        .fetchParentCategoryDetails(
+        .fetchExpenseCategoryDetails(
           this.data.item.parent,
           this.data.item.month,
           this.data.item.year
         )
         .subscribe((data) => {
           this.parentCategoryDetailsList = data;
-          for (let ove of data) {
-            this.targetBudgetTotal += ove.budget;
-            this.targetExpenseTotal += ove.expense;
-            this.targetDeviateTotal += ove.deviate;
-          }
+          console.log('this.parentCategoryDetailsList', this.parentCategoryDetailsList);
         });
     } else if (this.screen === 'fetch-monthly-details') {
       this.targetBudgetTotal = 0;
@@ -90,6 +86,7 @@ export class DialogComponent {
       this.screen === 'Expense-Add' ||
       this.screen === 'Expense-Edit'
     ) {
+      console.log(this.data.item);
       this.categoryService.getAllCategories().subscribe((data) => {
         this.categoryList = data;
         this.parentCategoryList = Array.from(
@@ -115,6 +112,8 @@ export class DialogComponent {
   editBudgetForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
+    parentCategory: new FormControl(this.data.item.parentCategory, Validators.required),
+    superCategory: new FormControl(this.data.item.superCategory, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
   });
@@ -136,6 +135,7 @@ export class DialogComponent {
 
   addExpenseForm = new FormGroup({
     category: new FormControl(this.data.item.category, Validators.required),
+    completed: new FormControl(this.data.item.completed, Validators.required),
     parent: new FormControl(this.data.item.parent, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
@@ -145,6 +145,7 @@ export class DialogComponent {
   editExpenseForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
+    completed: new FormControl(this.data.item.completed, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
     note: new FormControl(this.data.item.note, Validators.required),

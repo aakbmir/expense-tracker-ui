@@ -6,331 +6,70 @@ import { ReportService } from 'src/app/services/report.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
 import Chart from 'chart.js/auto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
 })
-export class ReportsComponent implements OnInit {
-  selectedCategory = '';
-  categoryList: any = [];
-  categoryTransactionList: any = [];
-  filterOn = false;
-  months = this.commonService.getMonths();
-  month = this.commonService.getCurrentMonth();
-  years = this.commonService.getYears();
-  year = this.commonService.getCurrentYear();
+export class ReportsComponent {
+  constructor(private router: Router) {}
 
-  overview: any = {};
-  overviewFlag = false;
+  overviewFlag = true;
+  parentFlag = false;
+  superFlag = false;
+  categoryFlag = false;
+  trendFlag = false;
+  searchFlag = false;
 
-  monthlyFlag = false;
-  monthlyBudgetTotal = 0;
-  monthlyExpenseTotal = 0;
-  monthlyDeviateTotal = 0;
-
-  trendsOverview: any = {};
-  targetFlag = false;
-  targetBudgetTotal = 0;
-  targetExpenseTotal = 0;
-  targetDeviateTotal = 0;
-
-  trendFlag = true;
-
-  responseList: any = [];
-
-  filterForm: any;
-  constructor(
-    private reportService: ReportService,
-    private commonService: CommonService,
-    private expenseService: ExpenseService,
-    private dialog: MatDialog
-  ) {
-    this.months = this.commonService.getMonths();
-    this.month = this.commonService.getCurrentMonth();
-    this.years = this.commonService.getYears();
-    this.year = this.commonService.getCurrentYear();
-  }
-
-  ngOnInit(): void {
-    this.months = this.commonService.getMonths();
-    this.month = this.commonService.getCurrentMonth();
-    this.years = this.commonService.getYears();
-    this.year = this.commonService.getCurrentYear();
-    this.filterForm = new FormGroup({
-      filterMonth: new FormControl(this.month),
-      filterYear: new FormControl('2023'),
-    });
-    this.fetchTrendsOverview();
-    this.fetchData();
-    this.trendFlag = true;
-    this.fetchDistinctCategories();
-    this.fetchTransactions();
-  }
-
-  fetchDistinctCategories() {
-    this.reportService.fetchDistinctCategories().subscribe(
-      (data) => {
-        this.categoryList = data;
-      },
-      (error) => {
-      })
+  ngOnInit() {
+    this.overviewFlag = true;
   }
 
   showReport(value: string) {
-    this.responseList = [];
     if (value === 'overview') {
-      this.overview = [];
       this.overviewFlag = true;
-      this.monthlyFlag = false;
-      this.targetFlag = false;
+      this.parentFlag = false;
+      this.superFlag = false;
+      this.categoryFlag = false;
       this.trendFlag = false;
-      this.fetchOverviewCategory(this.month, this.year);
-    } else if (value === 'monthly') {
+      this.router.navigateByUrl('/reports/overview');
+    } else if (value === 'parent') {
+      this.parentFlag = true;
       this.overviewFlag = false;
-      this.monthlyFlag = true;
-      this.targetFlag = false;
+      this.superFlag = false;
+      this.categoryFlag = false;
       this.trendFlag = false;
-      this.fetchMonthlyCategory(this.month, this.year);
-    } else if (value === 'target') {
+      this.router.navigateByUrl('/reports/parent');
+    } else if (value === 'super') {
       this.overviewFlag = false;
-      this.monthlyFlag = false;
-      this.targetFlag = true;
+      this.parentFlag = false;
+      this.superFlag = true;
+      this.categoryFlag = false;
       this.trendFlag = false;
-      this.fetchMonthlyParent(this.month, this.year);
+      this.router.navigateByUrl('/reports/super-category');
+    } else if (value === 'category') {
+      this.overviewFlag = false;
+      this.parentFlag = false;
+      this.superFlag = false;
+      this.categoryFlag = true;
+      this.trendFlag = false;
+      this.router.navigateByUrl('/reports/category');
     } else if (value === 'trend') {
       this.overviewFlag = false;
-      this.monthlyFlag = false;
-      this.targetFlag = false;
+      this.parentFlag = false;
+      this.superFlag = false;
+      this.categoryFlag = false;
       this.trendFlag = true;
-      this.fetchTrendsOverview();
+      this.router.navigateByUrl('/reports/trend');
+    } else if (value === 'search') {
+      this.overviewFlag = false;
+      this.parentFlag = false;
+      this.superFlag = false;
+      this.categoryFlag = false;
+      this.trendFlag = true;
+      this.router.navigateByUrl('/reports/search');
     }
-  }
-
-  applyFilters() {
-    this.filterOn = false;
-    if (this.overviewFlag) {
-      this.overview = [];
-      this.fetchOverviewCategory(
-        this.filterForm.controls.filterMonth.value,
-        this.filterForm.controls.filterYear.value
-      );
-    } else if (this.monthlyFlag) {
-      this.responseList = [];
-      this.fetchMonthlyCategory(
-        this.filterForm.controls.filterMonth.value,
-        this.filterForm.controls.filterYear.value
-      );
-    } else if (this.targetFlag) {
-      this.responseList = [];
-      this.fetchMonthlyParent(
-        this.filterForm.controls.filterMonth.value,
-        this.filterForm.controls.filterYear.value
-      );
-    }
-  }
-
-  fetchOverviewCategory(month: any, year: any) {
-    this.reportService.overviewCategory(month, year).subscribe((data) => {
-      this.overview = data;
-    });
-  }
-
-  fetchTrendsOverview() {
-    this.monthlyBudgetTotal = 0;
-    this.monthlyExpenseTotal = 0;
-    this.monthlyDeviateTotal = 0;
-    this.trendsOverview = {};
-    this.reportService.fetchTrendsOverview().subscribe((data: any) => {
-      let totBudget = 0;
-      let totExpense = 0;
-      let totSavings = 0;
-      for (let ove of data) {
-        const obj = ove;
-        obj['deviate'] = ove['totalBudget'] - ove['totalExpense'];
-        totBudget = totBudget + ove['totalBudget'];
-        totExpense = totExpense + ove['totalExpense'];
-        totSavings = totSavings + obj['deviate'];
-        this.responseList.push(obj);
-      }
-      this.trendsOverview = {
-        totBudget: totBudget,
-        totExpense: totExpense,
-        totSavings: totSavings
-      };
-    });
-  }
-
-  fetchMonthlyCategory(month: any, year: any) {
-    this.monthlyBudgetTotal = 0;
-    this.monthlyExpenseTotal = 0;
-    this.monthlyDeviateTotal = 0;
-    this.reportService.monthlyCategory(month, year).subscribe((data) => {
-      this.responseList = data;
-      this.groupDataByDate(data);
-      for (let ove of data) {
-        this.monthlyBudgetTotal += ove.budget;
-        this.monthlyExpenseTotal += ove.expense;
-        this.monthlyDeviateTotal += ove.deviate;
-      }
-    });
-  }
-
-  groupedData: { [key: string]: any[] } = {};
-  groupedDataArray: { parent: string; items: any[] }[] = [];
-
-  groupDataByDate(data: any) {
-    this.groupedData = data.reduce((grouped, item) => {
-      const parent = item.parent; // Assuming 'date' is the property name for the date
-      if (!grouped[parent]) {
-        grouped[parent] = [];
-      }
-      grouped[parent].push(item);
-      return grouped;
-    }, {});
-    this.groupedDataArray = Object.keys(this.groupedData).map((parent) => ({
-      parent,
-      items: this.groupedData[parent],
-    }));
-  }
-
-  fetchMonthlyParent(month: any, year: any) {
-    this.targetBudgetTotal = 0;
-    this.targetExpenseTotal = 0;
-    this.targetDeviateTotal = 0;
-    this.reportService.monthlyParent(month, year).subscribe((data) => {
-      this.responseList = data;
-      for (let ove of data) {
-        this.targetBudgetTotal += ove.budget;
-        this.targetExpenseTotal += ove.expense;
-        this.targetDeviateTotal += ove.deviate;
-      }
-    });
-  }
-
-  openDialog(parent: any, screen: string, height: number, width: number) {
-    let item = {
-      parent: parent,
-      month: this.month,
-      year: this.year,
-    };
-    let dialogRef = this.dialog.open(DialogComponent, {
-      panelClass: 'custom-modalbox',
-      maxHeight: height + 'vh',
-      width: width + 'vw',
-      maxWidth: width - 3 + 'vw',
-      position: { top: '10px' },
-      data: {
-        item: item,
-        screen: screen,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-      }
-    });
-  }
-
-  fetchTransactions() {
-    this.expenseService
-      .fetchTransactionForCategory(this.selectedCategory)
-      .subscribe((data) => {
-        this.categoryTransactionList = data;
-      });
-  }
-
-
-  public chart: any;
-  data: any = [];
-
-
-  distinctMonths: any = [];
-  distinctBudgets: any = [];
-  distinctExpense: any = [];
-
-  fetchData() {
-    this.data = [
-      {
-        month: '2023-10',
-        totalBudget: 17717,
-        totalExpense: 0,
-      },
-      {
-        month: '2023-08',
-        totalBudget: 17717,
-        totalExpense: 8035.82,
-      },
-      {
-        month: '2023-09',
-        totalBudget: 17717,
-        totalExpense: 16554.6,
-      },
-    ];
-    for (let da of this.data) {
-      this.distinctMonths.push(da.month);
-      this.distinctBudgets.push(da.totalBudget);
-      this.distinctExpense.push(da.totalExpense);
-    }
-    this.createChart(
-      this.distinctMonths,
-      this.distinctBudgets,
-      this.distinctExpense
-    );
-  }
-
-  createChart(labels: any, budget: any, expense: any) {
-    //this.chart.defaults.datasets.bar.maxBarThickness = 73;
-    this.chart = new Chart('MyChart', {
-      type: 'bar', //this denotes tha type of chart
-
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            data: budget,
-            backgroundColor: '#7C48DA',
-            barPercentage: 0.2,
-            borderRadius: 10,
-            label: 'Budget'
-          },
-          {
-            data: expense,
-            backgroundColor: '#F6A09A',
-            barPercentage: 0.2,
-            borderRadius: 10,
-            label: 'Expense'
-          },
-        ],
-      },
-      options: {
-        indexAxis: 'y',
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            //stacked: true,
-            beginAtZero: true,
-            grid: {
-              display: false,
-            },
-          },
-          y: {
-            grid: {
-              display: false,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: true,
-            color: 'white'
-          },
-        },
-      },
-    });
   }
 }

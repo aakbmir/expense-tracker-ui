@@ -208,6 +208,13 @@
             <input class="form-control" type="text" formControlName="price" id="price" />
         </div>
         <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Completed</span>
+            <select class="form-select" formControlName="completed">
+                <option>No</option>
+                <option>Yes</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
             <mat-form-field class="example-form-field">
                 <mat-label>Choose a date</mat-label>
@@ -248,6 +255,13 @@
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
             <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Completed</span>
+            <select class="form-select" formControlName="completed">
+                <option>No</option>
+                <option>Yes</option>
+            </select>
         </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
@@ -292,49 +306,21 @@
     </div>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='fetch-parent-details'">
+<div style="margin:1em;" *ngIf="screen ==='fetch-category-details'">
     <h3>Expense Details for {{parent}}</h3>
     <hr />
     <div class="row" *ngFor="let item of parentCategoryDetailsList"
         style="margin-bottom: 1em; border-bottom: 1px solid dimgrey">
         <div class="col-6" style="text-align: left;">
-            <h5 style="color: #6d9773">{{item.category}}</h5>
-            <h6 style="margin-bottom:0; color:dimgrey;">{{item.budget | number:'1.2-2'}}
-                <small style="font-size: 0.475em">AED</small>
-            </h6>
+            <h5 style="color: #6d9773">{{item.note}}</h5>
         </div>
         <div class="col-6" style="text-align: right;">
-            <h6 [ngStyle]="{'color': (item.expense == 0 || item.expense > item.budget) ? 'red':  'dimgrey'}">
-                {{item.expense | number:'1.2-2'}}
+            <h6 style="color: #6d9773">
+                {{item.price | number:'1.2-2'}}
                 <small style="font-size: 0.475em">AED</small>
             </h6>
-            <h5 [ngStyle]="{'color': item.deviate >= 0 ? '#6d9773':  'red'}">
-                {{item.deviate | number:'1.2-2'}}
-                <small style="font-size: 0.475em">AED</small>
-            </h5>
         </div>
     </div>
-
-    <div class="row" style="margin-bottom: 1em; border-bottom: 1px solid dimgrey;background-color: rgb(188, 185, 185);">
-        <div class="col-6" style="text-align: left;">
-            <h5 style="color: #6d9773">{{parent}}</h5>
-            <h6 style="margin-bottom:0; color:dimgrey;">{{targetBudgetTotal | number:'1.2-2'}}
-                <small style="font-size: 0.475em">AED</small>
-            </h6>
-        </div>
-        <div class="col-6" style="text-align: right;">
-            <h6
-                [ngStyle]="{'color': (targetExpenseTotal == 0 || targetExpenseTotal > targetBudgetTotal) ? 'red':  'dimgrey'}">
-                {{targetExpenseTotal | number:'1.2-2'}}
-                <small style="font-size: 0.475em">AED</small>
-            </h6>
-            <h5 [ngStyle]="{'color': targetDeviateTotal >= 0 ? '#6d9773':  'red'}">
-                {{targetDeviateTotal | number:'1.2-2'}}
-                <small style="font-size: 0.475em">AED</small>
-            </h5>
-        </div>
-    </div>
-
     <div class="form-group row">
         <div class="col" style="text-align: center;">
             <button type="button" class="btn btn-secondary" (click)="onCancel()">Close</button>

@@ -54,6 +54,8 @@ export class BudgetComponent implements OnInit {
     if (cat !== '') {
       category = {
         category: cat.category,
+        parentCategory: cat.parentCategory,
+        superCategory: cat.superCategory,
         price: cat.price,
         date: cat.date,
         id: cat.id,
@@ -108,6 +110,8 @@ export class BudgetComponent implements OnInit {
       
       let cat = {
         category: item.category,
+        parentCategory: parentCategory,
+        superCategory: superCategory,
         price: item.price,
         date: item.date,
         id: item.id,

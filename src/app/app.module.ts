@@ -30,6 +30,11 @@ import { BudgetComponent } from './components/budget/budget.component';
 import { NgChartsModule } from 'ng2-charts';
 import { AppConfigService } from './providers/app-config.service';
 import { KeysPipe } from './pipes/keyspipe.pipe';
+import { OverviewReportComponent } from './components/reports/overview-report/overview-report.component';
+import { CategoryReportComponent } from './components/reports/category-report/category-report.component';
+import { SuperCategoryReportComponent } from './components/reports/super-category-report/super-category-report.component';
+import { TrendReportComponent } from './components/reports/trends-report/trends-report.component';
+import { SearchReportComponent } from './components/reports/search-report/search-report.component';
 
 export function initConfig(appConfig: AppConfigService) {
   return () => appConfig.loadConfig();
@@ -47,6 +52,11 @@ export function initConfig(appConfig: AppConfigService) {
     BudgetComponent,
     FooterComponent,
     KeysPipe,
+    OverviewReportComponent,
+    CategoryReportComponent,
+    SuperCategoryReportComponent,
+    TrendReportComponent,
+    SearchReportComponent,
   ],
   imports: [
     BrowserModule,
