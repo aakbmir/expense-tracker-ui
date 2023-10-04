@@ -97,21 +97,33 @@ export class CategoryReportComponent {
   
   cumulativeReport: any = [];
 
+  months = this.commonService.getMonths();
+  month = this.commonService.getCurrentMonth();
+  years = this.commonService.getYears();
+  year = this.commonService.getCurrentYear();
+  filterMonth: any;
+  filterYear = 2023;
+
+
   totalExpense: any = 0;
   totalBudget: any = 0;
   totalDeviate: any = 0;
 
-  constructor(
-    private reportsService: ReportService
-  ) {}
+  constructor(private reportsService: ReportService, private commonService: CommonService) {
+    this.months = this.commonService.getMonths();
+    this.month = this.commonService.getCurrentMonth();
+    this.years = this.commonService.getYears();
+    this.year = this.commonService.getCurrentYear();
+    this.filterMonth = this.month;
+  }
 
   ngOnInit(): void {
     
-    this.fetchAllCategories();
+    this.fetchAllCategories(this.month, this.year);
   }
 
-  fetchAllCategories() {
-    this.reportsService.general().subscribe((data: any) => {
+  fetchAllCategories(month, year) {
+    this.reportsService.categoryReport(month, year).subscribe((data: any) => {
       console.log(data);
       this.cumulativeReport = data;
 
@@ -122,5 +134,10 @@ export class CategoryReportComponent {
       }
       this.totalDeviate = this.totalBudget - this.totalExpense;
     });
+  }
+
+  applyFilters() {
+    console.log(this.filterMonth, this.filterYear);
+    this.fetchAllCategories(this.filterMonth, this.filterYear);
   }
 }

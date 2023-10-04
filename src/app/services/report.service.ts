@@ -13,10 +13,10 @@ export class ReportService {
     this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/reports';
   }
 
-  general(): Observable<any> {
+  categoryReport(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', 10).append('year', 2023);
-    return this.http.get(`${this.baseUrl}/general`, {
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/category-report`, {
       params: queryParams,
     });
   }
@@ -25,14 +25,6 @@ export class ReportService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
     return this.http.get(`${this.baseUrl}/overview-report`, {
-      params: queryParams,
-    });
-  }
-
-  categoryReport(month: any, year: any): Observable<any> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/category-report`, {
       params: queryParams,
     });
   }

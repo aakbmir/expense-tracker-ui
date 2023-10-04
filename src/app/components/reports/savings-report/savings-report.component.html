@@ -1,0 +1,21 @@
+<div class="table-container">
+    <div class="row container-fluid" style="padding: 5px;">
+        <div class="col-5" style="justify-content: left;">
+            <select class="form-control" style="text-align: center;" [(ngModel)]="filterMonth">
+                <option *ngFor="let month of months" [value]="month">{{month}}</option>
+                <option>All</option>
+            </select>
+        </div>
+        <div class="col-5" style="justify-content: center;">
+            <select class="form-control" style="text-align: center;" [(ngModel)]="filterYear">
+                <option>2023</option>
+                <option>2024</option>
+            </select>
+        </div>
+        <div class="col-2" style="justify-content: right;">
+            <button class="btn" type="button" (click)="applyFilters()">
+                <i class="fa fa-filter" style="color: black;"></i>
+            </button>
+        </div>
+    </div>
+</div>

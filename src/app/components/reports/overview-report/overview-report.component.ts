@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import Chart from 'chart.js/auto';
@@ -13,6 +13,8 @@ export class OverviewReportComponent {
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
+  filterMonth: any;
+  filterYear = 2023;
 
   public chart: any;
 
@@ -28,6 +30,8 @@ export class OverviewReportComponent {
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
+    this.filterMonth = this.month;
+    console.log(this.filterMonth);
   }
 
   distinctCategories: any = [];
@@ -35,14 +39,16 @@ export class OverviewReportComponent {
   distinctExpenses: any = [];
 
   ngOnInit(): void {
-    this.months = this.commonService.getMonths();
-    this.month = this.commonService.getCurrentMonth();
-    this.years = this.commonService.getYears();
-    this.year = this.commonService.getCurrentYear();
     this.fetchOverviewReport(this.month, this.year);
   }
 
   fetchOverviewReport(month: any, year: any) {
+    this.totalSavings = 0;
+    this.totalBudget = 0;
+    this.totalExpense = 0;
+    this.distinctCategories = [];
+    this.distinctExpenses = [];
+    this.distinctBudgets = [];
     this.reportService.overviewReport(month, year).subscribe((data) => {
       for (let da of data) {
         this.totalSavings = this.totalSavings + da.deviate;
@@ -62,6 +68,7 @@ export class OverviewReportComponent {
   }
 
   createPieChart(labels: any, expense: any) {
+    this.chart.destroy();
     //this.chart.defaults.datasets.bar.maxBarThickness = 73;
     this.chart = new Chart('MyChart', {
       type: 'pie', //this denotes tha type of chart
@@ -108,7 +115,7 @@ export class OverviewReportComponent {
           },
           {
             data: expense,
-            backgroundColor: '#F6A09A',
+            backgroundColor: budget > expense ? '#F6A09A' : 'red',
             barPercentage: 1,
             borderRadius: 10,
             label: 'Expense',
@@ -145,5 +152,11 @@ export class OverviewReportComponent {
         },
       },
     });
+  }
+
+  applyFilters() {
+    console.log(this.filterMonth, this.filterYear);
+    this.chart.destroy();
+    this.fetchOverviewReport(this.filterMonth, this.filterYear);
   }
 }

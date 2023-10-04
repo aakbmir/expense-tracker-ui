@@ -33,7 +33,7 @@ import { OverviewReportComponent } from './components/reports/overview-report/ov
 import { CategoryReportComponent } from './components/reports/category-report/category-report.component';
 import { SuperCategoryReportComponent } from './components/reports/super-category-report/super-category-report.component';
 import { TrendReportComponent } from './components/reports/trends-report/trends-report.component';
-import { SearchReportComponent } from './components/reports/search-report/search-report.component';
+import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
 
 export function initConfig(appConfig: AppConfigService) {
   return () => appConfig.loadConfig();
@@ -54,7 +54,7 @@ export function initConfig(appConfig: AppConfigService) {
     CategoryReportComponent,
     SuperCategoryReportComponent,
     TrendReportComponent,
-    SearchReportComponent,
+    SavingsReportComponent,
   ],
   imports: [
     BrowserModule,

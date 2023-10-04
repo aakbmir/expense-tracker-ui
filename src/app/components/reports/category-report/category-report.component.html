@@ -58,35 +58,26 @@
 
 
 <div  class="table-container">
-    <!-- <div style="background-color: #39623f; padding-top:0.3em; padding-bottom:0.3em">
-        <div class="row container-flui">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <div class="car card-bg" style=" margin: auto;  text-align: center;">
-                    <h4 style="color: #fff;">Total Savings</h4>
-                    <h5 [ngStyle]="{'color': totalDeviate > 0 ? '#8cff8c':'red'}">{{totalDeviate|
-                        number:'1.2-2'}} د.إ</h5>
-                </div>
-            </div>
-            <div class="col-2"></div>
+    <div class="row container-fluid" style="padding: 5px;">
+        <div class="col-5" style="justify-content: left;">
+            <select class="form-control" style="text-align: center;" [(ngModel)]="filterMonth">
+                <option *ngFor="let month of months" [value]="month">{{month}}</option>
+                <option>All</option>
+            </select>
         </div>
-        <div class="row" style="margin:0.3em">
-            <div class="col-6">
-                <div class="card card-bg" style="margin: auto; text-align: center;">
-                    <h5 style="color: #fff;">Income</h5>
-                    <h6 [ngStyle]="{'color': totalDeviate > 0 ? '#8cff8c':'red'}">{{totalBudget|
-                        number:'1.2-2'}} د.إ</h6>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card card-bg" style="margin: auto; text-align: center;">
-                    <h5 style="color: #fff;">Expense</h5>
-                    <h6 [ngStyle]="{'color': totalDeviate > 0 ? '#8cff8c':'red'}">{{totalExpense|
-                        number:'1.2-2'}} د.إ</h6>
-                </div>
-            </div>
+        <div class="col-5" style="justify-content: center;">
+            <select class="form-control" style="text-align: center;" [(ngModel)]="filterYear">
+                <option>2023</option>
+                <option>2024</option>
+            </select>
         </div>
-    </div> -->
+        <div class="col-2" style="justify-content: right;">
+            <button class="btn" type="button" (click)="applyFilters()">
+                <i class="fa fa-filter" style="color: black;"></i>
+            </button>
+        </div>
+    </div>
+
 
     <div class="row" style="padding-top: 0.5em;padding-bottom: 0.3em;justify-content: center;"
         *ngFor="let parentCategoryObj of cumulativeReport">
