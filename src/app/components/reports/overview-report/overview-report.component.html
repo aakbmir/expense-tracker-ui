@@ -1,5 +1,4 @@
 <div style="background-color: rgb(16, 15, 15);">
-
     <div class="row container-fluid" style="padding: 5px;">
         <div class="col-5" style="justify-content: left;">
             <select class="form-control" style="text-align: center;" [(ngModel)]="filterMonth">
@@ -19,24 +18,12 @@
             </button>
         </div>
     </div>
-
     <div class="container-fluid" style="height: 18em;">
         <canvas id="MyChart">{{ chart }}</canvas>
     </div>
     <br />
     <div style="border-top-left-radius: 20px; border-top-right-radius: 20px; height: 40vh;">
         <br />
-        <!-- <div class="row container-fluid">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <div class="card card-bg" style=" margin: auto; padding:2em; text-align: center;">
-                    <h4 style="color: #fff;">Total Savings</h4>
-                    <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalSavings|
-                        number:'1.2-2'}} د.إ</h5>
-                </div>
-            </div>
-            <div class="col-2"></div>
-        </div> -->
         <div class="row" style="margin:2em">
             <div class="col-6">
                 <div class="card card-bg" style=" margin: auto; padding:1.2em; text-align: center;">
@@ -44,11 +31,6 @@
                     <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalSavings|
                         number:'1.2-2'}} د.إ</h5>
                 </div>
-                <!-- <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">
-                    <h4 style="color: #fff;">Income</h4>
-                    <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalBudget|
-                        number:'1.2-2'}} د.إ</h5>
-                </div> -->
             </div>
             <div class="col-6">
                 <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">

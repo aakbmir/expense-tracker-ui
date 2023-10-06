@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-savings-report',
@@ -7,23 +8,26 @@ import { CommonService } from 'src/app/services/common.service';
   styleUrls: ['./savings-report.component.css'],
 })
 export class SavingsReportComponent {
+  data = [];
 
-  months = this.commonService.getMonths();
-  month = this.commonService.getCurrentMonth();
-  years = this.commonService.getYears();
-  year = this.commonService.getCurrentYear();
-  filterMonth: any;
-  filterYear = 2023;
+  constructor(private reportsService: ReportService) {}
 
-  constructor(private commonService: CommonService) {
-    this.months = this.commonService.getMonths();
-    this.month = this.commonService.getCurrentMonth();
-    this.years = this.commonService.getYears();
-    this.year = this.commonService.getCurrentYear();
-    this.filterMonth = this.month;
+  ngOnInit(): void {
+    this.fetchSavingsData();
   }
 
-  applyFilters() {
-    console.log(this.filterMonth, this.filterYear);
+  fetchSavingsData() {
+    this.reportsService.savingsReport().subscribe((data: any) => {
+      console.log(data);
+      for (let ove of data) {
+        const obj = ove;
+        obj['totalAmount'] = ove['totalAccount'] + ove['budgetAmount'];
+        obj['totalAccountInr'] = ove['totalAccount'] * 22.6;
+        obj['totalInvestInr'] = ove['totalInvest'] * 22.6;
+        obj['budgetAmountInr'] = ove['budgetAmount'] * 22.6;
+        obj['totalAmountInr'] = ove['totalAmount'] * 22.6;
+        this.data.push(obj);
+      }
+    });
   }
 }

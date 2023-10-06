@@ -78,4 +78,8 @@ export class ReportService {
   trendsReport() {
     return this.http.get(`${this.baseUrl}/trends-report`);
   }
+
+  savingsReport(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/savings-report`);
+  }
 }
