@@ -24,9 +24,9 @@
         <canvas id="MyChart">{{ chart }}</canvas>
     </div>
     <br />
-    <div style="background-color: #39623f; border-top-left-radius: 20px; border-top-right-radius: 20px; height: 40vh;">
+    <div style="border-top-left-radius: 20px; border-top-right-radius: 20px; height: 40vh;">
         <br />
-        <div class="row container-fluid">
+        <!-- <div class="row container-fluid">
             <div class="col-2"></div>
             <div class="col-8">
                 <div class="card card-bg" style=" margin: auto; padding:2em; text-align: center;">
@@ -36,14 +36,19 @@
                 </div>
             </div>
             <div class="col-2"></div>
-        </div>
+        </div> -->
         <div class="row" style="margin:2em">
             <div class="col-6">
-                <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">
+                <div class="card card-bg" style=" margin: auto; padding:1.2em; text-align: center;">
+                    <h4 style="color: #fff;">Savings</h4>
+                    <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalSavings|
+                        number:'1.2-2'}} د.إ</h5>
+                </div>
+                <!-- <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">
                     <h4 style="color: #fff;">Income</h4>
                     <h5 [ngStyle]="{'color': totalSavings > 0 ? '#8cff8c':'red'}">{{totalBudget|
                         number:'1.2-2'}} د.إ</h5>
-                </div>
+                </div> -->
             </div>
             <div class="col-6">
                 <div class="card card-bg" style="margin: auto; padding:1.2em; text-align: center;">

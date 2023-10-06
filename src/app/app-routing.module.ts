@@ -8,6 +8,7 @@ import { OverviewReportComponent } from './components/reports/overview-report/ov
 import { CategoryReportComponent } from './components/reports/category-report/category-report.component';
 import { TrendReportComponent } from './components/reports/trends-report/trends-report.component';
 import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
+import { GroupReportComponent } from './components/reports/group-report/group-report.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: 'search',
         component: SavingsReportComponent,
+      },
+      {
+        path: 'group',
+        component: GroupReportComponent
       },
 
       { path: '', redirectTo: 'overview', pathMatch: 'full' },

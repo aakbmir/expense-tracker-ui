@@ -13,6 +13,14 @@ export class ReportService {
     this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/reports';
   }
 
+  groupedReport(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/grouped-report`, {
+      params: queryParams,
+    });
+  }
+  
   categoryReport(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
@@ -70,7 +78,4 @@ export class ReportService {
   trendsReport() {
     return this.http.get(`${this.baseUrl}/trends-report`);
   }
-
-
-
 }

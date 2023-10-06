@@ -18,6 +18,7 @@ export class ReportsComponent {
 
   overviewFlag = true;
   categoryFlag = false;
+  groupFlag = false;
   trendFlag = false;
   searchFlag = false;
 
@@ -28,28 +29,40 @@ export class ReportsComponent {
   showReport(value: string) {
     if (value === 'overview') {
       this.overviewFlag = true;
+      this.groupFlag = false;
       this.categoryFlag = false;
       this.trendFlag = false;
       this.searchFlag = false;
       this.router.navigateByUrl('/reports/overview');
+    } else if (value === 'group') {
+      this.overviewFlag = false;
+      this.groupFlag = true;
+      this.categoryFlag = false;
+      this.trendFlag = false;
+      this.searchFlag = false;
+      this.router.navigateByUrl('/reports/group');
     } else if (value === 'category') {
       this.overviewFlag = false;
+      this.groupFlag = false;
       this.categoryFlag = true;
       this.trendFlag = false;
       this.searchFlag = false;
       this.router.navigateByUrl('/reports/category');
     } else if (value === 'trend') {
       this.overviewFlag = false;
+      this.groupFlag = false;
       this.categoryFlag = false;
       this.trendFlag = true;
       this.searchFlag = false;
       this.router.navigateByUrl('/reports/trend');
     } else if (value === 'search') {
       this.overviewFlag = false;
+      this.groupFlag = false;
       this.categoryFlag = false;
       this.trendFlag = false;
       this.searchFlag = true;
       this.router.navigateByUrl('/reports/search');
     }
+    
   }
 }

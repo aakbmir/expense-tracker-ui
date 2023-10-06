@@ -31,7 +31,7 @@ import { AppConfigService } from './providers/app-config.service';
 import { KeysPipe } from './pipes/keys.pipe';
 import { OverviewReportComponent } from './components/reports/overview-report/overview-report.component';
 import { CategoryReportComponent } from './components/reports/category-report/category-report.component';
-import { SuperCategoryReportComponent } from './components/reports/super-category-report/super-category-report.component';
+import { GroupReportComponent } from './components/reports/group-report/group-report.component';
 import { TrendReportComponent } from './components/reports/trends-report/trends-report.component';
 import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
 
@@ -52,7 +52,7 @@ export function initConfig(appConfig: AppConfigService) {
     KeysPipe,
     OverviewReportComponent,
     CategoryReportComponent,
-    SuperCategoryReportComponent,
+    GroupReportComponent,
     TrendReportComponent,
     SavingsReportComponent,
   ],
