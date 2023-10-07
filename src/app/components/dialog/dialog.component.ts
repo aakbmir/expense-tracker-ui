@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { BudgetService } from 'src/app/services/budget.service';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { ReportService } from 'src/app/services/report.service';
+import { BankService } from 'src/app/services/bank.service';
 
 @Component({
   selector: 'app-dialog',
@@ -27,6 +28,7 @@ export class DialogComponent {
     private expenseService: ExpenseService,
     private budgetService: BudgetService,
     private reportsService: ReportService,
+    private bankService: BankService,
     private snackBar: MatSnackBar
   ) {
     this.screen = this.data.screen;
@@ -62,10 +64,7 @@ export class DialogComponent {
         )
         .subscribe((data) => {
           this.reportsDetailsList = data;
-          console.log(
-            'this.reportsDetailsList',
-            this.reportsDetailsList
-          );
+          console.log('this.reportsDetailsList', this.reportsDetailsList);
         });
     } else if (
       this.screen === 'Expense-Add' ||
@@ -100,54 +99,6 @@ export class DialogComponent {
     superCategory: new FormControl('', Validators.required),
   });
 
-  editBudgetForm = new FormGroup({
-    id: new FormControl(this.data.item.id, Validators.required),
-    category: new FormControl(this.data.item.category, Validators.required),
-    parentCategory: new FormControl(
-      this.data.item.parentCategory,
-      Validators.required
-    ),
-    superCategory: new FormControl(
-      this.data.item.superCategory,
-      Validators.required
-    ),
-    price: new FormControl(this.data.item.price, Validators.required),
-    date: new FormControl(this.data.item.date, Validators.required),
-  });
-
-  addIncomeForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    price: new FormControl('', Validators.required),
-    date: new FormControl('', Validators.required),
-    note: new FormControl('', Validators.required),
-  });
-
-  editIncomeForm = new FormGroup({
-    id: new FormControl(this.data.item.id, Validators.required),
-    name: new FormControl(this.data.item.name, Validators.required),
-    price: new FormControl(this.data.item.price, Validators.required),
-    date: new FormControl(this.data.item.date, Validators.required),
-    note: new FormControl(this.data.item.note, Validators.required),
-  });
-
-  addExpenseForm = new FormGroup({
-    category: new FormControl(this.data.item.category, Validators.required),
-    completed: new FormControl(this.data.item.completed, Validators.required),
-    parent: new FormControl(this.data.item.parent, Validators.required),
-    price: new FormControl(this.data.item.price, Validators.required),
-    date: new FormControl(this.data.item.date, Validators.required),
-    note: new FormControl(this.data.item.date, Validators.required),
-  });
-
-  editExpenseForm = new FormGroup({
-    id: new FormControl(this.data.item.id, Validators.required),
-    category: new FormControl(this.data.item.category, Validators.required),
-    completed: new FormControl(this.data.item.completed, Validators.required),
-    price: new FormControl(this.data.item.price, Validators.required),
-    date: new FormControl(this.data.item.date, Validators.required),
-    note: new FormControl(this.data.item.note, Validators.required),
-  });
-
   addCategory() {
     this.categoryService.saveCategory(this.addCategoryForm.value).subscribe(
       (data) => {
@@ -174,6 +125,21 @@ export class DialogComponent {
     });
   }
 
+  editBudgetForm = new FormGroup({
+    id: new FormControl(this.data.item.id, Validators.required),
+    category: new FormControl(this.data.item.category, Validators.required),
+    parentCategory: new FormControl(
+      this.data.item.parentCategory,
+      Validators.required
+    ),
+    superCategory: new FormControl(
+      this.data.item.superCategory,
+      Validators.required
+    ),
+    price: new FormControl(this.data.item.price, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+  });
+
   editBudget() {
     this.budgetService
       .updateBudget(this.editBudgetForm.value)
@@ -181,6 +147,31 @@ export class DialogComponent {
         this.dialogRef.close(true);
       });
   }
+
+  addIncomeForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    price: new FormControl('', Validators.required),
+    date: new FormControl('', Validators.required),
+    note: new FormControl('', Validators.required),
+  });
+
+  addExpenseForm = new FormGroup({
+    category: new FormControl(this.data.item.category, Validators.required),
+    completed: new FormControl(this.data.item.completed, Validators.required),
+    parent: new FormControl(this.data.item.parent, Validators.required),
+    price: new FormControl(this.data.item.price, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+    note: new FormControl(this.data.item.date, Validators.required),
+  });
+
+  editExpenseForm = new FormGroup({
+    id: new FormControl(this.data.item.id, Validators.required),
+    category: new FormControl(this.data.item.category, Validators.required),
+    completed: new FormControl(this.data.item.completed, Validators.required),
+    price: new FormControl(this.data.item.price, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+    note: new FormControl(this.data.item.note, Validators.required),
+  });
 
   addExpense() {
     this.expenseService.saveExpense(this.addExpenseForm.value).subscribe(
@@ -207,6 +198,44 @@ export class DialogComponent {
     });
   }
 
+  addBankRecordForm = new FormGroup({
+    name: new FormControl(this.data.item.name, Validators.required),
+    price: new FormControl(this.data.item.price, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+  });
+
+  editBankRecordForm = new FormGroup({
+    id: new FormControl(this.data.item.id, Validators.required),
+    name: new FormControl(this.data.item.name, Validators.required),
+    price: new FormControl(this.data.item.price, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+  });
+
+  addBankRecord() {
+    this.bankService.saveBankRecord(this.addBankRecordForm.value).subscribe(
+      (data) => {
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        this.onCancel();
+      }
+    );
+  }
+
+  editBankRecord() {
+    this.bankService
+      .updateBankRecord(this.editBankRecordForm.value)
+      .subscribe((data) => {
+        this.dialogRef.close(true);
+      });
+  }
+
+  deleteBankRecord() {
+    this.bankService.deleteBankRecord(this.data.item.id).subscribe((data) => {
+      this.dialogRef.close(true);
+    });
+  }
+
   onCancel(): void {
     this.dialogRef.close();
   }
@@ -216,4 +245,5 @@ export class DialogComponent {
       duration: 1500,
     });
   }
+
 }

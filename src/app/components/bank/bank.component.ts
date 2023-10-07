@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import { ExpenseService } from 'src/app/services/expense.service';
 import { CommonService } from 'src/app/services/common.service';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { BankService } from 'src/app/services/bank.service';
 @Component({
-  selector: 'app-expense',
-  templateUrl: './expense.component.html',
-  styleUrls: ['./expense.component.css'],
+  selector: 'app-bank',
+  templateUrl: './bank.component.html',
+  styleUrls: ['./bank.component.css']
 })
-export class ExpenseComponent implements OnInit {
+export class BankComponent  implements OnInit {
+
   filterOn = false;
   loading = false;
   count = 0;
@@ -21,7 +21,7 @@ export class ExpenseComponent implements OnInit {
   year = this.commonService.getCurrentYear();
 
   constructor(
-    private expenseService: ExpenseService,
+    private bankService: BankService,
     private dialog: MatDialog,
     private commonService: CommonService
   ) {
@@ -42,11 +42,11 @@ export class ExpenseComponent implements OnInit {
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
     this.loading = true;
-    this.fetchAllExpenseList(this.month, this.year);
+    this.fetchAllBankRecords(this.month, this.year);
   }
 
-  openDialog(expense: any, screen: string, height: number, width: number) {
-    console.log('expensee : ', expense);
+  openDialog(bankRecord: any, screen: string, height: number, width: number) {
+    console.log('bank : ', bankRecord);
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
@@ -54,21 +54,21 @@ export class ExpenseComponent implements OnInit {
       maxWidth: width - 3 + 'vw',
       position: { top: '0px' },
       data: {
-        item: expense,
+        item: bankRecord,
         screen: screen,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.fetchAllExpenseList(this.month, this.year);
+        this.fetchAllBankRecords(this.month, this.year);
       }
     });
   }
 
-  fetchAllExpenseList(month: any, year: any) {
-    this.expenseService
-      .getCurrentExpense(month, year)
+  fetchAllBankRecords(month: any, year: any) {
+    this.bankService
+      .getCurrentBankRecord(month, year)
       .subscribe((data: any) => {
         console.log('data', JSON.stringify(data));
         this.groupDataByDate(data);
@@ -88,7 +88,7 @@ export class ExpenseComponent implements OnInit {
 
   groupDataByDate(data: any) {
     this.groupedData = data.reduce((grouped, item) => {
-      const date = item.date; // Assuming 'date' is the property name for the date
+      const date = item.date;
 
       if (!grouped[date]) {
         grouped[date] = [];
@@ -105,7 +105,7 @@ export class ExpenseComponent implements OnInit {
   }
 
   applyFilters() {
-    this.fetchAllExpenseList(
+    this.fetchAllBankRecords(
       this.filterForm.controls.filterMonth.value,
       this.filterForm.controls.filterYear.value
     );

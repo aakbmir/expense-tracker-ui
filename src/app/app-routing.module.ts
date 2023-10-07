@@ -9,6 +9,8 @@ import { CategoryReportComponent } from './components/reports/category-report/ca
 import { TrendReportComponent } from './components/reports/trends-report/trends-report.component';
 import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
 import { GroupReportComponent } from './components/reports/group-report/group-report.component';
+import { BankComponent } from './components/bank/bank.component';
+import { BankReportComponent } from './components/reports/bank-report/bank-report.component';
 
 const routes: Routes = [
   {
@@ -35,13 +37,20 @@ const routes: Routes = [
         path: 'group',
         component: GroupReportComponent
       },
-
+      {
+        path: 'bank',
+        component: BankReportComponent
+      },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
     ],
   },
   {
     path: 'expense',
     component: ExpenseComponent,
+  },
+  {
+    path: 'bank',
+    component: BankComponent,
   },
   {
     path: 'budget',

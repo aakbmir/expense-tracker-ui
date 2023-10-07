@@ -1,0 +1,66 @@
+<div class="table-container">
+    <div *ngFor="let group of data" style="margin:0.4em; ">
+        <h3 style="color: #6d9773; ">{{ group.month | date : 'MMM'}}</h3>
+        <div class="row" style="width: 100%; border: none; margin:auto; margin-bottom:0.2em;">
+            <div class="col-3" style="border-top-left-radius:0.5em; text-align: left; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: #fff">HDFC</h6>
+            </div>
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: green">{{group.HDFC | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
+            </div>
+            <div class="col-5" style="border-bottom-right-radius:0.5em; text-align: right; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: green">{{group.HDFCInr | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">INR</small>
+                </h6>
+            </div>
+        </div>
+        <div class="row" style="width: 100%; border: none; margin:auto; margin-bottom:0.2em;">
+            <div class="col-3" style="border-top-left-radius:0.5em; text-align: left; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: #fff">Mashreq</h6>
+            </div>
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: green">{{group.Mashreq | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
+            </div>
+            <div class="col-5" style="border-bottom-right-radius:0.5em; text-align: right; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: green">{{group.MashreqInr | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">INR</small>
+                </h6>
+            </div>
+        </div>
+        <div class="row" style="width: 100%; border: none; margin:auto; margin-bottom:0.2em;">
+            <div class="col-3" style="border-top-left-radius:0.5em; text-align: left; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: #fff">ENBD</h6>
+            </div>
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: green">{{group.ENBD | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
+            </div>
+            <div class="col-5" style="border-bottom-right-radius:0.5em; text-align: right; background:#a2c8a2; padding:0.5em">
+                <h6 style="color: green">{{group.ENBDInr | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">INR</small>
+                </h6>
+            </div>
+        </div>
+        <div class="row" style="width: 100%; border: none; margin:auto; margin-bottom:0.2em;">
+
+            <div class="col-3" style="border-top-left-radius:0.5em; text-align: left; background:rgba(120, 119, 119, 0.777); padding:0.5em">
+                <h6 style="color: #fff">Total</h6>
+            </div>
+            <div class="col-4" style="text-align: right; background:rgba(120, 119, 119, 0.777); padding:0.5em">
+                <h6 style="color: #fff; font-weight: bold;">{{group.totalAmount | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
+            </div>
+            <div class="col-5" style="border-bottom-right-radius:0.5em; text-align: right; background:rgba(120, 119, 119, 0.777); padding:0.5em">
+                <h6 style="color: #fff; font-weight: bold;">{{group.totalAmountInr | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">INR</small>
+                </h6>
+            </div>
+        </div>
+    </div>
+</div>

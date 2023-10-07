@@ -1,0 +1,73 @@
+<div style="padding:1em; background-color: #39623f !important;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); border: none !important;">
+    <h5 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker <span
+            style="float: right">Total : {{total |
+            number:'1.2-2'}}</span></h5>
+    <div class="row">
+        <div class="col-8">
+            <button type="button" class="btn" style="background: #6d9773;"
+                (click)="openDialog('', 'Bank-Record-Add', 100, 100)">
+                <i class="fa fa-plus"><span style="margin-left:3px">Add Record</span></i>
+            </button>
+        </div>
+        <div class="col-4">
+            <button type="button" style="float: right;background-color: #6d9773;" class="btn"
+                (click)="filterOn = !filterOn"><i class="fa fa-filter"></i>
+            </button>
+        </div>
+    </div>
+    <div>
+        <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+            <div style="text-align: center;margin-top:1em" *ngIf="filterOn" class="row">
+                <div class="col-5">
+                    <select class="form-select" formControlName="filterMonth">
+                        <option *ngFor="let month of months">
+                            {{month}}</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <select class="form-select" formControlName="filterYear">
+                        <option *ngFor="let year of years">
+                            {{year}}</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn" style="background: #6d9773;"><i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div *ngIf="count > 0 && !loading" class="table-container"
+    style="margin:0.2em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
+    <div *ngFor="let group of groupedDataArray" style="padding:0.1em; margin:0.4em;margin-bottom: 1em;">
+        <h6 style="color: #6d9773; ">{{ group.date | date : 'MMM dd, EEEE'}}</h6>
+        <div *ngFor="let item of group.items">
+            <button class="form-grou row" [matMenuTriggerFor]="beforeMenu" style="width: -webkit-fill-available; padding-top: 0.2em; padding-bottom: 0.5em; border: none;
+            background-color: rgba(236, 234, 232, 0.46); border-radius: 10px;margin:0em"
+                [ngStyle]="{'margin-bottom': group.items.length > 0 ? '0.3em': '0px'}">
+                <div class="col-6" style="text-align: left;">
+                    <h5 style="color:dimgrey">{{item.name}}</h5>
+                </div>
+                <div class="col-6" style="text-align: right;">
+                    <h5 style="color:dimgrey">{{item.price | number:'1.2-2'}} <small
+                            style="font-size: 0.475em">AED</small></h5>
+                </div>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                <button mat-menu-item (click)="openDialog(item, 'Bank-Record-Edit', 100, 100)">Edit</button>
+                <button mat-menu-item (click)="openDialog(item, 'Bank-Record-Delete', 100, 100)">Delete</button>
+            </mat-menu>
+        </div>
+    </div>
+</div>
+<div class="" *ngIf="count == 0" style="margin: auto; text-align: center; margin-top:4em">
+    <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
+    <p></p>
+    No record in this month
+    <p></p>Tap + to add new Expense.
+</div>
+<div *ngIf="loading" style="text-align: center; ">
+    <img src="./../../../assets/loading.gif" style="height: 15em; ">
+</div>

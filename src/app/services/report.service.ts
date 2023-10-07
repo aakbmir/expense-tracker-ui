@@ -82,4 +82,8 @@ export class ReportService {
   savingsReport(): Observable<any> {
     return this.http.get(`${this.baseUrl}/savings-report`);
   }
+
+  bankReport(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/bank-report`);
+  }
 }

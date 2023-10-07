@@ -1,64 +1,64 @@
 <div class="table-container">
-    <div *ngFor="let item of data" style="padding:0.2em; margin:auto; width:100%;">
+    <div *ngFor="let item of data" style="padding:0.2em; margin:auto; width:100%; ">
         <button class="row"
             style="width: 100%; padding-top: 0.5em; border: none; background-color: #eceae875; border-radius: 10px; margin:auto"
             [ngStyle]="{'margin-bottom': data.length > 0 ? '0.3em': '0px'}">
-            <div class="col-12" style="text-align: left;">
+            <div class="col-12" style="text-align: left; ">
                 <h3>{{item.month}}</h3>
             </div>
 
-            <div class="col-3" style="text-align: left;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: #6d9773">Amount</h6>
+            <div class="col-3" style="border-top-left-radius: 0.5em; text-align: left; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: #fff">Amount</h6>
             </div>
-            <div class="col-4" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.totalAccount | number:'1.2-2'}}
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.totalAccount | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
                 </h6>
             </div>
-            <div class="col-5" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.totalAccountInr | number:'1.2-2'}}
+            <div class="col-5" style="border-bottom-right-radius: 0.5em; text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.totalAccountInr | number:'1.2-2'}}
                     <small style="font-size: 0.475em">INR</small>
                 </h6>
             </div>
 
-            <div class="col-3" style="text-align: left;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: #6d9773">Extra</h6>
+            <div class="col-3" style="border-top-left-radius: 0.5em; text-align: left; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: #fff">Extra</h6>
             </div>
-            <div class="col-4" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.budgetAmount | number:'1.2-2'}}
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.budgetAmount | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
                 </h6>
             </div>
-            <div class="col-5" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.budgetAmountInr | number:'1.2-2'}}
+            <div class="col-5" style="border-bottom-right-radius: 0.5em; text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.budgetAmountInr | number:'1.2-2'}}
                     <small style="font-size: 0.475em">INR</small>
                 </h6>
             </div>
 
-            <div class="col-3" style="text-align: left;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: #6d9773">Total</h6>
+            <div class="col-3" style="border-top-left-radius: 0.5em; text-align: left; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: #fff">Total</h6>
             </div>
-            <div class="col-4" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.totalAmount | number:'1.2-2'}}
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.totalAmount | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
                 </h6>
             </div>
-            <div class="col-5" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.totalAmountInr | number:'1.2-2'}}
+            <div class="col-5" style="border-bottom-right-radius: 0.5em; text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.totalAmountInr | number:'1.2-2'}}
                     <small style="font-size: 0.475em">INR</small>
                 </h6>
             </div>
 
-            <div class="col-3" style="text-align: left;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: #6d9773">Invest</h6>
+            <div class="col-3" style="border-top-left-radius: 0.5em; border-bottom-left-radius: 0.5em; text-align: left; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: #fff">Invest</h6>
             </div>
-            <div class="col-4" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.totalInvest | number:'1.2-2'}}
+            <div class="col-4" style="text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.totalInvest | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
                 </h6>
             </div>
-            <div class="col-5" style="text-align: right;background:#a2c8a2;padding:0.3em">
-                <h6 style="color: green">{{item.totalInvestInr | number:'1.2-2'}}
+            <div class="col-5" style="border-bottom-right-radius: 0.5em; text-align: right; background:#a2c8a2; padding:0.3em; padding-top:0.6em; padding-bottom:0.6em; margin-bottom: 0.3em">
+                <h6 style="color: black">{{item.totalInvestInr | number:'1.2-2'}}
                     <small style="font-size: 0.475em">INR</small>
                 </h6>
             </div>

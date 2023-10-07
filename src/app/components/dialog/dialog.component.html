@@ -100,6 +100,7 @@
     </form>
 </div>
 
+<!-- Expense -->
 <div style="margin:1em;" *ngIf="screen ==='Expense-Add'">
     <h3>Add Expense</h3>
     <hr />
@@ -209,6 +210,101 @@
     <div class="form-group row">
         <div class="col" style="text-align: center;">
             <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteExpense()">Delete</button>
+            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bank -->
+<div style="margin:1em;" *ngIf="screen ==='Bank-Record-Add'">
+    <h3>Add Bank Record</h3>
+    <hr />
+    <form [formGroup]="addBankRecordForm" (ngSubmit)="addBankRecord()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Bank</span>
+            <select class="form-select" formControlName="name">
+                <option value="ENBD">ENBD</option>
+                <option value="HDFC">HDFC</option>
+                <option value="Mashreq">Mashreq</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Add</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:1em;" *ngIf="screen ==='Bank-Record-Edit'">
+    <h3>Edit Expense</h3>
+    <hr />
+    <form [formGroup]="editBankRecordForm" (ngSubmit)="editBankRecord()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Bank</span>
+            <select class="form-select" formControlName="name">
+                <option value="ENBD">ENBD</option>
+                <option value="HDFC">HDFC</option>
+                <option value="Mashreq">Mashreq</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="text" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin:2em; text-align: center;" *ngIf="screen ==='Bank-Record-Delete'">
+    <h3>Delete Bank Record</h3>
+    <p></p>
+    <span>Deleting this Bank Record will impact
+        <p></p>the budget and reports.
+        <p></p> Are you sure?
+    </span>
+    <p></p>
+    <div class="form-group row">
+        <div class="col" style="text-align: center;">
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteBankRecord()">Delete</button>
             <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
         </div>
     </div>

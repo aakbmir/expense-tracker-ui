@@ -1,0 +1,8 @@
+.grey-color {
+    color: #6c757d
+}
+
+.table-container {
+    max-height: 78vh;
+    overflow-y: auto;
+}
