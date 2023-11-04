@@ -20,7 +20,7 @@ export class ReportService {
       params: queryParams,
     });
   }
-  
+
   categoryReport(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
@@ -85,5 +85,19 @@ export class ReportService {
 
   bankReport(): Observable<any> {
     return this.http.get(`${this.baseUrl}/bank-report`);
+  }
+
+  fetchAllCategoriesDetails() {
+    return this.http.get(`${this.baseUrl}/get-distinct-categories`);
+  }
+
+  fetchTransactionForCategory(selectedCategory: string, option: string) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams
+      .append('expenseName', selectedCategory)
+      .append('option', option);
+    return this.http.get(`${this.baseUrl}/get-expense`, {
+      params: queryParams,
+    });
   }
 }

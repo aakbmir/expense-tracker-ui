@@ -16,11 +16,16 @@ export class OverviewReportComponent {
   filterMonth: any;
   filterYear = 2023;
 
-  public chart: any;
-
   totalSavings: any = 0;
   totalExpense: any = 0;
   totalBudget: any = 0;
+
+  selectedCategory = '';
+  categoryList: any = [];
+  categoryTransactionList: any = [];
+
+  superCategoryList: any = [];
+  parentCategoryList: any = [];
 
   constructor(
     private reportService: ReportService,
@@ -34,129 +39,52 @@ export class OverviewReportComponent {
     console.log(this.filterMonth);
   }
 
-  distinctCategories: any = [];
-  distinctBudgets: any = [];
-  distinctExpenses: any = [];
-
   ngOnInit(): void {
     this.fetchOverviewReport(this.month, this.year);
+    this.fetchDistinctCategories();
+    this.fetchTransactions('Category');
   }
 
   fetchOverviewReport(month: any, year: any) {
     this.totalSavings = 0;
     this.totalBudget = 0;
     this.totalExpense = 0;
-    this.distinctCategories = [];
-    this.distinctExpenses = [];
-    this.distinctBudgets = [];
     this.reportService.overviewReport(month, year).subscribe((data) => {
       for (let da of data) {
         this.totalSavings = this.totalSavings + da.deviate;
         this.totalExpense = this.totalExpense + da.expense;
         this.totalBudget = this.totalBudget + da.budget;
-        this.distinctCategories.push(da.superCategory);
-        this.distinctExpenses.push(da.expense);
-        this.distinctBudgets.push(da.budget);
       }
-
-      this.createBarChart(
-        this.distinctCategories,
-        this.distinctBudgets,
-        this.distinctExpenses
-      );
     });
   }
 
-  createPieChart(labels: any, expense: any) {
-    this.chart.destroy();
-    //this.chart.defaults.datasets.bar.maxBarThickness = 73;
-    this.chart = new Chart('MyChart', {
-      type: 'pie', //this denotes tha type of chart
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            data: expense,
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          },
-          subtitle: {
-            display: true,
-          },
-          title: {
-            display: true,
-            color: 'white',
-          },
-        },
-      },
-    });
+  fetchTransactions(clickedButton: any) {
+    this.reportService
+      .fetchTransactionForCategory(this.selectedCategory, clickedButton)
+      .subscribe((data) => {
+        this.categoryTransactionList = data;
+        console.log(this.categoryTransactionList);
+      });
   }
 
-  createBarChart(labels: any, budget: any, expense: any) {
-    //this.chart.defaults.datasets.bar.maxBarThickness = 73;
-
-    this.chart = new Chart('MyChart', {
-      type: 'bar', //this denotes tha type of chart
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            data: budget,
-            backgroundColor: '#7C48DA',
-            barPercentage: 1,
-            borderRadius: 10,
-            label: 'Budget',
-          },
-          {
-            data: expense,
-            backgroundColor: budget > expense ? '#F6A09A' : 'red',
-            barPercentage: 1,
-            borderRadius: 10,
-            label: 'Expense',
-          },
-        ],
+  fetchDistinctCategories() {
+    this.reportService.fetchAllCategoriesDetails().subscribe(
+      (data: any) => {
+        this.categoryList = [...new Set(data.map((item) => item.category))];
+        console.log(this.categoryList);
+        this.superCategoryList = [
+          ...new Set(data.map((item) => item.superCategory)),
+        ];
+        this.parentCategoryList = [
+          ...new Set(data.map((item) => item.parentCategory)),
+        ];
       },
-      options: {
-        indexAxis: 'y',
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            //stacked: true,
-            //beginAtZero: true,
-            grid: {
-              display: false,
-            },
-          },
-          y: {
-            //stacked: true,
-            //beginAtZero: true,
-            grid: {
-              display: false,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: true,
-            color: 'white',
-          },
-        },
-      },
-    });
+      (error) => {}
+    );
   }
 
   applyFilters() {
     console.log(this.filterMonth, this.filterYear);
-    this.chart.destroy();
     this.fetchOverviewReport(this.filterMonth, this.filterYear);
   }
 }
