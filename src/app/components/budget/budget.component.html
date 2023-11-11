@@ -1,8 +1,8 @@
 <div style="padding:1em; background-color: #39623f !important;
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); border: none !important;">
-    <h5 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker <span
+    <h6 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker <span
             style="float: right">Total : {{total |
-            number:'1.2-2'}}</span></h5>
+            number:'1.2-2'}}</span></h6>
     <div class="row">
         <div class="col-8">
             <button type="button" class="btn" style="font-size:1em; background: #6d9773;" (click)="addAllBudget()">
@@ -47,11 +47,11 @@
     </button>
     <div *ngFor="let parent of groupedDataKeys()"
         style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
-        <h3 style="color: #6d9773; ">{{parent}}</h3>
+        <h5 style="color: #6d9773; ">{{parent}}</h5>
         <div *ngFor="let subCategory of groupedData[parent] | keys">
-            <h5 style="padding:0.5em; padding-top:0.8em;padding-bottom:0.8em;background-color: #6d9773; color:white">
+            <h6 style="padding:0.5em; padding-top:0.8em;padding-bottom:0.8em;background-color: #6d9773; color:white">
                 {{subCategory.key}}
-            </h5>
+            </h6>
             <div *ngIf="supcatDiv">
                 <div *ngFor="let categoryObj of subCategory.value">
                     <button class="form-grou row" [matMenuTriggerFor]="afterMenu"
@@ -59,12 +59,12 @@
                         [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
                         <div class="col-7" style="text-align: left; ">
                             <img [src]="'assets/images/' + categoryObj.category + '.png'"
-                                style="width:2em;height:2em;margin-right: 2em;">
+                                style="width:1.5em;height:1.5em;margin-right: 2em;">
                             <span> {{categoryObj.category}}</span>
                         </div>
                         <div class="col-4" style="text-align: right; ">
-                            <h5 style="color:dimgrey">{{categoryObj.price}} <small
-                                    style="font-size: 0.475em">AED</small></h5>
+                            <h6 style="color:dimgrey">{{categoryObj.price}} <small
+                                    style="font-size: 0.475em">AED</small></h6>
                         </div>
                     </button>
                     <mat-menu #afterMenu="matMenu" xPosition="after">

@@ -1,24 +1,25 @@
-<div class="table-container">
+<div class="table-container" style="margin-top: 2em;">
     <div *ngFor="let item of responseList" style="padding:0.2em; margin:auto; width:100%;">
         <button class="row"
-            style="width: 100%; padding-top: 0.5em; border: none; background-color: #eceae875; border-radius: 10px; margin:auto"
+            style="width: 100%; padding-top: 0.5em; border: none; background-color: #a2c8a2; border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px; margin:auto"
             [ngStyle]="{'margin-bottom': responseList.length > 0 ? '0.3em': '0px'}">
             <div class="col-6" style="text-align: left;">
-                <h5 style="color: #6d9773">{{item.month}}</h5>
-                <h6 style="margin-bottom:0; color:dimgrey;">{{item.totalBudget | number:'1.2-2'}}
+                <h6 style="color: black">{{item.month}}</h6>
+                <h6 style="margin-bottom:0; color:black;">{{item.totalBudget | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
                 </h6>
             </div>
             <div class="col-6" style="text-align: right;">
                 <h6
-                    [ngStyle]="{'color': item.totalExpense === 0 || item.totalExpense > item.totalBudget ? 'red':  'dimgrey'}">
+                    [ngStyle]="{'color': item.totalExpense === 0 || item.totalExpense > item.totalBudget ? 'red':  'black'}">
                     {{item.totalExpense | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
                 </h6>
-                <h5 [ngStyle]="{'color': item.deviate >= 0 ? '#6d9773':  'red'}">
+                <h6 [ngStyle]="{'color': item.deviate >= 0 ? 'green':  'red'}">
                     {{item.deviate | number:'1.2-2'}}
                     <small style="font-size: 0.475em">AED</small>
-                </h5>
+                </h6>
             </div>
         </button>
     </div>

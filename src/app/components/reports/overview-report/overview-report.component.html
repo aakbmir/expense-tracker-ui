@@ -1,90 +1,81 @@
-<div>
-    <div class="row container-fluid" style="padding: 5px;">
-        <div class="col-4">
-            <select class="form-control" style="text-align: center; color:black" [(ngModel)]="filterMonth">
-                <option *ngFor="let month of months" [value]="month">{{month}}</option>
-                <option>All</option>
-            </select>
-        </div>
-        <div class="col-4">
-            <select class="form-control" style="text-align: center; color:black" [(ngModel)]="filterYear">
-                <option>2023</option>
-                <option>2024</option>
-            </select>
-        </div>
-        <div class="col-4">
-            <button style="margin: auto;margin-left: 2em;" class="btn" type="button" (click)="applyFilters()">
-                <i class="fa fa-filter"></i>
-            </button>
-        </div>
-        <div class="col-4">
-            <div style="margin: auto; text-align: center;">
-                <div>Savings</div>
-                <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalSavings|
-                    number:'1.2-2'}} د.إ</span>
-            </div>
-        </div>
-        <div class="col-4">
-            <div style="margin: auto; text-align: center;">
-                <div>Expense</div>
-                <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalExpense|
-                    number:'1.2-2'}} د.إ</span>
-            </div>
-        </div>
-        <div class="col-4">
-            <div style="margin: auto; text-align: center;">
-                <div>Expense</div>
-                <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalExpense|
-                    number:'1.2-2'}} د.إ</span>
-            </div>
+<div class="row" style="margin:0.2em">
+    <div class="col-4">
+        <select class="form-control" style="text-align: center; color:black" [(ngModel)]="filterMonth">
+            <option *ngFor="let month of months" [value]="month">{{month}}</option>
+            <option>All</option>
+        </select>
+    </div>
+    <div class="col-4">
+        <select class="form-control" style="text-align: center; color:black" [(ngModel)]="filterYear">
+            <option>2023</option>
+            <option>2024</option>
+        </select>
+    </div>
+    <div class="col-4">
+        <button style="margin: auto;margin-left: 2em;" class="btn" type="button" (click)="applyFilters()">
+            <i class="fa fa-filter"></i>
+        </button>
+    </div>
+    <div class="col-4">
+        <div style="margin: auto; text-align: center;">
+            <div>Savings</div>
+            <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalSavings|
+                number:'1.2-2'}} د.إ</span>
         </div>
     </div>
-
-    <hr />
-    <div class="row" style="text-align: center; margin-top: 1em">
-        <div class="col-4">
-            Category
-            <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Category')">
-                <option *ngFor="let month of categoryList" [ngValue]="month">
-                    {{month}}</option>
-            </select>
+    <div class="col-4">
+        <div style="margin: auto; text-align: center;">
+            <div>Expense</div>
+            <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalExpense|
+                number:'1.2-2'}} د.إ</span>
         </div>
-        <div class="col-4">
-            Super Category
-            <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Super')">
-                <option *ngFor="let month of superCategoryList" [ngValue]="month">
-                    {{month}}</option>
-            </select>
+    </div>
+    <div class="col-4">
+        <div style="margin: auto; text-align: center;">
+            <div>Budget</div>
+            <span [ngStyle]="{'color': totalBudget > 0 ? 'green':'red'}">{{totalBudget|
+                number:'1.2-2'}} د.إ</span>
         </div>
-        <div class="col-4">
-            Parent Category
-            <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Parent')">
-                <option *ngFor="let month of parentCategoryList" [ngValue]="month">
-                    {{month}}</option>
-            </select>
-        </div>
-        <div class="report-container" style="margin-top:0.5em">
-            <div *ngFor="let item of categoryTransactionList"
-                style="padding:0.2em; margin:auto; width:100%; margin-top: 1em">
-                <button class="row"
-                    style="width: 100%; padding-top: 0.5em; border: none; background-color: #eceae875; border-radius: 10px; margin:auto"
-                    [ngStyle]="{'margin-bottom': categoryTransactionList.length > 0 ? '0.3em': '0px'}">
-                    <div class="col-6" style="text-align: left;">
-                        <h5 style="color: #6d9773">{{item.category}}</h5>
-                        <h6 style="margin-bottom:0; color:dimgrey;">{{item.note}}
-                        </h6>
-                    </div>
-                    <div class="col-6" style="text-align: right;">
-                        <h6 style="color: dimgrey">
-                            {{item.date | date : 'MMM dd, EEEE'}}
-                        </h6>
-                        <h5 style="color: '#6d9773'">
-                            {{item.price | number:'1.2-2'}}
-                            <small style="font-size: 0.475em">AED</small>
-                        </h5>
-                    </div>
-                </button>
-            </div>
+    </div>
+    <p></p>
+    <div class="col-4">
+        <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Category')">
+            <option *ngFor="let month of categoryList" [ngValue]="month">
+                {{month}}</option>
+        </select>
+    </div>
+    <div class="col-4">
+        <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Super')">
+            <option *ngFor="let month of superCategoryList" [ngValue]="month">
+                {{month}}</option>
+        </select>
+    </div>
+    <div class="col-4">
+        <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Parent')">
+            <option *ngFor="let month of parentCategoryList" [ngValue]="month">
+                {{month}}</option>
+        </select>
+    </div>
+    <div class="col-12" style="margin-top:0.5em;max-height: 67vh; overflow-y: auto;">
+        <div *ngFor="let item of categoryTransactionList" style="margin:auto; width:100%; margin-top: 1em">
+            <button class="row"
+                style="width: 100%; padding-top: 0.5em; border: none; background-color: #eceae875; border-radius: 10px; margin:auto"
+                [ngStyle]="{'margin-bottom': categoryTransactionList.length > 0 ? '0.3em': '0px'}">
+                <div class="col-6" style="text-align: left;">
+                    <h6 style="color: #6d9773">{{item.category}}</h6>
+                    <span style="margin-bottom:0; color:dimgrey;">{{item.note}}
+                    </span>
+                </div>
+                <div class="col-6" style="text-align: right;">
+                    <span style="color: dimgrey">
+                        {{item.date | date : 'MMM dd, EEEE'}}
+                    </span>
+                    <h6 style="color: '#6d9773'">
+                        {{item.price | number:'1.2-2'}}
+                        <small style="font-size: 0.475em">AED</small>
+                    </h6>
+                </div>
+            </button>
         </div>
     </div>
 </div>
