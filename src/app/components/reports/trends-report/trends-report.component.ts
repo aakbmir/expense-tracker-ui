@@ -46,7 +46,7 @@ export class TrendReportComponent {
     this.year = this.commonService.getCurrentYear();
     this.filterForm = new FormGroup({
       filterMonth: new FormControl(this.month),
-      filterYear: new FormControl('2023'),
+      filterYear: new FormControl('2024'),
     });
     this.fetchTrendsReport();
   }

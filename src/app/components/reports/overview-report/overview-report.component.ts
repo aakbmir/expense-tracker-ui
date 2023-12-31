@@ -14,7 +14,7 @@ export class OverviewReportComponent {
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
   filterMonth: any;
-  filterYear = 2023;
+  filterYear = 2024;
 
   totalSavings: any = 0;
   totalExpense: any = 0;

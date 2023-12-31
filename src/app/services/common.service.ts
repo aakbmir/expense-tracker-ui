@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class CommonService {
   getYears() {
-    return ['2023'];
+    return ['2024'];
   }
 
   getMonths() {

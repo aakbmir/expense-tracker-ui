@@ -79,7 +79,7 @@ export class GroupReportComponent {
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
   filterMonth: any;
-  filterYear = 2023;
+  filterYear = 2024;
 
 
   totalExpense: any = 0;
