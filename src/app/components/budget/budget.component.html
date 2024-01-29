@@ -41,35 +41,36 @@
     </div>
 </div>
 <div *ngIf="count > 0 && !loading" class="table-container">
-    <button (click)="supcatDiv = !supcatDiv" class="btn" style="float:right; text-align: left;margin-right:2em">
-        <i *ngIf="!supcatDiv" class="fa fa-arrow-down"></i>
-        <i *ngIf="supcatDiv" class="fa fa-arrow-up"></i>
-    </button>
     <div *ngFor="let parent of groupedDataKeys()"
         style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
-        <h5 style="color: #6d9773; ">{{parent}}</h5>
-        <div *ngFor="let subCategory of groupedData[parent] | keys">
-            <h6 style="padding:0.5em; padding-top:0.8em;padding-bottom:0.8em;background-color: #6d9773; color:white">
-                {{subCategory.key}}
-            </h6>
-            <div *ngIf="supcatDiv">
-                <div *ngFor="let categoryObj of subCategory.value">
-                    <button class="form-grou row" [matMenuTriggerFor]="afterMenu"
-                        style="width: -webkit-fill-available; padding-top: 0.5em; padding-bottom: 0.5em; border: none; background-color: rgba(236, 234, 232, 0.46); border-radius: 10px; margin: 0.2em;"
-                        [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                        <div class="col-7" style="text-align: left; ">
-                            <img [src]="'assets/images/' + categoryObj.category + '.png'"
-                                style="width:1.5em;height:1.5em;margin-right: 2em;">
-                            <span> {{categoryObj.category}}</span>
-                        </div>
-                        <div class="col-4" style="text-align: right; ">
-                            <h6 style="color:dimgrey">{{categoryObj.price}} <small
-                                    style="font-size: 0.475em">AED</small></h6>
-                        </div>
-                    </button>
-                    <mat-menu #afterMenu="matMenu" xPosition="after">
-                        <button mat-menu-item (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
-                    </mat-menu>
+        <button
+            style="padding: 0.5em;padding-top: 0.8em;padding-bottom: 0.8em;background-color: rgba(109, 151, 115);width: -webkit-fill-available;text-align: left;border: none;"
+            (click)="supcatDiv = !supcatDiv">{{ parent}}
+        </button>
+        <div *ngIf="supcatDiv">
+            <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
+                <button class="form-grou row" (click)="subCategory.display = !subCategory.display"
+                style="padding: 0.8em 0.5em;background-color: rgba(70, 69, 68, 0.46);color: black;width: -webkit-fill-available;margin: 0.2em 0.2em 0.2em;border: none;"
+                    [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                    {{subCategory.key}}
+                </button>
+                <div *ngIf="subCategory['display']">
+                    <div *ngFor="let categoryObj of subCategory.value">
+                        <button class="form-grou row" [matMenuTriggerFor]="afterMenu" style="width: -webkit-fill-available;padding-top: 0.5em;padding-bottom: 0.5em;border: none;background-color: rgba(236, 234, 232, 0.46);margin: 0.2em 0.5em 0.3em;"
+                            [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                            <div class="col-7" style="text-align: left; ">
+                                <span> {{categoryObj.category}}</span>
+                            </div>
+                            <div class="col-4" style="text-align: right; ">
+                                <h6 style="color:dimgrey">{{categoryObj.price}} <small
+                                        style="font-size: 0.475em">AED</small></h6>
+                            </div>
+                        </button>
+                        <mat-menu #afterMenu="matMenu" xPosition="after">
+                            <button mat-menu-item
+                                (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
+                        </mat-menu>
+                    </div>
                 </div>
             </div>
         </div>

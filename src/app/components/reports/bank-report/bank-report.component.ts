@@ -17,8 +17,6 @@ export class BankReportComponent {
 
   fetchSavingsData() {
     this.reportsService.bankReport().subscribe((data: any) => {
-      console.log(data);
-
       for (let ove of data) {
         const obj = ove;
         obj['totalAmount'] = ove['HDFC'] + ove['ENBD'] + ove['Mashreq'];

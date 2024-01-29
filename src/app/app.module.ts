@@ -19,7 +19,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ExpenseComponent } from './components/expense/expense.component';
 import { CategoryComponent } from './components/category/category.component';
-import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { DialogComponent } from './components/dialog/dialog.component';
@@ -46,7 +45,6 @@ export function initConfig(appConfig: AppConfigService) {
     AppComponent,
     ExpenseComponent,
     CategoryComponent,
-    HeaderComponent,
     ReportsComponent,
     DialogComponent,
     BudgetComponent,

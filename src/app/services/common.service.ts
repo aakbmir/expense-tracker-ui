@@ -25,6 +25,10 @@ export class CommonService {
     ];
   }
 
+  getBudget() {
+    return '17717'
+  }
+
   getCurrentMonth() {
     var a = new Date();
     let mnth = a.getMonth() + 1;

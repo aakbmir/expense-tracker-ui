@@ -95,17 +95,13 @@ export class GroupReportComponent {
   }
 
   ngOnInit(): void {
-    
     this.fetchAllData(this.month, this.year);
   }
 
   fetchAllData(month, year) {
     this.reportsService.groupedReport(month, year).subscribe((data: any) => {
-      console.log(data);
       this.cumulativeReport = data;
-
       for(let report of this.cumulativeReport) {
-        console.log(report);
         this.totalExpense = this.totalExpense + report.expense;
         this.totalBudget = this.totalBudget + report.budget;
       }
@@ -114,7 +110,6 @@ export class GroupReportComponent {
   }
 
   applyFilters() {
-    console.log(this.filterMonth, this.filterYear);
     this.fetchAllData(this.filterMonth, this.filterYear);
   }
 

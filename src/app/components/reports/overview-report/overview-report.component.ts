@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
-import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-overview-report',
@@ -36,7 +35,6 @@ export class OverviewReportComponent {
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
     this.filterMonth = this.month;
-    console.log(this.filterMonth);
   }
 
   ngOnInit(): void {
@@ -63,7 +61,6 @@ export class OverviewReportComponent {
       .fetchTransactionForCategory(this.selectedCategory, clickedButton)
       .subscribe((data) => {
         this.categoryTransactionList = data;
-        console.log(this.categoryTransactionList);
       });
   }
 
@@ -71,7 +68,6 @@ export class OverviewReportComponent {
     this.reportService.fetchAllCategoriesDetails().subscribe(
       (data: any) => {
         this.categoryList = [...new Set(data.map((item) => item.category))];
-        console.log(this.categoryList);
         this.superCategoryList = [
           ...new Set(data.map((item) => item.superCategory)),
         ];
@@ -84,7 +80,6 @@ export class OverviewReportComponent {
   }
 
   applyFilters() {
-    console.log(this.filterMonth, this.filterYear);
     this.fetchOverviewReport(this.filterMonth, this.filterYear);
   }
 }

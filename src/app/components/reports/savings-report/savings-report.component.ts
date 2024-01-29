@@ -18,7 +18,6 @@ export class SavingsReportComponent {
 
   fetchSavingsData() {
     this.reportsService.savingsReport().subscribe((data: any) => {
-      console.log(data);
       for (let ove of data) {
         const obj = ove;
         obj['totalAmount'] = ove['totalAccount'] + ove['budgetAmount'];
