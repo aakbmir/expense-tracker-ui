@@ -63,18 +63,23 @@
             </button>
         </div>
     </div>
-    <div class="row container-flui"
-        style="margin:auto; padding-right:0.5em; padding-left:0.2em; padding-top: 0.5em; padding-bottom: 0.3em; justify-content: center;"
+    <div class="row container-flui" style="margin:auto; padding-right:0.5em; padding-left:0.2em; padding-top: 0.5em; padding-bottom: 0.3em; justify-content: center;"
         *ngFor="let parentCategoryObj of cumulativeReport">
         <button class="row" (click)="parentCategoryObj.expanded = !parentCategoryObj.expanded"
             style="padding-top:0.5em; padding-bottom:0.5em; border:none; border-top-left-radius: 0.8em; border-bottom-right-radius: 0.8em; margin-bottom:0.3em; width:100%; background-color: rgba(120, 119, 119, 0.777);">
-            <div class="col-6" style="text-align: left;">
-                <h6 style="color:#fff">{{parentCategoryObj.name}}
-                </h6>
-            </div>
-            <div class="col-6" style="text-align: right;">
-                <h6 style="color: #fff; ">{{parentCategoryObj.expense | number:'1.2-2'}}
-                </h6>
+            <div style="display: flex;justify-content: space-between;">
+                <div style="width: 40%;text-align: left;">
+                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">{{parentCategoryObj.name}}
+                    </h6>
+                </div>
+                <div style="width: 30%;text-align: left;">
+                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">{{parentCategoryObj.expense | number:'1.2-2'}}
+                    </h6>
+                </div>
+                <div style="width: 30%;text-align: right;">
+                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">{{parentCategoryObj.budget | number:'1.2-2'}}
+                    </h6>
+                </div>
             </div>
         </button>
         <div class="ro" *ngIf="parentCategoryObj.expanded">
@@ -82,14 +87,22 @@
                 <button
                     style="padding-top:0.5em; padding-bottom:0.5em; border:none; margin: auto; border-top-left-radius: 0.8em; border-top-right-radius: 0.8em; margin-bottom:0.3em; width:-webkit-fill-available; background-color: #a2c8a2;"
                     (click)="superCategoryObj.expanded = !superCategoryObj.expanded">
-                    <div style="margin-left:0.5em; width: 47%; float: left; text-align: left;">
-                        <h6>{{superCategoryObj.name}}
-                        </h6>
+                    <div style="display: flex;justify-content: space-between;">
+                        <div style="width: 40%;text-align: left;">
+                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.name}}
+                            </h6>
+                        </div>
+                        <div style="width: 30%;text-align: left;">
+                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.expense | number:'1.2-2'}}
+                            </h6>
+                        </div>
+                        <div style="width: 30%;text-align: right;">
+                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.budget | number:'1.2-2'}}
+                            </h6>
+                        </div>
                     </div>
-                    <div style="margin-right:0.5em; width: 49%; float: right; text-align: right;">
-                        <h6>{{superCategoryObj.expense | number:'1.2-2'}}
-                        </h6>
-                    </div>
+
+
                 </button>
                 <div class="col-12" *ngIf="!superCategoryObj.expanded">
                     <div *ngFor="let categoryObj of superCategoryObj.categoryDtoList">
@@ -97,14 +110,12 @@
                             style="padding-top:0.5em; padding-bottom:0.5em; border:none; margin: auto; border-radius: 0.5em; margin-bottom:0.3em; width:96%; background-color: rgb(217 215 214 / 46%);"
                             (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
                             <div style="width: 45%; float: left; text-align: left;">
-                                <h6
-                                    [ngStyle]="{'color': (categoryObj.expense === 0 || categoryObj.expense > categoryObj.budget) ? 'red' : 'green'}">
+                                <h6 [ngStyle]="{'color': (categoryObj.expense === 0 || categoryObj.expense > categoryObj.budget) ? 'red' : 'green'}">
                                     {{categoryObj.name}}
                                 </h6>
                             </div>
                             <div style="margin-right:0.5em; width: 48%; float: right; text-align: right;">
-                                <h6
-                                    [ngStyle]="{'color': (categoryObj.expense === 0 || categoryObj.expense > categoryObj.budget) ? 'red' : 'green'}">
+                                <h6 [ngStyle]="{'color': (categoryObj.expense === 0 || categoryObj.expense > categoryObj.budget) ? 'red' : 'green'}">
                                     {{categoryObj.expense | number:'1.2-2'}}
                                 </h6>
                             </div>
