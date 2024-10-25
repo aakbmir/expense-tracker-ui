@@ -1,0 +1,22 @@
+.circle {
+    width: 100px;
+    height: 100px;
+    ; /* Border style */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 18px;
+    color: green
+}
+
+.logo-name {
+    text-align: left; 
+    font-family: serif; 
+    border: none;
+    background: none; 
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #fff000;
+}

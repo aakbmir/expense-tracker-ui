@@ -1,82 +1,96 @@
-<div class="row" style="margin:0.2em">
-    <div class="col-4">
-        <select class="form-control" style="text-align: center; color:black" [(ngModel)]="filterMonth">
-            <option *ngFor="let month of months" [value]="month">{{month}}</option>
-            <option>All</option>
-        </select>
-    </div>
-    <div class="col-4">
-        <select class="form-control" style="text-align: center; color:black" [(ngModel)]="filterYear">
-            <option>2024</option>
-        </select>
-    </div>
-    <div class="col-4">
-        <button style="margin: auto;margin-left: 2em;" class="btn" type="button" (click)="applyFilters()">
-            <i class="fa fa-filter"></i>
-        </button>
-    </div>
-    <!-- <div class="col-4">
-        <div style="margin: auto; text-align: center;">
-            <div>Savings</div>
-            <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalSavings|
-                number:'1.2-2'}} د.إ</span>
+<div style="padding:10px;width:100%;background: #757575">
+    <div style="display:flex;justify-content: space-between;">
+        <div>
+            <button class="logo-name" style="color: #fff000;" [matMenuTriggerFor]="afterMenu">
+                PennyWise
+            </button>
+            <mat-menu #afterMenu="matMenu" xPosition="after">
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('home')">Home</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('overview')">Overview</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('group')">Group</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('trend')">Trend</button>
+            </mat-menu>
         </div>
-    </div> -->
-    <div class="col-6">
-        <div style="margin: auto; text-align: center;">
-            <div>Expense</div>
-            <span [ngStyle]="{'color': totalSavings > 0 ? 'green':'red'}">{{totalExpense|
-                number:'1.2-2'}} AED</span>
+        <div class="budget-card">
+            <button class="butn" (click)="applyFilters('left')" style="color:#fff000">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <span style="font-size: 1em; margin-right:10px; margin-left:10px;">{{monthText}} {{year}}</span>
+            <button class="butn" (click)="applyFilters('right')" style="color:#fff000">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+            <!-- <button class="butn" style="color: #fff000; margin-left:1.5em" (click)="searchFlag = !searchFlag">
+                <i class="fa fa-filter fa-lg"></i></button> -->
         </div>
     </div>
-    <div class="col-6">
-        <div style="margin: auto; text-align: center;">
-            <div>Budget</div>
-            <span [ngStyle]="{'color': totalBudget > 0 ? 'green':'red'}">{{totalBudget|
-                number:'1.2-2'}} AED</span>
+    <div style="display: flex;margin-bottom:1em">
+        <div style="margin: auto; text-align: center;margin-top:1em; font-size: 16px;">
+            <div class="text1" style="font-size: 16px;">Remaining Balance</div>
+            <span style="font-size:2em" [ngStyle]="{'color': totalSavings > 0 ? 'yellow':'rgb(245, 106, 7)'}">{{totalSavings|
+                number:'1.2-2'}}
+            </span>
         </div>
+    </div>
+    <div style="display: flex;justify-content: space-between;">
+        <div style="border: 1px solid white;background:white;width:90%;margin-right:1em;border-radius:10px">
+            <div style="margin: 0.5em; text-align: center; font-size: 16px;">
+                <div class="text1" style="font-size: 14px;">Expense</div>
+                <span [ngStyle]="{'color': totalExpense > 0 ? 'green':'rgb(245, 106, 7)'}">{{totalExpense |
+                    number:'1.2-2'}}</span>
+            </div>
+        </div>
+        <div style="border: 1px solid white;background:white;width:90%;margin-left:1em;border-radius:10px">
+            <div style="margin: 0.5em; text-align: center; font-size: 16px;">
+                <div class="text1" style="font-size: 14px;">Budget</div>
+                <span [ngStyle]="{'color': totalBudget > 0 ? 'green':'rgb(245, 106, 7)'}">{{totalBudget |
+                    number:'1.2-2'}}</span>
+            </div>
+        </div>
+
     </div>
     <p></p>
-    <div class="col-4">
-        <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Category')">
-            <option></option>
-            <option *ngFor="let month of categoryList" [ngValue]="month">
-                {{month}}</option>
-        </select>
+    <div *ngIf="searchFlag" style="display:flex;justify-content: space-around;">
+        <div class="select-wrapper">
+            <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Category')">
+                <option></option>
+                <option *ngFor="let month of categoryList" [ngValue]="month">
+                    {{month}}</option>
+            </select>
+        </div>
+        <div class="select-wrapper">
+            <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Super')">
+                <option></option>
+                <option *ngFor="let month of superCategoryList" [ngValue]="month">
+                    {{month}}</option>
+            </select>
+        </div>
+        <div class="select-wrapper">
+            <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Parent')">
+                <option></option>
+                <option *ngFor="let month of parentCategoryList" [ngValue]="month">
+                    {{month}}</option>
+            </select>
+        </div>
     </div>
-    <div class="col-4">
-        <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Super')">
-            <option></option>
-            <option *ngFor="let month of superCategoryList" [ngValue]="month">
-                {{month}}</option>
-        </select>
-    </div>
-    <div class="col-4">
-        <select class="form-select" [(ngModel)]="selectedCategory" (change)="fetchTransactions('Parent')">
-            <option></option>
-            <option *ngFor="let month of parentCategoryList" [ngValue]="month">
-                {{month}}</option>
-        </select>
-    </div>
-    <div class="col-12" style="margin-top:0.5em;max-height: 67vh; overflow-y: auto;">
-        <div *ngFor="let item of categoryTransactionList" style="margin:auto; width:100%; margin-top: 0.7em">
-            <div class="row"
-                style="width: 100%; padding: 0.5em; border: none; background-color: #dcdcdb75; border-radius: 5px; margin:auto"
-                [ngStyle]="{'margin-bottom': categoryTransactionList.length > 0 ? '0.1em': '0px'}">
-                <div class="col-6" style="text-align: left;">
-                    <h6 style="color: #6d9773">{{item.category}}</h6>
-                    <span style="margin-bottom:0; color:dimgrey;">{{item.note}}
-                    </span>
-                </div>
-                <div class="col-6" style="text-align: right;">
-                    <span style="color: dimgrey;margin-top:0;">
-                        {{item.date | date : 'MMM dd, EEEE'}}
-                    </span>
-                    <h6 style="color: '#6d9773'">
-                        {{item.price | number:'1.2-2'}}
-                        <small style="font-size: 0.475em">AED</small>
-                    </h6>
-                </div>
+</div>
+
+<div style="margin-top:0.5em;max-height: 58vh; overflow-y: auto;">
+    <div *ngFor="let item of categoryTransactionList" style="margin:auto; width:100%; margin-top: 0.7em">
+        <div class="row" style="width: 100%; padding: 0.5em; border: none; background-color: rgba(236, 234, 232, 0.46); border-radius: 5px; margin:auto"
+            [ngStyle]="{'margin-bottom': categoryTransactionList.length > 0 ? '0.1em': '0px'}">
+            <div class="col-6" style="text-align: left;">
+                <h6 style="color: rgb(245, 106, 7) !important">{{item.category}}</h6>
+                <span style="margin-bottom:0; color:dimgrey;">{{item.note}}
+                </span>
+            </div>
+            <div class="col-6" style="text-align: right;">
+                <span style="color: dimgrey;margin-top:0;">
+                    {{item.date | date : 'MMM dd, EEEE'}}
+                </span>
+                <h6 style="color: '#6d9773'">
+                    {{item.price | number:'1.2-2'}}
+                    <small style="font-size: 0.475em">AED</small>
+                </h6>
             </div>
         </div>
     </div>

@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { BudgetService } from 'src/app/services/budget.service';
 import { CommonService } from 'src/app/services/common.service';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-budget',
@@ -18,36 +17,24 @@ export class BudgetComponent implements OnInit {
   supcatDiv = true;
 
   groupedData: any = {};
+  resData: any = [];
 
-  months = this.commonService.getMonths();
+  
+  monthText = '';
   month = this.commonService.getCurrentMonth();
-  years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
 
-  constructor(
-    private budgetService: BudgetService,
-    private dialog: MatDialog,
-    private commonService: CommonService
-  ) {
-    this.months = this.commonService.getMonths();
+  constructor(private budgetService: BudgetService, private dialog: MatDialog, private commonService: CommonService) {
     this.month = this.commonService.getCurrentMonth();
-    this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
   }
 
   ngOnInit(): void {
-    this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
-    this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
     this.loading = true;
     this.fetchAllBudgetList(this.month, this.year);
   }
-
-  filterForm = new FormGroup({
-    filterMonth: new FormControl(this.month),
-    filterYear: new FormControl(this.year),
-  });
 
   openDialog(cat: any, screen: string, height: number, width: number) {
     let category = {};
@@ -86,20 +73,43 @@ export class BudgetComponent implements OnInit {
       this.loading = false;
       this.count = data.length;
       this.total = 0;
+      this.resData = data;
       this.groupedData = this.groupDataByParent(data);
+
       for (let bud of data) {
         if (bud.price != null && bud.price !== '') {
           this.total = this.total + Number(bud.price);
         }
       }
+      this.monthText = this.commonService.getCurrentMonthString(this.month);
+
     });
   }
 
-  applyFilters() {
-    this.fetchAllBudgetList(
-      this.filterForm.controls.filterMonth.value,
-      this.filterForm.controls.filterYear.value
-    );
+  applyFilters(clickedBtn) {
+    let calcMnth = Number(this.month) - 1;
+    let calcYear = Number(this.year);
+    if (clickedBtn === 'left') {
+       calcMnth = Number(this.month) - 1;
+      calcYear = Number(this.year);
+      if (calcMnth == 0) {
+        calcMnth = 12;
+        calcYear =calcYear -1;
+      }
+    } else {
+      calcMnth = Number(this.month) + 1;
+      calcYear = Number(this.year);
+      if (calcMnth == 13) {
+        calcMnth = 1;
+        calcYear = calcYear +1;
+      }
+    }
+
+    console.log(calcMnth + " : " + calcYear);
+    this.month = calcMnth;
+    this.year = calcYear;
+
+    this.fetchAllBudgetList(this.month, this.year);
   }
 
   groupDataByParent(data: any[]): any {

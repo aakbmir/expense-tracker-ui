@@ -44,77 +44,76 @@
 </div> -->
 
 
-<div class="table-container">
-    <div class="row container-fluid" style="padding: 5px;">
-        <div class="col-5" style="justify-content: left;">
-            <select class="form-control" style="text-align: center;" [(ngModel)]="filterMonth">
-                <option *ngFor="let month of months" [value]="month">{{month}}</option>
-                <option>All</option>
-            </select>
+<div style="padding:10px;width:100%;background: #757575">
+    <div style="display:flex;justify-content: space-between;">
+        <div>
+            <button class="logo-name" style="color: #fff000;" [matMenuTriggerFor]="afterMenu">
+                PennyWise
+            </button>
+            <mat-menu #afterMenu="matMenu" xPosition="after">
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('home')">Home</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('overview')">Overview</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('group')">Group</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('trend')">Trend</button>
+            </mat-menu>
         </div>
-        <div class="col-5" style="justify-content: center;">
-            <select class="form-control" style="text-align: center;" [(ngModel)]="filterYear">
-                <option>2024</option>
-            </select>
-        </div>
-        <div class="col-2" style="justify-content: right;">
-            <button class="btn" type="button" (click)="applyFilters()">
-                <i class="fa fa-filter" style="color: black;"></i>
+        <div class="budget-card">
+            <button class="butn" (click)="applyFilters('left')" style="color:#fff000">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <span style="font-size: 1em; margin-right:10px; margin-left:10px;">{{monthText}} {{year}}</span>
+            <button class="butn" (click)="applyFilters('right')" style="color:#fff000">
+                <i class="fa fa-chevron-right"></i>
             </button>
         </div>
     </div>
-    <div class="row container-flui" style="margin:auto; padding-right:0.5em; padding-left:0.2em; padding-top: 0.5em; padding-bottom: 0.3em; justify-content: center;"
-        *ngFor="let parentCategoryObj of cumulativeReport">
-        <button class="row" (click)="parentCategoryObj.expanded = !parentCategoryObj.expanded"
-            style="padding-top:0.5em; padding-bottom:0.5em; border:none; border-top-left-radius: 0.8em; border-bottom-right-radius: 0.8em; margin-bottom:0.3em; width:100%; background-color: rgba(120, 119, 119, 0.777);">
-            <div style="display: flex;justify-content: space-between;">
-                <div style="width: 40%;text-align: left;">
-                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">{{parentCategoryObj.name}}
+</div>
+<div class="table-container">
+    <div class="ro container-flui" class="parent-div" *ngFor="let parentCategoryObj of cumulativeReport">
+        <button class="row parent-btn" (click)="parentCategoryObj.expanded = !parentCategoryObj.expanded" style="border-bottom:1px solid">
+            <div style="display: grid;justify-content: normal;">
+                <div style="text-align: left;">
+                    <div style="display: flex;justify-content: space-between;">
+                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? '#03397e' : '#03397e'}">{{parentCategoryObj.name}}
                     </h6>
+                    <i *ngIf="parentCategoryObj.expanded" class="fa fa-chevron-right"></i>
+                    <i *ngIf="!parentCategoryObj.expanded" class="fa fa-chevron-up"></i>
                 </div>
-                <div style="width: 30%;text-align: left;">
-                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">{{parentCategoryObj.expense | number:'1.2-2'}}
-                    </h6>
                 </div>
-                <div style="width: 30%;text-align: right;">
-                    <h6 [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">{{parentCategoryObj.budget | number:'1.2-2'}}
-                    </h6>
+                <div style="width: 100%;text-align: right;">
+                    <span [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">Expense: {{parentCategoryObj.expense | number:'1.0-0'}}
+                    </span>/
+                    <span [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">Budget: {{parentCategoryObj.budget | number:'1.0-0'}}
+                    </span> /
+                    <span [ngStyle]="{'color': (parentCategoryObj.expense > parentCategoryObj.budget) ? 'red' : 'green'}">Savings: {{(parentCategoryObj.budget - parentCategoryObj.expense) | number:'1.0-0'}}
+                    </span>
                 </div>
             </div>
         </button>
-        <div class="ro" *ngIf="parentCategoryObj.expanded">
+        <div class="ro" *ngIf="!parentCategoryObj.expanded" style="width: 98%;margin:auto">
             <div *ngFor="let superCategoryObj of parentCategoryObj?.superCategoryDtoList" style="width: 100%;">
-                <button
-                    style="padding-top:0.5em; padding-bottom:0.5em; border:none; margin: auto; border-top-left-radius: 0.8em; border-top-right-radius: 0.8em; margin-bottom:0.3em; width:-webkit-fill-available; background-color: #a2c8a2;"
-                    (click)="superCategoryObj.expanded = !superCategoryObj.expanded">
+                <button class="subcat-btn" (click)="superCategoryObj.expanded = !superCategoryObj.expanded">
                     <div style="display: flex;justify-content: space-between;">
                         <div style="width: 40%;text-align: left;">
-                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.name}}
+                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'black' : 'black'}">{{superCategoryObj.name}}
                             </h6>
                         </div>
-                        <div style="width: 30%;text-align: left;">
-                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.expense | number:'1.2-2'}}
-                            </h6>
-                        </div>
-                        <div style="width: 30%;text-align: right;">
-                            <h6 [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.budget | number:'1.2-2'}}
-                            </h6>
+                        <div style="width: 60%;text-align: right;">
+                            <span [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.expense | number:'1.0-0'}}
+                            </span>/
+                            <span [ngStyle]="{'color': (superCategoryObj.expense > superCategoryObj.budget) ? 'red' : 'green'}">{{superCategoryObj.budget | number:'1.0-0'}}
+                            </span>
                         </div>
                     </div>
-
-
                 </button>
-                <div class="col-12" *ngIf="!superCategoryObj.expanded">
-                    <div *ngFor="let categoryObj of superCategoryObj.categoryDtoList">
-                        <button class="row"
-                            style="padding-top:0.5em; padding-bottom:0.5em; border:none; margin: auto; border-radius: 0.5em; margin-bottom:0.3em; width:96%; background-color: rgb(217 215 214 / 46%);"
-                            (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
-                            <div style="width: 45%; float: left; text-align: left;">
-                                <h6 [ngStyle]="{'color': (categoryObj.expense === 0 || categoryObj.expense > categoryObj.budget) ? 'red' : 'green'}">
+                <div class="row" *ngIf="superCategoryObj.expanded">
+                    <div *ngFor="let categoryObj of superCategoryObj.categoryDtoList" class="col-4">
+                        <button class="row" class="item-btn" (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
+                            <div style="text-align: left; ">
+                                <span>
                                     {{categoryObj.name}}
-                                </h6>
-                            </div>
-                            <div style="margin-right:0.5em; width: 48%; float: right; text-align: right;">
+                                </span>
+
                                 <h6 [ngStyle]="{'color': (categoryObj.expense === 0 || categoryObj.expense > categoryObj.budget) ? 'red' : 'green'}">
                                     {{categoryObj.expense | number:'1.2-2'}}
                                 </h6>

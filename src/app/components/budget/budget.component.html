@@ -1,88 +1,71 @@
-<div style="padding:1em; background-color: #39623f !important;
-    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); border: none !important;">
-    <h6 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker <span
-            style="float: right">Total : {{total |
-            number:'1.2-2'}}</span></h6>
-    <div class="row">
-        <div class="col-8">
-            <button type="button" class="btn" style="font-size:1em; background: #6d9773;" (click)="addAllBudget()">
-                <i class="fa fa-plus"><span style="margin-left:5px">Add Budget</span></i>
+<div class="full">
+    <div class="header">
+        <div class="flex-between">
+            <button class="logo-name" routerLink="/home">Budget</button>
+            <span>
+                <small style="font-size: 0.6em;margin-left:0.3em">AED</small>{{total | number:'1.2-2'}}
+            </span>
+            <button *ngIf="resData.length ==0" class="butn" (click)="addAllBudget()" style="color:#fff000">
+                <i class="fa fa-plus-square fa-lg"></i>
             </button>
         </div>
-        <div class="col-4">
-            <button type="button" style="float: right;background-color: #6d9773;" class="btn"
-                (click)="filterOn = !filterOn"><i class="fa fa-filter"></i>
+        <div class="budget-card">
+            <button class="butn" (click)="applyFilters('left')" style="color:#fff000">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <span style="font-size: 1em; margin-right:10px; margin-left:10px;">{{monthText}} {{year}}</span>
+            <button class="butn" (click)="applyFilters('right')" style="color:#fff000">
+                <i class="fa fa-chevron-right"></i>
             </button>
         </div>
     </div>
 
-    <div>
-        <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
-            <div style="text-align: center;margin-top:1em" *ngIf="filterOn" class="row">
-                <div class="col-5">
-                    <select class="form-select" formControlName="filterMonth">
-                        <option *ngFor="let month of months">
-                            {{month}}</option>
-                    </select>
+    <div *ngIf="count > 0 && !loading" class="table-container">
+        <div *ngFor="let parent of groupedDataKeys();let j=index" class="parent-div">
+            <button class="parent-btn" (click)="supcatDiv = !supcatDiv" style="border-bottom:1px solid">
+                <div class="flex-between" style="color:#03397e !important">
+                    <span style="font-weight: bold;">{{ parent}}</span>
+                    <i *ngIf="!supcatDiv" class="fa fa-chevron-right"></i>
+                    <i *ngIf="supcatDiv" class="fa fa-chevron-down"></i>
                 </div>
-                <div class="col-5">
-                    <select class="form-select" formControlName="filterYear">
-                        <option *ngFor="let year of years">
-                            {{year}}</option>
-                    </select>
-                </div>
-                <div class="col-2">
-                    <button type="submit" class="btn" style="background: #6d9773;"><i class="fa fa-search">
-                            <span style="margin-left:5px"></span></i>
+            </button>
+            <div *ngIf="supcatDiv" style="width: 98%;margin:auto;">
+                <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
+                    <button class="form-grou row" (click)="subCategory.display = !subCategory.display" class="subcat-btn"
+                        [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                        <div class="flex-between">
+                            <span>{{subCategory.key}}</span>
+                            <i *ngIf="!subCategory['display']" class="fa fa-chevron-right"></i>
+                            <i *ngIf="subCategory['display']" class="fa fa-chevron-down"></i>
+                        </div>
                     </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div *ngIf="count > 0 && !loading" class="table-container">
-    <div *ngFor="let parent of groupedDataKeys()"
-        style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
-        <button
-            style="padding: 0.5em;padding-top: 0.8em;padding-bottom: 0.8em;background-color: rgba(109, 151, 115);width: -webkit-fill-available;text-align: left;border: none;"
-            (click)="supcatDiv = !supcatDiv">{{ parent}}
-        </button>
-        <div *ngIf="supcatDiv">
-            <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
-                <button class="form-grou row" (click)="subCategory.display = !subCategory.display"
-                style="padding: 0.8em 0.5em;background-color: rgba(70, 69, 68, 0.46);color: black;width: -webkit-fill-available;margin: 0.2em 0.2em 0.2em;border: none;"
-                    [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                    {{subCategory.key}}
-                </button>
-                <div *ngIf="subCategory['display']">
-                    <div *ngFor="let categoryObj of subCategory.value">
-                        <button class="form-grou row" [matMenuTriggerFor]="afterMenu" style="width: -webkit-fill-available;padding-top: 0.5em;padding-bottom: 0.5em;border: none;background-color: rgba(236, 234, 232, 0.46);margin: 0.2em 0.5em 0.3em;"
-                            [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                            <div class="col-7" style="text-align: left; ">
-                                <span> {{categoryObj.category}}</span>
-                            </div>
-                            <div class="col-4" style="text-align: right; ">
-                                <h6 style="color:dimgrey">{{categoryObj.price}} <small
-                                        style="font-size: 0.475em">AED</small></h6>
-                            </div>
-                        </button>
-                        <mat-menu #afterMenu="matMenu" xPosition="after">
-                            <button mat-menu-item
-                                (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
-                        </mat-menu>
+                    <div *ngIf="subCategory['display']" class="row">
+                        <div *ngFor="let categoryObj of subCategory.value" class="col-4">
+                            <button [matMenuTriggerFor]="afterMenu" class="item-btn" [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                                <div style="text-align: left; ">
+                                    <span style="font-size: 1.2em"> {{categoryObj.category}}</span>
+                                    <h6 style="color:dimgrey">{{categoryObj.price}} <small style="font-size: 0.475em">AED</small></h6>
+                                </div>
+                            </button>
+                            <mat-menu #afterMenu="matMenu" xPosition="after">
+                                <button mat-menu-item (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
+                            </mat-menu>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="" *ngIf="count == 0" style="margin: auto;text-align: center;margin-top:4em">
-    <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-    <p></p>
-    No record in this month
-    <p></p>Tap + to add new category.
-</div>
 
-<div *ngIf="loading" style="text-align: center;">
-    <img src="./../../../assets/loading.gif" style="height: 15em;">
+    </div>
+    <div class="" *ngIf="count == 0" style="margin: auto;text-align: center;margin-top:4em">
+        <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
+        <p></p>
+        No record in this month
+        <p></p>Tap + to add new category.
+    </div>
+
+    <div *ngIf="loading" style="text-align: center;">
+        <img src="./../../../assets/loading.gif" style="height: 15em;">
+    </div>
+    <app-footer></app-footer>
 </div>

@@ -26,7 +26,7 @@ export class CommonService {
   }
 
   getBudget() {
-    return '17717'
+    return '17717';
   }
 
   getCurrentMonth() {
@@ -39,35 +39,94 @@ export class CommonService {
     }
   }
 
-  getCurrentMonthString() {
-    var a = new Date();
-    var monthString = a.getMonth() + 1;
+  getCurrentMonthString(monthString) {
     switch (monthString) {
       case 1:
-        return 'Jan';
+      case '01':
+        return 'January';
         break;
       case 2:
-        return 'Feb';
+      case '02':
+        return 'February';
         break;
       case 3:
-        return 'Mar';
+      case '03':
+        return 'March';
         break;
       case 4:
-        return 'Apr';
+      case '04':
+        return 'April';
         break;
       case 5:
+      case '05':
         return 'May';
         break;
       case 6:
+      case '06':
+        return 'June';
+        break;
+      case 7:
+      case '07':
+        return 'July';
+        break;
+      case 8:
+      case '08':
+        return 'August';
+        break;
+      case 9:
+      case '09':
+        return 'September';
+        break;
+      case 10:
+        return 'October';
+        break;
+      case 11:
+        return 'November';
+        break;
+      case 12:
+        return 'December';
+        break;
+      default:
+        return '';
+    }
+  }
+
+  getCurrentMonthStringShort(monthString) {
+    switch (monthString) {
+      case 1:
+      case '01':
+        return 'Jan';
+        break;
+      case 2:
+      case '02':
+        return 'Feb';
+        break;
+      case 3:
+      case '03':
+        return 'Mar';
+        break;
+      case 4:
+      case '04':
+        return 'Apr';
+        break;
+      case 5:
+      case '05':
+        return 'May';
+        break;
+      case 6:
+      case '06':
         return 'Jun';
         break;
       case 7:
+      case '07':
         return 'Jul';
         break;
       case 8:
+      case '08':
         return 'Aug';
         break;
       case 9:
+      case '09':
         return 'Sep';
         break;
       case 10:

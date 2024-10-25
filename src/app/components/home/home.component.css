@@ -1,0 +1,50 @@
+main {
+    margin:auto;
+    text-align:center
+}
+
+.topDiv {
+    background: linear-gradient(360deg, #161a19, #161a19); 
+    height: 65vh;
+    color:#fff;
+    padding-top: 5vh;
+    width:100%;
+    border-bottom-left-radius: 50% 30px; 
+    border-bottom-right-radius: 50% 30px; 
+}
+
+.imgsrc {
+    margin-top: 5vh;
+    height: 40vh
+}
+
+.main-text {
+    font-size:4em;
+    font-weight: bold;
+}
+
+.supp-text {
+    /* font-size:1.5em; */
+    padding-top: 6vh;
+}
+
+.bottomDiv {
+    height: 35vh;
+}
+
+.btn-width {
+    margin-top: 5vh;
+    
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+    .imgsrc {
+        margin-top: 10vh;
+        width:90%;
+        height:30vh
+    } 
+    .btn-width {
+        width: 80%;
+    }
+}

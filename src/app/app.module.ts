@@ -35,6 +35,7 @@ import { TrendReportComponent } from './components/reports/trends-report/trends-
 import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
 import { BankComponent } from './components/bank/bank.component';
 import { BankReportComponent } from './components/reports/bank-report/bank-report.component';
+import { HomeComponent } from './components/home/home.component';
 
 export function initConfig(appConfig: AppConfigService) {
   return () => appConfig.loadConfig();
@@ -57,6 +58,7 @@ export function initConfig(appConfig: AppConfigService) {
     SavingsReportComponent,
     BankComponent,
     BankReportComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

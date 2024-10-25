@@ -1,26 +1,45 @@
-<div class="table-container" style="margin-top: 2em;">
-    <div *ngFor="let item of responseList" style="padding:0.2em; margin:auto; width:100%;">
-        <button class="row"
-            style="width: 100%; padding-top: 0.5em; border: none; background-color: #a2c8a2; border-top-left-radius: 20px;
-            border-bottom-right-radius: 20px; margin:auto"
-            [ngStyle]="{'margin-bottom': responseList.length > 0 ? '0.3em': '0px'}">
-            <div class="col-6" style="text-align: left;">
-                <h6 style="color: black">{{item.month}}</h6>
-                <h6 style="margin-bottom:0; color:black;">{{item.totalBudget | number:'1.2-2'}}
-                    <small style="font-size: 0.475em">AED</small>
-                </h6>
+<div style="width: 100%; background: #757575; padding-top:0.8em; padding-bottom:0.8em">
+    <div style="display: flex;justify-content: space-between;">
+        <div>
+            <button class="logo-name" style="color: #fff000;" [matMenuTriggerFor]="afterMenu">
+                PennyWise
+            </button>
+            <mat-menu #afterMenu="matMenu" xPosition="after">
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('home')">Home</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('overview')">Overview</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('group')">Group</button>
+                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('trend')">Trend</button>
+            </mat-menu>
+        </div>
+        <div>
+            <span style="font-size:16px;font-weight:normal;color:#fff000;text-align:right;margin-right:1em"> Trends</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-container" style="margin-top: 0.2em;">
+    <div *ngFor="let item of responseList" style="padding:0.5em; margin:auto; width:100%;">
+        <div style="width: 100%; padding:1em; border: none; margin:auto;background:rgba(236, 234, 232, 0.46)">
+            <!-- background:rgba(236, 234, 232, 0.46); -->
+            <h5>{{item.month}}</h5>
+            <hr />
+            <div style="display: flex;justify-content: space-between;">
+                <div class="circle" [ngStyle]="{'border': item.savings > 0 ? '6px solid green':'6px solid red'}">{{item.savings | number:'1.2-2'}}</div>
+                <div>
+                    <div style="font-weight:bold">Remaining</div>
+                    <hr />
+                    <div>Budget</div>
+                    <div>Expense</div>
+                </div>
+                <div>
+                    <div [ngStyle]="{'color': item.totalBudget > item.totalExpense ? 'green':'red'}" style="font-weight:bold">{{item.deviate | number:'1.2-2'}}</div>
+                    <hr />
+                    <div>{{item.totalBudget | number:'1.2-2'}}</div>
+                    <div>{{item.totalExpense | number:'1.2-2'}}</div>
+                </div>
             </div>
-            <div class="col-6" style="text-align: right;">
-                <h6
-                    [ngStyle]="{'color': item.totalExpense === 0 || item.totalExpense > item.totalBudget ? 'red':  'black'}">
-                    {{item.totalExpense | number:'1.2-2'}}
-                    <small style="font-size: 0.475em">AED</small>
-                </h6>
-                <h6 [ngStyle]="{'color': item.deviate >= 0 ? 'green':  'red'}">
-                    {{item.deviate | number:'1.2-2'}}
-                    <small style="font-size: 0.475em">AED</small>
-                </h6>
-            </div>
-        </button>
+        </div>
+
     </div>
 </div>

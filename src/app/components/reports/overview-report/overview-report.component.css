@@ -1,0 +1,58 @@
+.logo-name {
+    text-align: left; 
+    font-family: serif; 
+    border: none;
+    background: none; 
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #fff000;
+}
+
+.budget-card {
+    color:#fff000;
+    padding-top:0.5em
+}
+
+.text {
+    color: #fff;
+}
+
+.text1 {
+    color: black;
+}
+
+.butn {
+    border:none;
+    background:none
+}
+
+h6 {
+    font-size:14px !important
+}
+
+h4 {
+    font-size:13px !important
+}
+select {
+    background: none; /* Makes the background transparent */
+    border: none; /* Optional: adjust the border as needed */
+    color: #000; /* Change text color if needed */
+    appearance: none; /* Remove default styling in some browsers */
+    -webkit-appearance: none; /* Remove default styling for Safari */
+    -moz-appearance: none; /* Remove default styling for Firefox */
+    padding: 10px; /* Adjust padding as needed */
+}
+
+.select-wrapper {
+    position: relative; /* Required for positioning the custom arrow */
+}
+
+.select-wrapper::after {
+    content: "▼"; /* You can use an arrow character or an icon */
+    color: #fff000; /* Arrow color */
+    position: absolute;
+    right: 10px; /* Positioning from the right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center adjustment */
+    pointer-events: none; /* Prevent mouse events */
+}

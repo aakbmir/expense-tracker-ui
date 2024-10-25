@@ -1,6 +1,89 @@
+.full {
+    background-color: #F7F7F7; 
+    height: 100vh;
+}
+
+.header {
+    padding:0.7em;
+    /* background-color: #FFD946 !important; */
+    /* background-color: #03397e !important; */
+    background-color: #757575 !important;
+    box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.2);
+    border: none !important;
+    color : #fff000 !important
+}
+
+.flex-between {
+    display: flex; 
+    justify-content: space-between;
+}
+
+.logo-name {
+    text-align: left; 
+    font-family: serif; 
+    border: none;
+    background: none; 
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #fff000;
+}
+
+.budget-card {
+    width: 96%; 
+    margin: auto;
+    margin-top:1em;    
+    display: flex;
+    justify-content: center;
+    font-weight: 500
+}
+
+.parent-div {
+    margin:0.4em; 
+    margin-top:1em;
+    margin-bottom: 1em; 
+    justify-content: center;
+    padding: 0.5em;
+}
+
+.parent-btn {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    width: -webkit-fill-available;
+    text-align: left;
+    border: none;
+    background: none;
+}
+
+.subcat-btn {
+    padding: 0.8em 0.5em;
+    /* background: #ffa5008f; */
+    width: -webkit-fill-available;
+    margin: 0.2em 0.2em 0.2em;
+    border: none;
+    border-bottom:1px solid rgb(245, 106, 7);
+    text-align: left;
+}
+
+.item-btn {
+    width: -webkit-fill-available;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    background: none;
+    border:none;
+    border-bottom: 3px solid #FEEAAD;
+    margin: 0.2em 0.5em 0.3em;
+}
+
+.butn {
+    background:none;
+    border:none
+}
+
 .grey-color {
     color: #6c757d
 }
+
+
 
 select,
 option {
@@ -8,7 +91,7 @@ option {
 }
 
 .table-container {
-    max-height: 78vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 
@@ -23,3 +106,4 @@ h5 {
 span {
     font-size: 1.2em
 }
+

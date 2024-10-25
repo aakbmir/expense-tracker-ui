@@ -1,56 +1,65 @@
-<div style="padding:1em; background-color: #39623f !important;
-                box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);border:none !important">
-    <h6 style="font-weight: bold;font-family: auto;text-align: left;color: #fff;">Expense Tracker</h6>
-    <div class="row">
-        <div class="col-8">
-            <button type="button" class="btn" style="font-size:1em; background: #6d9773;"
-                (click)="openDialog('', 'Category-Add', 100, 100)">
-                <i class="fa fa-plus"><span style="margin-left:5px">Add New Category</span></i>
+<div class="full">
+    <div class="header">
+        <div class="flex-between">
+            <button class="logo-name" routerLink="/home">Categories</button>
+            <span style="color:#fff000">
+                <small style="margin-right:0.3em;">Items : </small>{{total}}
+            </span>
+            
+        </div>
+        <div class="budget-card">
+            <button class="butn" style="border:1px solid;padding:5px;color:#fff000" (click)="openDialog('', 'Category-Add', 100, 100)">
+                <i style="margin-right:5px" class="fa fa-plus"></i>Add New Category
             </button>
         </div>
-        <div class="col-4">
-            <span style="float: right; font-weight: bold; color:#6d9773">Total : {{total}}</span>
-        </div>
     </div>
-</div>
-<div *ngIf="total > 0 && !loading" class="table-container">
-    <div *ngFor="let parent of groupedDataKeys();let j=index"
-        style="margin:0.4em; margin-top:1em; margin-bottom: 1em; justify-content: center;">
-        <button style="padding: 0.5em;padding-top: 0.8em;padding-bottom: 0.8em;background-color: rgba(109, 151, 115);width: -webkit-fill-available;text-align: left;border: none;"
-            (click)="supcatDiv = !supcatDiv">{{ parent}}
-        </button>
-        <div *ngIf="supcatDiv">
-            <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
-                <button class="form-grou row" (click)="subCategory.display = !subCategory.display"
-                style="padding: 0.8em 0.5em;background-color: rgba(70, 69, 68, 0.46);color: black;width: -webkit-fill-available;margin: 0.2em 0.2em 0.2em;border: none;"
-                    [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                    {{subCategory.key}}</button>
-                <div *ngIf="subCategory['display']">
-                    <div *ngFor="let categoryObj of subCategory.value">
-                        <button class="form-grou row" [matMenuTriggerFor]="afterMenu" style="width: -webkit-fill-available;padding-top: 0.5em;padding-bottom: 0.5em;border: none;background-color: rgba(236, 234, 232, 0.46);margin: 0.2em 0.5em 0.3em;"
-                            [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                            <div class="col-8" style="text-align: left; ">
-                                <span> {{categoryObj.category}}</span>
-                            </div>
-                        </button>
-                        <mat-menu #afterMenu="matMenu" xPosition="after">
-                            <button mat-menu-item
-                                (click)="openDialog(categoryObj, 'Category-Edit', 100, 100)">Edit</button>
-                            <button mat-menu-item
-                                (click)="openDialog(categoryObj, 'Category-Delete', 100, 100)">Delete</button>
-                        </mat-menu>
+
+    <div *ngIf="total > 0 && !loading" class="table-container">
+        <div *ngFor="let parent of groupedDataKeys();let j=index" class="parent-div">
+            <button class="parent-btn" (click)="supcatDiv = !supcatDiv" style="border-bottom:1px solid">
+                <div class="flex-between" style="color:#03397e !important">
+                    <span style="font-weight: bold;">{{ parent}}</span>
+                    <i *ngIf="!supcatDiv" class="fa fa-chevron-right"></i>
+                    <i *ngIf="supcatDiv" class="fa fa-chevron-down"></i>
+                </div>
+            </button>
+            <div *ngIf="supcatDiv" style="width: 98%;margin:auto">
+                <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
+                    <button class="form-grou row" (click)="subCategory.display = !subCategory.display" class="subcat-btn"
+                        [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                        <div class="flex-between">
+                            <span>{{subCategory.key}}</span>
+                            <i *ngIf="!subCategory['display']" class="fa fa-chevron-right"></i>
+                            <i *ngIf="subCategory['display']" class="fa fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div *ngIf="subCategory['display']" class="row">
+                        <div *ngFor="let categoryObj of subCategory.value" class="col-4">
+                            <button class="form-grou row" [matMenuTriggerFor]="afterMenu" class="item-btn"
+                                [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
+                                <div class="col-8" style="text-align: left; ">
+                                    <span> {{categoryObj.category}}</span>
+                                </div>
+                            </button>
+                            <mat-menu #afterMenu="matMenu" xPosition="after">
+                                <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Edit', 100, 100)">Edit</button>
+                                <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Delete', 100, 100)">Delete</button>
+                            </mat-menu>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="" *ngIf="total == 0 && !loading" style="margin: auto;text-align: center;margin-top:4em">
-    <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-    <p></p>
-    No record in this month
-    <p></p>Tap + to add new category.
-</div>
-<div *ngIf="loading" style="text-align: center;">
-    <img src="./../../../assets/loading.gif" style="height: 15em;">
+    <div class="" *ngIf="total == 0 && !loading" style="margin: auto;text-align: center;margin-top:4em">
+        <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
+        <p></p>
+        No record in this month
+        <p></p>Tap + to add new category.
+    </div>
+    <div *ngIf="loading" style="text-align: center;">
+        <img src="./../../../assets/loading.gif" style="height: 15em;">
+    </div>
+    <app-footer></app-footer>
+
 </div>

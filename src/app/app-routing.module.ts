@@ -11,8 +11,13 @@ import { SavingsReportComponent } from './components/reports/savings-report/savi
 import { GroupReportComponent } from './components/reports/group-report/group-report.component';
 import { BankComponent } from './components/bank/bank.component';
 import { BankReportComponent } from './components/reports/bank-report/bank-report.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
   {
     path: 'reports',
     component: ReportsComponent,
@@ -62,7 +67,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'reports',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
 ];

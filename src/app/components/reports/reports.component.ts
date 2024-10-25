@@ -27,6 +27,9 @@ export class ReportsComponent {
   }
 
   showReport(value: string) {
+    if (value === 'home') {
+      this.router.navigateByUrl('/home');
+    }
     if (value === 'overview') {
       this.overviewFlag = true;
       this.groupFlag = false;

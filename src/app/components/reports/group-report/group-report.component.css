@@ -9,3 +9,68 @@ select {
     color: black;
     border: none
 }
+
+.logo-name {
+    text-align: left; 
+    font-family: serif; 
+    border: none;
+    background: none; 
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #fff000;
+}
+
+.butn {
+    border:none;
+    background:none
+}
+
+.budget-card {
+    color:#fff000;
+    padding-top:0.5em
+}
+
+.parent-div {
+    margin:0.4em; 
+    margin-top:1em;
+    margin-bottom: 1em; 
+    justify-content: center;
+    padding: 0.5em;
+}
+
+.parent-btn {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    width: -webkit-fill-available;
+    text-align: left;
+    border: none;
+    background: none;
+}
+
+.subcat-btn {
+    padding: 0.8em 0.5em;
+    /* background: #ffa5008f; */
+    width: -webkit-fill-available;
+    margin: 0.2em 0.2em 0.2em;
+    border: none;
+    border-bottom:1px solid rgb(245, 106, 7);
+    text-align: left;
+}
+
+.item-btn {
+    width: -webkit-fill-available;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    background: none;
+    border:none;
+    border-bottom: 3px solid #FEEAAD;
+    margin: 0.2em 0.5em 0.3em;
+}
+
+h3 {
+    font-size: 1.3em;
+}
+
+h6 {
+    font-size: 1.1em
+}

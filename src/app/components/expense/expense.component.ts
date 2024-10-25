@@ -19,6 +19,8 @@ export class ExpenseComponent implements OnInit {
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
+  monthText = '';
+
 
   constructor(
     private expenseService: ExpenseService,
@@ -66,6 +68,7 @@ export class ExpenseComponent implements OnInit {
   }
 
   fetchAllExpenseList(month: any, year: any) {
+    console.log(month)
     this.expenseService
       .getCurrentExpense(month, year)
       .subscribe((data: any) => {
@@ -79,6 +82,33 @@ export class ExpenseComponent implements OnInit {
           }
         }
       });
+      this.monthText = this.commonService.getCurrentMonthString(month);
+  }
+
+  applyFilters(clickedBtn) {
+    let calcMnth = Number(this.month) - 1;
+    let calcYear = Number(this.year);
+    if (clickedBtn === 'left') {
+       calcMnth = Number(this.month) - 1;
+      calcYear = Number(this.year);
+      if (calcMnth == 0) {
+        calcMnth = 12;
+        calcYear =calcYear -1;
+      }
+    } else {
+      calcMnth = Number(this.month) + 1;
+      calcYear = Number(this.year);
+      if (calcMnth == 13) {
+        calcMnth = 1;
+        calcYear = calcYear +1;
+      }
+    }
+
+    console.log(calcMnth + " : " + calcYear);
+    this.month = calcMnth;
+    this.year = calcYear;
+
+    this.fetchAllExpenseList(this.month, this.year);
   }
 
   groupedData: { [key: string]: any[] } = {};
@@ -102,10 +132,5 @@ export class ExpenseComponent implements OnInit {
     }));
   }
 
-  applyFilters() {
-    this.fetchAllExpenseList(
-      this.filterForm.controls.filterMonth.value,
-      this.filterForm.controls.filterYear.value
-    );
-  }
+
 }
