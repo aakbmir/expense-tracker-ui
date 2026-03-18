@@ -82,25 +82,25 @@ export class ExpenseComponent implements OnInit {
           }
         }
       });
-      this.monthText = this.commonService.getCurrentMonthString(month);
+    this.monthText = this.commonService.getCurrentMonthString(month);
   }
 
   applyFilters(clickedBtn) {
     let calcMnth = Number(this.month) - 1;
     let calcYear = Number(this.year);
     if (clickedBtn === 'left') {
-       calcMnth = Number(this.month) - 1;
+      calcMnth = Number(this.month) - 1;
       calcYear = Number(this.year);
       if (calcMnth == 0) {
         calcMnth = 12;
-        calcYear =calcYear -1;
+        calcYear = calcYear - 1;
       }
     } else {
       calcMnth = Number(this.month) + 1;
       calcYear = Number(this.year);
       if (calcMnth == 13) {
         calcMnth = 1;
-        calcYear = calcYear +1;
+        calcYear = calcYear + 1;
       }
     }
 

@@ -3,16 +3,228 @@
 @import './../node_modules/font-awesome/css/font-awesome.css';
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+:root{
+  /* ===== PennyWise Theme Tokens ===== */
+  /* Light scheme: "Cloud Blue" (white + blue) */
+  --pw-bg-0: #F7FAFF;
+  --pw-bg-1: #FFFFFF;
+  --pw-bg-2: #EEF5FF;
+  --pw-text: rgba(9, 19, 42, 0.92);
+  --pw-muted: rgba(9, 19, 42, 0.70);
+  --pw-faint: rgba(9, 19, 42, 0.54);
+
+  --pw-glass: rgba(255,255,255,0.62);
+  --pw-glass-2: rgba(255,255,255,0.78);
+  --pw-border: rgba(15, 55, 130, 0.14);
+  --pw-shadow: 0 18px 50px rgba(10, 35, 80, 0.10);
+
+  --pw-accent: #2563EB;   /* blue */
+  --pw-accent-2: #60A5FA; /* light blue */
+  --pw-good: #16A34A;
+  --pw-bad: #E11D48;
+  --pw-warn: #D97706;
+
+  --pw-r-xl: 22px;
+  --pw-r-lg: 18px;
+  --pw-r-md: 14px;
+  --pw-r-sm: 12px;
+
+  --pw-space-1: 8px;
+  --pw-space-2: 12px;
+  --pw-space-3: 16px;
+  --pw-space-4: 20px;
+  --pw-space-5: 28px;
+}
+
+html, body {
+  height: 100%;
+}
 
 body {
-    background-color: #fff;
-    font-size: 14px !important;
+  margin: 0;
+  font-size: 14px !important;
+  color: var(--pw-text);
+  background:
+    radial-gradient(900px 520px at 14% 10%, rgba(37,99,235,0.18), transparent 58%),
+    radial-gradient(820px 560px at 90% 14%, rgba(96,165,250,0.20), transparent 60%),
+    radial-gradient(900px 680px at 55% 98%, rgba(37,99,235,0.08), transparent 62%),
+    linear-gradient(135deg, var(--pw-bg-1), var(--pw-bg-0));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
-::ng-deep {
-    background-color: #fff;
+/* ===== App layout ===== */
+.pw-page {
+  min-height: 100vh;
+  padding: clamp(14px, 2.8vw, 24px);
+  padding-bottom: calc(clamp(14px, 2.8vw, 24px) + 78px);
 }
 
+.pw-container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.pw-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.pw-muted {
+  color: var(--pw-muted);
+}
+
+.pw-kpi {
+  display: grid;
+  gap: 2px;
+  text-align: right;
+}
+
+.pw-kpi-value {
+  font-weight: 900;
+  letter-spacing: -0.2px;
+}
+
+/* ===== Glass surfaces ===== */
+.pw-glass {
+  background: var(--pw-glass);
+  border: 1px solid var(--pw-border);
+  border-radius: var(--pw-r-xl);
+  box-shadow: var(--pw-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.pw-glass--tight {
+  border-radius: var(--pw-r-lg);
+}
+
+.pw-card {
+  padding: var(--pw-space-4);
+}
+
+.pw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pw-space-3);
+  padding: var(--pw-space-3) var(--pw-space-4);
+}
+
+.pw-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.pw-subtitle {
+  color: var(--pw-muted);
+  font-size: 12px;
+}
+
+.pw-row {
+  display: flex;
+  gap: var(--pw-space-2);
+  align-items: center;
+}
+
+/* ===== Buttons ===== */
+.pw-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.70);
+  color: var(--pw-text);
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pw-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.86);
+  border-color: rgba(37,99,235,0.20);
+}
+
+.pw-btn:active {
+  transform: translateY(0);
+}
+
+.pw-btn-primary {
+  background: linear-gradient(135deg, rgba(37,99,235,0.96), rgba(96,165,250,0.90));
+  border-color: rgba(37,99,235,0.25);
+  box-shadow: 0 14px 40px rgba(37,99,235,0.18);
+}
+
+.pw-btn-primary:hover {
+  background: linear-gradient(135deg, rgba(29,78,216,1), rgba(96,165,250,0.98));
+}
+
+.pw-btn-ghost {
+  background: transparent;
+  border-color: rgba(15, 55, 130, 0.14);
+}
+
+.pw-btn-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+}
+
+.pw-seg {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.64);
+  border: 1px solid rgba(15, 55, 130, 0.12);
+}
+
+/* ===== Fields ===== */
+.pw-field,
+.pw-select,
+select.pw-select {
+  width: 100%;
+  background: rgba(255,255,255,0.86);
+  color: var(--pw-text);
+  border: 1px solid rgba(15, 55, 130, 0.16);
+  border-radius: var(--pw-r-md);
+  padding: 10px 12px;
+  outline: none;
+}
+
+.pw-field:focus,
+.pw-select:focus,
+select.pw-select:focus {
+  border-color: rgba(37,99,235,0.40);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.14);
+}
+
+select option {
+  color: #09132a;
+}
+
+/* ===== Scrollbar ===== */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(9, 19, 42, 0.06);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(37,99,235,0.20);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(37,99,235,0.30);
+}
+
+/* ===== Material small tweaks ===== */
 .mat-dialog-content {
-    max-height: 50vh;
+  max-height: 50vh;
 }

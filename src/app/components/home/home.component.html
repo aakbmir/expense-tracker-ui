@@ -1,13 +1,23 @@
-<main>
-    <div class="topDiv">
-            <span class="main-text">Welcome</span>
-            <br/>
-            <img class="imgsrc" src="../../../assets/images/Logo.png">
-    </div>
-    <div class="bottomDiv">
-         <div class="supp-text">Mind you pennies, Master your budget</div>
-        <button class="btn btn-dark btn-lg btn-width" (click)="navigate()">Let's Begin</button>
-    </div>
+<main class="pw-page">
+  <div class="pw-container home-wrap">
+    <section class="pw-glass pw-card home-card">
+      <div class="home-top">
+        <div class="home-brand">
+          <img class="home-logo animate-scale" src="../../../assets/images/penny_logo.png" alt="PennyWise logo">
+          <div>
+            <div class="home-kicker">Welcome back</div>
+            <h1 class="home-title">PennyWise</h1>
+            <div class="home-tagline">Mind your pennies, master your budget.</div>
+          </div>
+        </div>
+      </div>
 
-
+      <div class="home-actions">
+        <button class="pw-btn pw-btn-primary home-cta" (click)="navigate()">
+          Let’s begin →
+        </button>
+        <div class="home-hint">Tip: start by adding a category, then log expenses.</div>
+      </div>
+    </section>
+  </div>
 </main>

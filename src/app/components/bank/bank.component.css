@@ -3,6 +3,37 @@
 }
 
 .table-container {
-    max-height: 78vh;
+    max-height: min(74vh, 620px);
     overflow-y: auto;
+}
+
+.bank-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(15, 55, 130, 0.12);
+}
+
+.bank-row:hover {
+  background: rgba(37,99,235,0.05);
+  border-color: rgba(37,99,235,0.22);
+}
+
+.bank-row .name {
+  font-weight: 900;
+  color: var(--pw-text);
+}
+
+.bank-row .amt {
+  font-weight: 900;
+  color: var(--pw-text);
+}
+
+.bank-row small {
+  font-size: 0.75em;
+  color: var(--pw-muted);
 }

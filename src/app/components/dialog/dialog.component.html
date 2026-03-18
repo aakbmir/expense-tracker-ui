@@ -1,5 +1,5 @@
 <!-- Category -->
-<div style="margin:1em;" *ngIf="screen ==='Category-Add'">
+<div class="pw-dialog" *ngIf="screen ==='Category-Add'">
     <h3>Add Category</h3>
     <hr />
     <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
@@ -24,7 +24,7 @@
     </form>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='Category-Edit'">
+<div class="pw-dialog" *ngIf="screen ==='Category-Edit'">
     <h3>Update Category</h3>
     <hr />
     <form [formGroup]="editCategoryForm" (ngSubmit)="updateCategory()">
@@ -49,7 +49,7 @@
     </form>
 </div>
 
-<div style="margin:2em; text-align: center;" *ngIf="screen ==='Category-Delete'">
+<div class="pw-dialog pw-dialog--center" *ngIf="screen ==='Category-Delete'">
     <h3>Delete Category</h3>
     <p></p>
     <span>Deleting this category will uncategorize the items.
@@ -65,7 +65,7 @@
 </div>
 
 <!-- Budget -->
-<div style="margin:1em;" *ngIf="screen ==='Budget-Edit'">
+<div class="pw-dialog" *ngIf="screen ==='Budget-Edit'">
     <h3>Edit Budget</h3>
     <hr />
     <form [formGroup]="editBudgetForm" (ngSubmit)="editBudget()">
@@ -101,7 +101,7 @@
 </div>
 
 <!-- Expense -->
-<div style="margin:1em;" *ngIf="screen ==='Expense-Add'">
+<div class="pw-dialog" *ngIf="screen ==='Expense-Add'">
     <h3>Add Expense</h3>
     <hr />
     <form [formGroup]="addExpenseForm" (ngSubmit)="addExpense()">
@@ -150,7 +150,7 @@
     </form>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='Expense-Edit'">
+<div class="pw-dialog" *ngIf="screen ==='Expense-Edit'">
     <h3>Edit Expense</h3>
     <hr />
     <form [formGroup]="editExpenseForm" (ngSubmit)="editExpense()">
@@ -199,7 +199,7 @@
     </form>
 </div>
 
-<div style="margin:2em; text-align: center;" *ngIf="screen ==='Expense-Delete'">
+<div class="pw-dialog pw-dialog--center" *ngIf="screen ==='Expense-Delete'">
     <h3>Delete Expense</h3>
     <p></p>
     <span>Deleting this Expense will impact
@@ -216,7 +216,7 @@
 </div>
 
 <!-- Bank -->
-<div style="margin:1em;" *ngIf="screen ==='Bank-Record-Add'">
+<div class="pw-dialog" *ngIf="screen ==='Bank-Record-Add'">
     <h3>Add Bank Record</h3>
     <hr />
     <form [formGroup]="addBankRecordForm" (ngSubmit)="addBankRecord()">
@@ -255,7 +255,7 @@
     </form>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='Bank-Record-Edit'">
+<div class="pw-dialog" *ngIf="screen ==='Bank-Record-Edit'">
     <h3>Edit Expense</h3>
     <hr />
     <form [formGroup]="editBankRecordForm" (ngSubmit)="editBankRecord()">
@@ -294,7 +294,7 @@
     </form>
 </div>
 
-<div style="margin:2em; text-align: center;" *ngIf="screen ==='Bank-Record-Delete'">
+<div class="pw-dialog pw-dialog--center" *ngIf="screen ==='Bank-Record-Delete'">
     <h3>Delete Bank Record</h3>
     <p></p>
     <span>Deleting this Bank Record will impact
@@ -311,7 +311,7 @@
 </div>
 
 <!-- Reports -->
-<div style="margin:1em;" *ngIf="screen ==='fetch-category-report-details'">
+<div class="pw-dialog" *ngIf="screen ==='fetch-category-report-details'">
     <h3>Expense Details for {{parent}}</h3>
     <hr />
     <div class="row" *ngFor="let item of reportsDetailsList"
@@ -334,7 +334,7 @@
     </div>
 </div>
 
-<div style="margin:1em;" *ngIf="screen ==='fetch-super-category-report-details'">
+<div class="pw-dialog" *ngIf="screen ==='fetch-super-category-report-details'">
     <h3>Expense Details for {{parent}}</h3>
     <hr />
     <div class="row" *ngFor="let item of reportsDetailsList"

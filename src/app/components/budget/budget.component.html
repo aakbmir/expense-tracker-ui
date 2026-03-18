@@ -1,71 +1,108 @@
-<div class="full">
-    <div class="header">
-        <div class="flex-between">
-            <button class="logo-name" routerLink="/home">Budget</button>
-            <span>
-                <small style="font-size: 0.6em;margin-left:0.3em">AED</small>{{total | number:'1.2-2'}}
-            </span>
-            <button *ngIf="resData.length ==0" class="butn" (click)="addAllBudget()" style="color:#fff000">
-                <i class="fa fa-plus-square fa-lg"></i>
-            </button>
-        </div>
-        <div class="budget-card">
-            <button class="butn" (click)="applyFilters('left')" style="color:#fff000">
-                <i class="fa fa-chevron-left"></i>
-            </button>
-            <span style="font-size: 1em; margin-right:10px; margin-left:10px;">{{monthText}} {{year}}</span>
-            <button class="butn" (click)="applyFilters('right')" style="color:#fff000">
-                <i class="fa fa-chevron-right"></i>
-            </button>
-        </div>
+<div class="pw-page">
+  <div class="pw-container pw-stack">
+    <div class="pw-glass pw-header cat-header" style="display: flex; justify-content: space-between; align-items: center;">
+
+      <!-- LEFT -->
+      <div class="cat-add pw-row" style="flex: 1; align-items: center; justify-content: center; display: flex; gap: 8px;">
+        <button class="pw-btn pw-btn-icon" (click)="applyFilters('left')" aria-label="Previous month">
+          <i class="fa fa-chevron-left" style="font-size: 14px;"></i>
+        </button>
+        <div class="pw-subtitle" style="margin-top: 2px; text-align: center;">{{monthText}} {{year}}</div>
+        <button class="pw-btn pw-btn-icon" (click)="applyFilters('right')" aria-label="Next month">
+          <i class="fa fa-chevron-right" style="font-size: 14px;"></i>
+        </button>
+
+        <button *ngIf="resData.length == 0" class="pw-btn pw-btn-primary" (click)="addAllBudget()">
+          <i class="fa fa-plus"></i>
+          Add
+        </button>
+      </div>
+
+      <!-- CENTER -->
+      <div class="cat-count pw-kpi" style="flex: 1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <div class="pw-subtitle" style="margin-bottom: 2px;">Total (AED)</div>
+        <div class="pw-kpi-value">{{total | number:'1.2-2'}}</div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="cat-title" style="flex: 1;
+        display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;">
+        <div class="pw-subtitle" style="font-size: 12px;">{{count}} items</div>
+      </div>
+
     </div>
 
-    <div *ngIf="count > 0 && !loading" class="table-container">
-        <div *ngFor="let parent of groupedDataKeys();let j=index" class="parent-div">
-            <button class="parent-btn" (click)="supcatDiv = !supcatDiv" style="border-bottom:1px solid">
-                <div class="flex-between" style="color:#03397e !important">
-                    <span style="font-weight: bold;">{{ parent}}</span>
-                    <i *ngIf="!supcatDiv" class="fa fa-chevron-right"></i>
-                    <i *ngIf="supcatDiv" class="fa fa-chevron-down"></i>
-                </div>
-            </button>
-            <div *ngIf="supcatDiv" style="width: 98%;margin:auto;">
-                <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
-                    <button class="form-grou row" (click)="subCategory.display = !subCategory.display" class="subcat-btn"
-                        [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                        <div class="flex-between">
-                            <span>{{subCategory.key}}</span>
-                            <i *ngIf="!subCategory['display']" class="fa fa-chevron-right"></i>
-                            <i *ngIf="subCategory['display']" class="fa fa-chevron-down"></i>
-                        </div>
-                    </button>
-                    <div *ngIf="subCategory['display']" class="row">
-                        <div *ngFor="let categoryObj of subCategory.value" class="col-4">
-                            <button [matMenuTriggerFor]="afterMenu" class="item-btn" [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                                <div style="text-align: left; ">
-                                    <span style="font-size: 1.2em"> {{categoryObj.category}}</span>
-                                    <h6 style="color:dimgrey">{{categoryObj.price}} <small style="font-size: 0.475em">AED</small></h6>
-                                </div>
-                            </button>
-                            <mat-menu #afterMenu="matMenu" xPosition="after">
-                                <button mat-menu-item (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
-                            </mat-menu>
-                        </div>
-                    </div>
-                </div>
+    <div *ngIf="count > 0 && !loading"
+      style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; padding-right: 4px;">
+      <button class="pw-btn pw-btn-ghost pw-btn-sm" (click)="expandAll()" style="padding: 4px 10px; font-size: 13px;">
+        <i class="fa fa-expand" style="margin-right: 4px;"></i> Expand All
+      </button>
+      <button class="pw-btn pw-btn-ghost pw-btn-sm" (click)="collapseAll()" style="padding: 4px 10px; font-size: 13px;">
+        <i class="fa fa-compress" style="margin-right: 4px;"></i> Collapse All
+      </button>
+    </div>
+
+    <div *ngIf="count > 0 && !loading" class="table-container cat-accordion">
+      <section *ngFor="let parent of groupedDataKeys()" class="pw-glass pw-card parent-card">
+        <button class="parent-head" (click)="toggleParent(parent)">
+          <div class="parent-left">
+            <div class="parent-title">{{ parent }}</div>
+            <div class="parent-meta">{{ parentCount(parent) }} items | {{ parentTotal(parent) | number:'1.2-2' }} AED
             </div>
+          </div>
+
+          <div class="parent-right">
+            <span class="pill">{{ parentCount(parent) }}</span>
+            <i class="fa" [ngClass]="isParentExpanded(parent) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </div>
+        </button>
+
+        <div *ngIf="isParentExpanded(parent)" class="parent-body">
+          <div *ngFor="let sub of groupedData[parent] | keys" class="sub-card">
+            <button class="sub-head" (click)="toggleSub(parent, sub.key)">
+              <div class="sub-left">
+                <div class="sub-title">{{ sub.key }}</div>
+                <div class="sub-meta">{{ sub.value.length }} items | {{ subTotal(parent, sub.key) | number:'1.2-2' }}
+                  AED</div>
+              </div>
+              <div class="sub-right">
+                <span class="pill pill--soft">{{ sub.value.length }}</span>
+                <i class="fa" [ngClass]="isSubExpanded(parent, sub.key) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
+            </button>
+
+            <div *ngIf="isSubExpanded(parent, sub.key)" class="item-grid">
+              <div *ngFor="let categoryObj of sub.value">
+                <button class="pw-glass pw-glass--tight cat-item" [matMenuTriggerFor]="afterMenu">
+                  <span>{{categoryObj.category}}</span>
+                  <div class="item-sub">
+                    {{categoryObj.price}} <span class="item-currency">AED</span>
+                  </div>
+                </button>
+
+                <mat-menu #afterMenu="matMenu" xPosition="after">
+                  <button mat-menu-item (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
         </div>
-
-    </div>
-    <div class="" *ngIf="count == 0" style="margin: auto;text-align: center;margin-top:4em">
-        <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-        <p></p>
-        No record in this month
-        <p></p>Tap + to add new category.
+      </section>
     </div>
 
-    <div *ngIf="loading" style="text-align: center;">
-        <img src="./../../../assets/loading.gif" style="height: 15em;">
+    <!-- ================= EMPTY STATE ================= -->
+    <div *ngIf="count == 0 && !loading" class="empty-state">
+      <i class="fa fa-exclamation-triangle grey-color"></i>
+      <p>No records in this month</p>
+      <small>Tap + to add new category.</small>
     </div>
+
+    <!-- ================= LOADING ================= -->
+    <div *ngIf="loading" class="loading">
+      <img src="./../../../assets/loading.gif" style="height: 15em;">
+    </div>
+
     <app-footer></app-footer>
+  </div>
 </div>

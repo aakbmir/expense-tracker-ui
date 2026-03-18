@@ -1,45 +1,54 @@
-<div style="width: 100%; background: #757575; padding-top:0.8em; padding-bottom:0.8em">
-    <div style="display: flex;justify-content: space-between;">
+<div class="pw-page">
+  <div class="pw-container pw-stack">
+    <div class="pw-glass pw-header">
+      <div class="pw-row">
+        <button class="pw-btn pw-btn-ghost" [matMenuTriggerFor]="afterMenu">
+          PennyWise
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <mat-menu #afterMenu="matMenu" xPosition="after">
+          <button mat-menu-item class="col-3 reportBtn" (click)="showReport('home')">Home</button>
+          <button mat-menu-item class="col-3 reportBtn" (click)="showReport('overview')">Overview</button>
+          <button mat-menu-item class="col-3 reportBtn" (click)="showReport('group')">Group</button>
+          <button mat-menu-item class="col-3 reportBtn" (click)="showReport('trend')">Trend</button>
+        </mat-menu>
+
         <div>
-            <button class="logo-name" style="color: #fff000;" [matMenuTriggerFor]="afterMenu">
-                PennyWise
-            </button>
-            <mat-menu #afterMenu="matMenu" xPosition="after">
-                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('home')">Home</button>
-                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('overview')">Overview</button>
-                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('group')">Group</button>
-                <button mat-menu-item class="col-3 reportBtn" (click)="showReport('trend')">Trend</button>
-            </mat-menu>
+          <div class="pw-title">Trends</div>
+          <div class="pw-subtitle">Month-by-month summary</div>
         </div>
-        <div>
-            <span style="font-size:16px;font-weight:normal;color:#fff000;text-align:right;margin-right:1em"> Trends</span>
-        </div>
+      </div>
     </div>
-</div>
 
+    <div class="table-container">
+      <div *ngFor="let item of responseList" class="pw-glass pw-card trend-card">
+        <div class="trend-head">
+          <div class="trend-month">{{item.month}}</div>
+          <div class="trend-dev" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
+            {{item.deviate | number:'1.2-2'}}
+          </div>
+        </div>
 
-<div class="table-container" style="margin-top: 0.2em;">
-    <div *ngFor="let item of responseList" style="padding:0.5em; margin:auto; width:100%;">
-        <div style="width: 100%; padding:1em; border: none; margin:auto;background:rgba(236, 234, 232, 0.46)">
-            <!-- background:rgba(236, 234, 232, 0.46); -->
-            <h5>{{item.month}}</h5>
-            <hr />
-            <div style="display: flex;justify-content: space-between;">
-                <div class="circle" [ngStyle]="{'border': item.savings > 0 ? '6px solid green':'6px solid red'}">{{item.savings | number:'1.2-2'}}</div>
-                <div>
-                    <div style="font-weight:bold">Remaining</div>
-                    <hr />
-                    <div>Budget</div>
-                    <div>Expense</div>
-                </div>
-                <div>
-                    <div [ngStyle]="{'color': item.totalBudget > item.totalExpense ? 'green':'red'}" style="font-weight:bold">{{item.deviate | number:'1.2-2'}}</div>
-                    <hr />
-                    <div>{{item.totalBudget | number:'1.2-2'}}</div>
-                    <div>{{item.totalExpense | number:'1.2-2'}}</div>
-                </div>
+        <div class="trend-body">
+          <div class="circle" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
+            {{item.savings | number:'1.2-2'}}
+          </div>
+
+          <div class="trend-grid">
+            <div class="lbl">Remaining</div>
+            <div class="lbl">Budget</div>
+            <div class="lbl">Expense</div>
+          </div>
+
+          <div class="trend-grid right">
+            <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
+              {{item.deviate | number:'1.2-2'}}
             </div>
+            <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
+            <div class="val">{{item.totalExpense | number:'1.2-2'}}</div>
+          </div>
         </div>
-
+      </div>
     </div>
+  </div>
 </div>

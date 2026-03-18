@@ -1,65 +1,90 @@
-<div class="full">
-    <div class="header">
-        <div class="flex-between">
-            <button class="logo-name" routerLink="/home">Categories</button>
-            <span style="color:#fff000">
-                <small style="margin-right:0.3em;">Items : </small>{{total}}
-            </span>
-            
-        </div>
-        <div class="budget-card">
-            <button class="butn" style="border:1px solid;padding:5px;color:#fff000" (click)="openDialog('', 'Category-Add', 100, 100)">
-                <i style="margin-right:5px" class="fa fa-plus"></i>Add New Category
-            </button>
-        </div>
+<div class="pw-page">
+  <div class="pw-container pw-stack">
+    <div class="pw-glass pw-header cat-header" style="display: flex; justify-content: space-between; align-items: center;">
+      
+      <div class="cat-count">
+        <div class="pw-subtitle">Items</div>
+        <div class="cat-count-num">{{ total }}</div>
+      </div>
+
+      <button class="pw-btn pw-btn-primary cat-add" (click)="openDialog('', 'Category-Add', 100, 100)">
+        <i class="fa fa-plus"></i>
+        Add
+      </button>
     </div>
 
-    <div *ngIf="total > 0 && !loading" class="table-container">
-        <div *ngFor="let parent of groupedDataKeys();let j=index" class="parent-div">
-            <button class="parent-btn" (click)="supcatDiv = !supcatDiv" style="border-bottom:1px solid">
-                <div class="flex-between" style="color:#03397e !important">
-                    <span style="font-weight: bold;">{{ parent}}</span>
-                    <i *ngIf="!supcatDiv" class="fa fa-chevron-right"></i>
-                    <i *ngIf="supcatDiv" class="fa fa-chevron-down"></i>
-                </div>
+    <div *ngIf="total > 0 && !loading"
+      style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; padding-right: 4px;">
+      <button class="pw-btn pw-btn-ghost pw-btn-sm" (click)="expandAll()" style="padding: 4px 10px; font-size: 13px;">
+        <i class="fa fa-expand" style="margin-right: 4px;"></i> Expand All
+      </button>
+      <button class="pw-btn pw-btn-ghost pw-btn-sm" (click)="collapseAll()" style="padding: 4px 10px; font-size: 13px;">
+        <i class="fa fa-compress" style="margin-right: 4px;"></i> Collapse All
+      </button>
+    </div>
+
+    <div *ngIf="total > 0 && !loading" class="table-container cat-accordion">
+      <section *ngFor="let parent of groupedDataKeys()" class="pw-glass pw-card parent-card">
+        <button class="parent-head" (click)="toggleParent(parent)">
+          <div class="parent-left">
+            <div class="parent-title">{{ parent }}</div>
+            <div class="parent-meta">{{ parentCount(parent) }} items</div>
+          </div>
+
+          <div class="parent-right">
+            <span class="pill">{{ parentCount(parent) }}</span>
+            <i class="fa" [ngClass]="isParentExpanded(parent) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </div>
+        </button>
+
+        <div *ngIf="isParentExpanded(parent)" class="parent-body">
+          <div *ngFor="let sub of groupedData[parent] | keys" class="sub-card">
+            <button class="sub-head" (click)="toggleSub(parent, sub.key)">
+              <div class="sub-left">
+                <div class="sub-title">{{ sub.key }}</div>
+                <div class="sub-meta">{{ sub.value.length }} items</div>
+              </div>
+              <div class="sub-right">
+                <span class="pill pill--soft">{{ sub.value.length }}</span>
+                <i class="fa" [ngClass]="isSubExpanded(parent, sub.key) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
             </button>
-            <div *ngIf="supcatDiv" style="width: 98%;margin:auto">
-                <div *ngFor="let subCategory of groupedData[parent] | keys; let i=index">
-                    <button class="form-grou row" (click)="subCategory.display = !subCategory.display" class="subcat-btn"
-                        [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                        <div class="flex-between">
-                            <span>{{subCategory.key}}</span>
-                            <i *ngIf="!subCategory['display']" class="fa fa-chevron-right"></i>
-                            <i *ngIf="subCategory['display']" class="fa fa-chevron-down"></i>
-                        </div>
-                    </button>
-                    <div *ngIf="subCategory['display']" class="row">
-                        <div *ngFor="let categoryObj of subCategory.value" class="col-4">
-                            <button class="form-grou row" [matMenuTriggerFor]="afterMenu" class="item-btn"
-                                [ngStyle]="{'margin-bottom': subCategory.value.length > 0 ? '0.3em': '0px'}">
-                                <div class="col-8" style="text-align: left; ">
-                                    <span> {{categoryObj.category}}</span>
-                                </div>
-                            </button>
-                            <mat-menu #afterMenu="matMenu" xPosition="after">
-                                <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Edit', 100, 100)">Edit</button>
-                                <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Delete', 100, 100)">Delete</button>
-                            </mat-menu>
-                        </div>
-                    </div>
-                </div>
+
+            <div *ngIf="isSubExpanded(parent, sub.key)" class="item-grid">
+              <div *ngFor="let categoryObj of sub.value">
+                <button class="pw-glass pw-glass--tight cat-item" [matMenuTriggerFor]="menu">
+                  {{ categoryObj.category }}
+                </button>
+
+                <mat-menu #menu="matMenu" xPosition="after">
+                  <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Edit', 100, 100)">Edit</button>
+                  <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Delete', 100, 100)">Delete</button>
+                </mat-menu>
+              </div>
             </div>
+          </div>
         </div>
+      </section>
     </div>
-    <div class="" *ngIf="total == 0 && !loading" style="margin: auto;text-align: center;margin-top:4em">
-        <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-        <p></p>
-        No record in this month
-        <p></p>Tap + to add new category.
+
+    <!-- ================= EMPTY STATE ================= -->
+
+    <div *ngIf="total == 0 && !loading" class="empty-state">
+
+      <i class="fa fa-exclamation-triangle"></i>
+
+      <p>No records this month</p>
+      <small>Tap + to add a new category</small>
+
     </div>
-    <div *ngIf="loading" style="text-align: center;">
-        <img src="./../../../assets/loading.gif" style="height: 15em;">
+
+    <!-- ================= LOADING ================= -->
+
+    <div *ngIf="loading" class="loading">
+      <img src="./../../../assets/loading.gif">
     </div>
+
     <app-footer></app-footer>
 
+  </div>
 </div>

@@ -1,63 +1,68 @@
-<div class="full">
-    <div class="header">
-        <div class="flex-between">
-            <button class="logo-name" routerLink="/home">Expenses</button>
-            <div>
-                <span style="font-size: 1.2em"><small style="font-size: 0.6em;margin-right:0.3em">AED</small>{{total | number:'1.2-2'}}
-                </span>
-            </div>
-        </div>
-        <div class="budget-card">
-            
-            <div style="padding-top:5px;padding-bottom:5px;color:#fff000">
-                <button class="butn" (click)="applyFilters('left')" style="color:#fff000">
-                    <i class="fa fa-chevron-left"></i>
-                </button>
-                <span style="font-size: 1em; margin-right:5px;margin-left:5px;">{{monthText}} {{year}}</span>
-                <button class="butn" (click)="applyFilters('right')" style="color:#fff000">
-                    <i class="fa fa-chevron-right"></i>
-                </button>
-            </div>
-            
-            <div>
-                <button class="butn" style="border:1px solid;padding:5px;color:#fff000" (click)="openDialog('', 'Expense-Add', 100, 100)">
-                    <i style="margin-right:5px" class="fa fa-plus"></i>Add New Expense</button>
-            </div>
-        </div>
-    </div>
+<div class="pw-page">
+  <div class="pw-container pw-stack">
+    <div class="pw-glass pw-header cat-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <!-- LEFT -->
+      <div class="cat-add pw-row" style="flex: 1; align-items: center; justify-content: center; display: flex; gap: 8px;">
+        <button class="pw-btn pw-btn-icon" (click)="applyFilters('left')" aria-label="Previous month">
+          <i class="fa fa-chevron-left" style="font-size: 14px;"></i>
+        </button>
+        <div class="pw-subtitle" style="margin-top: 2px; text-align: center;">{{monthText}} {{year}}</div>
+        <button class="pw-btn pw-btn-icon" (click)="applyFilters('right')" aria-label="Next month">
+          <i class="fa fa-chevron-right" style="font-size: 14px;"></i>
+        </button>
+      </div>
 
+      <!-- CENTER -->
+      <div class="cat-count pw-kpi" style="flex: 1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <div class="pw-subtitle" style="margin-bottom: 2px;">Total (AED)</div>
+        <div class="pw-kpi-value">{{total | number:'1.2-2'}}</div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="cat-title" style="flex: 1;
+        display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;">
+        
+        <button class="pw-btn pw-btn-primary" (click)="openDialog('', 'Expense-Add', 100, 100)">
+          <i class="fa fa-plus"></i>
+          Add
+        </button>
+      
+      </div>
+
+    </div>
 
     <div *ngIf="count > 0 && !loading" class="table-container">
-        <div *ngFor="let group of groupedDataArray" style="padding:0.1em; margin:0.4em;margin-bottom: 1em;">
-            <span>{{ group.date | date : 'MMM dd, EEEE'}}</span>
-            <hr />
-            <div *ngFor="let item of group.items">
-                <button class="main-btn ro" [matMenuTriggerFor]="beforeMenu">
-                    <div class="col-8" style="text-align: left;">
-                        <h6 style="color:rgb(245, 106, 7) !important">{{item.category}}</h6>
-                        <h4 style="margin-bottom:0; color:dimgrey">{{item.superCategory}} - {{item.parentCategory}}</h4>
-                    </div>
-                    <div class="col-4" style="text-align: right;">
-                        <h6 style="color:dimgrey;color:rgb(245, 106, 7)">{{item.price | number:'1.2-2'}} <small style="font-size: 0.475em">AED</small></h6>
-                        <h4 style="margin-bottom:0; color:dimgrey">{{item.note}}</h4>
-                    </div>
-                </button>
-                <mat-menu #beforeMenu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="openDialog(item, 'Expense-Edit', 100, 100)">Edit</button>
-                    <button mat-menu-item (click)="openDialog(item, 'Expense-Delete', 100, 100)">Delete</button>
-                </mat-menu>
+      <div *ngFor="let group of groupedDataArray" class="pw-glas pw-car day-group">
+        <div class="day-title">{{ group.date | date : 'MMM dd, EEEE'}}</div>
+        <div *ngFor="let item of group.items" style="margin-bottom: 0px;">
+          <button class="main-btn ro" [matMenuTriggerFor]="beforeMenu" style="padding: 20px 6px;">
+            <div class="col-8" style="text-align: left;">
+              <h6 class="exp-cat">{{item.category}}</h6>
+              <h4 class="exp-sub">{{item.superCategory}} - {{item.parentCategory}}</h4>
             </div>
+            <div class="col-4" style="text-align: right;">
+              <h6 class="exp-amt">{{item.price | number:'1.2-2'}} <small style="font-size: 0.475em">AED</small></h6>
+              <h4 class="exp-note">{{item.note}}</h4>
+            </div>
+          </button>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="openDialog(item, 'Expense-Edit', 100, 100)">Edit</button>
+            <button mat-menu-item (click)="openDialog(item, 'Expense-Delete', 100, 100)">Delete</button>
+          </mat-menu>
         </div>
+      </div>
     </div>
     <div class="" *ngIf="count == 0" style="margin: auto; text-align: center; margin-top:4em">
-        <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-        <p></p>
-        No record in this month
-        <p></p>Tap + to add new Expense.
+      <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
+      <p></p>
+      No record in this month
+      <p></p>Tap + to add new Expense.
     </div>
 
     <div *ngIf="loading" style="text-align: center; ">
-        <img src="./../../../assets/loading.gif" style="height: 15em; ">
+      <img src="./../../../assets/loading.gif" style="height: 15em; ">
     </div>
     <app-footer></app-footer>
+  </div>
 </div>

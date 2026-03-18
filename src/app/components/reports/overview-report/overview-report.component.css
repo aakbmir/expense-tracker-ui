@@ -1,58 +1,101 @@
-.logo-name {
-    text-align: left; 
-    font-family: serif; 
-    border: none;
-    background: none; 
-    font-size: 1.5em;
-    font-weight: 500;
-    color: #fff000;
+.overview {
+  display: grid;
+  gap: 14px;
 }
 
-.budget-card {
-    color:#fff000;
-    padding-top:0.5em
+.month-nav button {
+  font-size: 18px;
 }
 
-.text {
-    color: #fff;
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
 }
 
-.text1 {
-    color: black;
+.hero-title {
+  font-size: 14px;
+  color: var(--pw-muted);
+  font-weight: 650;
+  letter-spacing: 0.2px;
 }
 
-.butn {
-    border:none;
-    background:none
+.hero-amount {
+  font-size: clamp(26px, 4.2vw, 38px);
+  font-weight: 900;
+  margin: 8px 0;
 }
 
-h6 {
-    font-size:14px !important
+.positive { color: var(--pw-good); }
+.negative { color: var(--pw-bad); }
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar {
+  height: 10px;
+  background: rgba(9, 19, 42, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 55, 130, 0.12);
 }
 
-h4 {
-    font-size:13px !important
-}
-select {
-    background: none; /* Makes the background transparent */
-    border: none; /* Optional: adjust the border as needed */
-    color: #000; /* Change text color if needed */
-    appearance: none; /* Remove default styling in some browsers */
-    -webkit-appearance: none; /* Remove default styling for Safari */
-    -moz-appearance: none; /* Remove default styling for Firefox */
-    padding: 10px; /* Adjust padding as needed */
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(96,165,250,1), rgba(37,99,235,1));
+  transition: width 0.5s ease;
 }
 
-.select-wrapper {
-    position: relative; /* Required for positioning the custom arrow */
+/* ===== QUICK ACTIONS ===== */
+.quick-actions {
+  justify-content: space-between;
 }
 
-.select-wrapper::after {
-    content: "▼"; /* You can use an arrow character or an icon */
-    color: #fff000; /* Arrow color */
-    position: absolute;
-    right: 10px; /* Positioning from the right */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Center adjustment */
-    pointer-events: none; /* Prevent mouse events */
+/* ===== FILTERS ===== */
+.filters {
+  display: grid;
+  gap: 10px;
+}
+
+/* ===== TRANSACTIONS ===== */
+.transaction-list {
+  max-height: min(54vh, 520px);
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  padding-bottom: 6px;
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.transaction:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37,99,235,0.22);
+  background: rgba(37,99,235,0.05);
+}
+
+.category {
+  font-weight: 800;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--pw-muted);
+}
+
+.price {
+  font-weight: 900;
+  color: var(--pw-text);
+  text-align: right;
+}
+
+.price.expense {
+  color: var(--pw-bad);
+}
+
+.date {
+  font-size: 12px;
+  color: var(--pw-muted);
 }
