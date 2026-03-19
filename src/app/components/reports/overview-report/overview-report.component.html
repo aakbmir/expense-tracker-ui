@@ -30,17 +30,17 @@
 
       <!-- Balance Info (Left) -->
       <div style="display: flex; flex-direction: column; flex: 1;">
-        <div class="hero-title" style="margin-bottom: 4px; text-align: left;">Available Balance</div>
+        <div class="hero-title" style="margin-bottom: 4px; text-align: left;">Spent this month Balance</div>
 
         <div class="hero-amount" [ngClass]="totalSavings > 0 ? 'positive' : 'negative'"
           style="margin-bottom: 12px; text-align: left;">
-          {{ totalSavings | number:'1.2-2' }} <span style="font-size: 14px; font-weight: 500; opacity: 0.8;">AED</span>
+          {{ totalExpense | number:'1.2-2' }} <span style="font-size: 14px; font-weight: 500; opacity: 0.8;">AED</span>
         </div>
 
         <div class="progress-wrapper" style="width: 100%; max-width: 200px; margin-bottom: 6px;">
-          <div class="progress-bar" style="background: #f43f5e; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
+          <div class="progress-bar" style="background: #10b981; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
             <div class="progress-fill" [style.width.%]="(totalExpense / totalBudget) * 100"
-              style="background: #10b981; box-shadow: 2px 0 8px rgba(0,0,0,0.4);">
+              style="background: #f43f5e; box-shadow: 2px 0 8px rgba(0,0,0,0.4);">
             </div>
           </div>
         </div>
@@ -49,8 +49,9 @@
           style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 200px; margin-top: 2px;">
           <div style="display: flex; flex-direction: column;">
             <span
-              style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Spent</span>
-            <span style="font-size: 13px; font-weight: 800; color: #f43f5e;">{{ totalExpense | number:'1.0-0' }} <span
+              style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Saved</span>
+            <span style="font-size: 13px; font-weight: 800;"
+              [style.color]="totalSavings >= 0 ? '#10b981' : '#f43f5e'">{{ totalSavings | number:'1.0-0' }} <span
                 style="font-size: 10px; font-weight: 500; opacity: 0.8;">AED</span></span>
           </div>
           <div style="text-align: right; display: flex; flex-direction: column;">

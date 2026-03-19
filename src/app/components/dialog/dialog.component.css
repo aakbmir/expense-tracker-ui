@@ -37,9 +37,9 @@
 .pw-dialog .form-select,
 .pw-dialog textarea.form-control {
   width: 100%;
-  background: rgba(255,255,255,0.90);
+  background: rgba(16, 25, 43, 0.6);
   color: var(--pw-text);
-  border: 1px solid rgba(15, 55, 130, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.16);
   border-radius: var(--pw-r-md);
   padding: 10px 12px;
 }
@@ -55,14 +55,14 @@
   border-radius: 999px;
   font-weight: 750;
   padding: 10px 14px;
-  border: 1px solid rgba(15, 55, 130, 0.14);
-  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(16, 25, 43, 0.6);
   color: var(--pw-text);
 }
 
 .pw-dialog .btn:hover {
-  background: rgba(255,255,255,0.86);
-  border-color: rgba(37,99,235,0.20);
+  background: rgba(16, 25, 43, 0.9);
+  border-color: rgba(56, 189, 248, 0.8);
 }
 
 .pw-dialog .btn.btn-warning {
@@ -76,9 +76,38 @@
 }
 
 .pw-dialog .btn.btn-secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--pw-text);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pw-dialog .btn.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 mat-form-field {
   width: 100% !important;
+}
+
+::ng-deep .pw-dialog .mat-mdc-text-field-wrapper {
+  background-color: rgba(16, 25, 43, 0.6) !important;
+  border-radius: var(--pw-r-md) !important;
+  border: 1px solid rgba(56, 189, 248, 0.16) !important;
+}
+
+::ng-deep .pw-dialog .mdc-line-ripple {
+  display: none !important;
+}
+
+::ng-deep .pw-dialog input.mat-mdc-input-element {
+  color: var(--pw-text) !important;
+}
+
+::ng-deep .pw-dialog .mdc-floating-label {
+  color: var(--pw-muted) !important;
+}
+
+::ng-deep .pw-dialog .mat-datepicker-toggle, 
+::ng-deep .pw-dialog .mat-datepicker-toggle-default-icon {
+  color: var(--pw-text) !important;
 }

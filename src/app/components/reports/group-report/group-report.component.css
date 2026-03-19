@@ -217,6 +217,11 @@
   text-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
 }
 
+.stat-remaining .stat-value.negative {
+  color: #f43f5e;
+  text-shadow: 0 0 6px rgba(244, 63, 94, 0.4);
+}
+
 .parent-head > i {
   font-size: 16px;
   color: rgba(56, 189, 248, 0.8);
@@ -293,6 +298,11 @@
 
 .sub-stat--remaining strong {
   color: rgba(22, 163, 74, 0.95);
+}
+
+.sub-stat--remaining.negative,
+.sub-stat--remaining.negative strong {
+  color: #f43f5e;
 }
 
 .sub-head > i {
