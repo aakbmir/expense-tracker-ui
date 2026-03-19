@@ -46,14 +46,14 @@ export class OverviewReportComponent {
     this.totalSavings = 0;
     this.totalBudget = 0;
     this.totalExpense = 0;
-    this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
+    this.monthText = this.commonService.getCurrentMonthString(this.month);
     this.reportService.overviewReport(month, year).subscribe((data) => {
       for (let da of data) {
         this.totalSavings = this.totalSavings + da.deviate;
         this.totalExpense = this.totalExpense + da.expense;
         this.totalBudget = this.totalBudget + da.budget;
       }
-      
+
     });
   }
 
@@ -76,7 +76,7 @@ export class OverviewReportComponent {
           ...new Set(data.map((item) => item.parentCategory)),
         ];
       },
-      (error) => {}
+      (error) => { }
     );
   }
 
@@ -84,18 +84,18 @@ export class OverviewReportComponent {
     let calcMnth = Number(this.month) - 1;
     let calcYear = Number(this.year);
     if (clickedBtn === 'left') {
-       calcMnth = Number(this.month) - 1;
+      calcMnth = Number(this.month) - 1;
       calcYear = Number(this.year);
       if (calcMnth == 0) {
         calcMnth = 12;
-        calcYear =calcYear -1;
+        calcYear = calcYear - 1;
       }
     } else {
       calcMnth = Number(this.month) + 1;
       calcYear = Number(this.year);
       if (calcMnth == 13) {
         calcMnth = 1;
-        calcYear = calcYear +1;
+        calcYear = calcYear + 1;
       }
     }
 
@@ -106,7 +106,7 @@ export class OverviewReportComponent {
     this.fetchOverviewReport(this.month, this.year);
   }
 
-  
+
   overviewFlag = true;
   groupFlag = false;
   bankFlag = false;

@@ -8,9 +8,12 @@
     text-align: center;
     font-size: 18px;
     font-weight: 900;
-    border: 6px solid rgba(37,99,235,0.20);
-    background: rgba(255,255,255,0.80);
+    border: 6px solid rgba(14, 165, 233, 0.30);
+    background: linear-gradient(180deg, rgba(8, 20, 42, 0.80) 0%, rgba(15, 20, 30, 0.70) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     color: var(--pw-text);
+    box-shadow: inset 0 2px 10px rgba(56, 189, 248, 0.2);
 }
 
 .table-container {
@@ -23,6 +26,12 @@
 .trend-card {
   display: grid;
   gap: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: linear-gradient(180deg, rgba(8, 20, 42, 0.80) 0%, rgba(15, 20, 30, 0.70) 100%);
+  box-shadow: 0 4px 40px rgba(14, 165, 233, 0.15), inset 0 2px 20px rgba(56, 189, 248, 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .trend-head {
@@ -70,10 +79,12 @@
 
 .good {
   color: var(--pw-good) !important;
-  border-color: rgba(22,163,74,0.22) !important;
+  border-color: rgba(22,163,74,0.4) !important;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 .bad {
   color: var(--pw-bad) !important;
-  border-color: rgba(225,29,72,0.22) !important;
+  border-color: rgba(244,63,94,0.4) !important;
+  text-shadow: 0 0 8px rgba(244, 63, 94, 0.4);
 }

@@ -1,5 +1,6 @@
 .table-container {
     max-height: 80vh;
     overflow-y: auto;
-    background: #fff;
+    background: transparent;
+    padding-bottom: 12px;
 }

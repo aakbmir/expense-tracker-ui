@@ -15,14 +15,12 @@
           <div class="pw-kpi-value">{{ total | number:'1.2-2' }}</div>
         </div>
 
-        <button type="button" class="pw-btn pw-btn-primary"
-          (click)="openDialog('', 'Bank-Record-Add', 100, 100)">
+        <button type="button" class="pw-btn pw-btn-primary" (click)="openDialog('', 'Bank-Record-Add', 100, 100)">
           <i class="fa fa-plus"></i>
           Add record
         </button>
 
-        <button type="button" class="pw-btn pw-btn-ghost"
-          (click)="filterOn = !filterOn">
+        <button type="button" class="pw-btn pw-btn-ghost" (click)="filterOn = !filterOn">
           <i class="fa fa-filter"></i>
           Filter
         </button>
@@ -87,6 +85,6 @@
       <img src="./../../../assets/loading.gif" style="height: 15em; ">
     </div>
 
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
   </div>
 </div>

@@ -1,46 +1,82 @@
 <main class="pw-page">
   <div class="pw-container overview">
 
-    <!-- ================= HEADER ================= -->
-    <div class="pw-glass pw-header">
+    <div
+      style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 12px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      <div style="position: relative; text-align: center;">
+        <i class="fa fa-bars" [matMenuTriggerFor]="routeMenu"
+          style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; cursor: pointer; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);"></i>
 
-      <div>
-        <div class="pw-title">Overview</div>
+        <mat-menu #routeMenu="matMenu">
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/reports']"><i class="fa fa-pie-chart"
+              style="width: 24px;"></i> Overview</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/expense']"><i class="fa fa-list-alt"
+              style="width: 24px;"></i> Expense</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/budget']"><i class="fa fa-credit-card"
+              style="width: 24px;"></i> Budget</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/category']"><i class="fa fa-tags"
+              style="width: 24px;"></i> Category</button>
+        </mat-menu>
 
+        <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
+          Overview
+        </h2>
       </div>
-
-      <div class="month-nav" style="display: flex; align-items: center; gap: 12px;">
-        <button class="pw-btn pw-btn-icon" (click)="applyFilters('left')" aria-label="Previous month">
-          <i class="fa fa-chevron-left" style="font-size: 14px;"></i>
-        </button>
-        <div class="pw-subtitle">{{ monthText }} {{ year }}</div>
-        <button class="pw-btn pw-btn-icon" (click)="applyFilters('right')" aria-label="Next month">
-          <i class="fa fa-chevron-right" style="font-size: 14px;"></i>
-        </button>
-      </div>
-
     </div>
 
-    <!-- ================= HERO BALANCE ================= -->
-    <div class="pw-glass pw-card hero">
+    <!-- ================= HERO BALANCE & MONTH ================= -->
+    <div class="pw-glass pw-card hero"
+      style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 20px; text-align: left;">
 
-      <div class="hero-title">Available Balance</div>
+      <!-- Balance Info (Left) -->
+      <div style="display: flex; flex-direction: column; flex: 1;">
+        <div class="hero-title" style="margin-bottom: 4px; text-align: left;">Available Balance</div>
 
-      <div class="hero-amount" [ngClass]="totalSavings > 0 ? 'positive' : 'negative'">
-        {{ totalSavings | number:'1.2-2' }} AED
-      </div>
+        <div class="hero-amount" [ngClass]="totalSavings > 0 ? 'positive' : 'negative'"
+          style="margin-bottom: 12px; text-align: left;">
+          {{ totalSavings | number:'1.2-2' }} <span style="font-size: 14px; font-weight: 500; opacity: 0.8;">AED</span>
+        </div>
 
-      <div class="progress-wrapper">
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width.%]="(totalExpense / totalBudget) * 100">
+        <div class="progress-wrapper" style="width: 100%; max-width: 200px; margin-bottom: 6px;">
+          <div class="progress-bar" style="background: #f43f5e; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
+            <div class="progress-fill" [style.width.%]="(totalExpense / totalBudget) * 100"
+              style="background: #10b981; box-shadow: 2px 0 8px rgba(0,0,0,0.4);">
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 200px; margin-top: 2px;">
+          <div style="display: flex; flex-direction: column;">
+            <span
+              style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Spent</span>
+            <span style="font-size: 13px; font-weight: 800; color: #f43f5e;">{{ totalExpense | number:'1.0-0' }} <span
+                style="font-size: 10px; font-weight: 500; opacity: 0.8;">AED</span></span>
+          </div>
+          <div style="text-align: right; display: flex; flex-direction: column;">
+            <span
+              style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Budget</span>
+            <span style="font-size: 13px; font-weight: 800; color: #10b981;">{{ totalBudget | number:'1.0-0' }} <span
+                style="font-size: 10px; font-weight: 500; opacity: 0.8;">AED</span></span>
           </div>
         </div>
       </div>
 
-      <small>
-        {{ totalExpense | number:'1.0-0' }} /
-        {{ totalBudget | number:'1.0-0' }} Spent
-      </small>
+      <!-- Month Nav (Right) -->
+      <div
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-left: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center; padding: 6px;">
+          <button class="pw-btn-icon-small" (click)="applyFilters('right')"
+            style="font-size: 12px; padding: 4px; width: 28px; height: 28px; min-width: unset;"><i
+              class="fa fa-chevron-up"></i></button>
+          <div
+            style="margin: 0; font-weight: 700; font-size: 14px; color: var(--pw-text); letter-spacing: 0.5px; width: 60px; text-align: center; line-height: 1.2;">
+            {{monthText}}<br><span style="font-weight: 500; font-size: 11px; opacity: 0.8;">{{year}}</span></div>
+          <button class="pw-btn-icon-small" (click)="applyFilters('left')"
+            style="font-size: 12px; padding: 4px; width: 28px; height: 28px; min-width: unset;"><i
+              class="fa fa-chevron-down"></i></button>
+        </div>
+      </div>
 
     </div>
 
@@ -82,21 +118,29 @@
     </div>
 
     <!-- ================= TRANSACTIONS ================= -->
-    <div class="transaction-list">
-      <div *ngFor="let item of categoryTransactionList" class="pw-glass pw-card transaction">
-        <div>
-          <div class="category">{{ item.category }}</div>
-          <div class="note">{{ item.note }}</div>
-        </div>
+    <div *ngIf="categoryTransactionList.length > 0" class="cat-main-card pw-glass">
+      <div class="items-container" style="max-height: min(44vh, 420px); overflow-y: auto;">
+        <div *ngFor="let item of categoryTransactionList; let isLast = last" class="item-row"
+          [class.item-row-last]="isLast" style="padding-top: 14px; padding-bottom: 14px;">
 
-        <div class="right">
-          <div class="date">
-            {{item.date | date : 'MMM dd, EEEE'}}
+          <div class="row-left" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+            <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.category }}</div>
+            <div
+              style="font-size: 12px; color: var(--pw-muted); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ item.note }}</div>
           </div>
 
-          <div class="price expense">
-            {{ item.price | number:'1.2-2' }} AED
+          <div class="row-right" style="flex-direction: row; align-items: center; gap: 16px;">
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+              <div
+                style="font-weight: 500; font-size: 14px; color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4);">
+                {{item.price | number:'1.2-2'}} <span
+                  style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+              </div>
+              <div style="font-size: 12px; color: var(--pw-muted);">{{item.date | date : 'MMM dd, EEEE'}}</div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

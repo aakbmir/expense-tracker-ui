@@ -1,35 +1,51 @@
 <main class="pw-page">
   <div class="pw-container pw-stack">
 
-    <!-- ================= HEADER ================= -->
-    <div class="pw-glass pw-header group-header">
-      <div class="header-top">
-        <button class="pw-btn pw-btn-ghost" [matMenuTriggerFor]="reportMenu">
-          PennyWise
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <mat-menu #reportMenu="matMenu" xPosition="after">
-          <button mat-menu-item class="reportBtn" (click)="showReport('home')">Home</button>
-          <button mat-menu-item class="reportBtn" (click)="showReport('overview')">Overview</button>
-          <button mat-menu-item class="reportBtn" (click)="showReport('group')">Group</button>
-          <button mat-menu-item class="reportBtn" (click)="showReport('trend')">Trend</button>
+    <!-- Top Header -->
+    <div
+      style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 8px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      <div style="position: relative; text-align: center;">
+        <i class="fa fa-chevron-down" [matMenuTriggerFor]="routeMenu"
+          style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; cursor: pointer; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);"></i>
+
+        <mat-menu #routeMenu="matMenu">
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/reports']"><i class="fa fa-pie-chart"
+              style="width: 24px;"></i> Overview</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/expense']"><i class="fa fa-list-alt"
+              style="width: 24px;"></i> Expense</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/budget']"><i class="fa fa-credit-card"
+              style="width: 24px;"></i> Budget</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/category']"><i class="fa fa-tags"
+              style="width: 24px;"></i> Category</button>
         </mat-menu>
 
-        <div class="month-nav">
-          <button class="pw-btn pw-btn-icon" (click)="applyFilters('left')" aria-label="Previous month">
-            <i class="fa fa-chevron-left" style="font-size: 14px;"></i>
-          </button>
-          <div class="pw-subtitle">{{ monthText }} {{ year }}</div>
-          <button class="pw-btn pw-btn-icon" (click)="applyFilters('right')" aria-label="Next month">
-            <i class="fa fa-chevron-right" style="font-size: 14px;"></i>
-          </button>
-        </div>
-      </div>
 
-      <div class="header-center">
-        <div class="pw-subtitle">Total Expense</div>
-        <div class="pw-kpi-value">{{totalExpense | number:'1.2-2'}} AED</div>
+        <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
+          Group
+        </h2>
       </div>
+    </div>
+
+    <!-- Month Sub-Header -->
+    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
+            class="fa fa-chevron-left"
+            style="color: var(--pw-text); transition: opacity 150ms ease; opacity: 0.8;"></i></button>
+        <div
+          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 110px; text-align: center;">
+          {{monthText}} {{year}}</div>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
+            class="fa fa-chevron-right"
+            style="color: var(--pw-text); transition: opacity 150ms ease; opacity: 0.8;"></i></button>
+      </div>
+    </div>
+
+    <div
+      style="text-align: center; margin-bottom: 16px; color: #38bdf8; text-shadow: 0 0 8px rgba(56,189,248,0.5); font-weight: 700; font-size: 18px;">
+      {{totalExpense | number:'1.2-2'}} <span
+        style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED
+        total</span>
     </div>
 
     <!-- ================= CONTENT ================= -->
@@ -49,11 +65,12 @@
               </div>
               <div class="stat-item stat-remaining">
                 <span class="stat-label">Savings</span>
-                <span class="stat-value">{{ (parentCategoryObj.budget - parentCategoryObj.expense) | number:'1.2-2' }} AED</span>
+                <span class="stat-value">{{ (parentCategoryObj.budget - parentCategoryObj.expense) | number:'1.2-2' }}
+                  AED</span>
               </div>
             </div>
           </div>
-          <i class="fa" [ngClass]="parentCategoryObj.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          <i [ngClass]="parentCategoryObj.expanded ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
         </button>
 
         <div *ngIf="parentCategoryObj.expanded" class="parent-body">
@@ -62,17 +79,20 @@
               <div class="sub-head-content">
                 <div class="sub-title">{{ superCategoryObj.name }}</div>
                 <div class="sub-stats">
-                  <span class="sub-stat">Expense: <strong>{{ superCategoryObj.expense | number:'1.2-2' }}</strong></span>
+                  <span class="sub-stat">Expense: <strong>{{ superCategoryObj.expense | number:'1.2-2'
+                      }}</strong></span>
                   <span class="sub-stat">Budget: <strong>{{ superCategoryObj.budget | number:'1.2-2' }}</strong></span>
-                  <span class="sub-stat sub-stat--remaining">Remaining: <strong>{{ (superCategoryObj.budget - superCategoryObj.expense) | number:'1.2-2' }}</strong></span>
+                  <span class="sub-stat sub-stat--remaining">Remaining: <strong>{{ (superCategoryObj.budget -
+                      superCategoryObj.expense) | number:'1.2-2' }}</strong></span>
                 </div>
               </div>
-              <i class="fa" [ngClass]="superCategoryObj.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              <i [ngClass]="superCategoryObj.expanded ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
             </button>
 
             <div *ngIf="superCategoryObj.expanded" class="item-grid">
               <div *ngFor="let categoryObj of superCategoryObj.categoryDtoList">
-                <button class="cat-item" (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
+                <button class="cat-item"
+                  (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
                   <span class="item-name">{{categoryObj.name}}</span>
                   <span class="item-amount">{{categoryObj.expense | number:'1.2-2'}} AED</span>
                 </button>
@@ -83,6 +103,6 @@
       </section>
     </div>
 
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
   </div>
 </main>

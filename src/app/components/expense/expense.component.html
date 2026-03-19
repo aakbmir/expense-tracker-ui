@@ -1,68 +1,154 @@
 <div class="pw-page">
   <div class="pw-container pw-stack">
-    <div class="pw-glass pw-header cat-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <!-- LEFT -->
-      <div class="cat-add pw-row" style="flex: 1; align-items: center; justify-content: center; display: flex; gap: 8px;">
-        <button class="pw-btn pw-btn-icon" (click)="applyFilters('left')" aria-label="Previous month">
-          <i class="fa fa-chevron-left" style="font-size: 14px;"></i>
-        </button>
-        <div class="pw-subtitle" style="margin-top: 2px; text-align: center;">{{monthText}} {{year}}</div>
-        <button class="pw-btn pw-btn-icon" (click)="applyFilters('right')" aria-label="Next month">
-          <i class="fa fa-chevron-right" style="font-size: 14px;"></i>
-        </button>
-      </div>
+    <!-- Top Header -->
+    <div
+      style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 2px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      <div style="position: relative; text-align: center;">
+        <i class="fa fa-bars" [matMenuTriggerFor]="routeMenu"
+          style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; cursor: pointer; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);"></i>
 
-      <!-- CENTER -->
-      <div class="cat-count pw-kpi" style="flex: 1;
-        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-        <div class="pw-subtitle" style="margin-bottom: 2px;">Total (AED)</div>
-        <div class="pw-kpi-value">{{total | number:'1.2-2'}}</div>
-      </div>
+        <mat-menu #routeMenu="matMenu">
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/reports']"><i class="fa fa-pie-chart"
+              style="width: 24px;"></i> Overview</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/expense']"><i class="fa fa-list-alt"
+              style="width: 24px;"></i> Expense</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/budget']"><i class="fa fa-credit-card"
+              style="width: 24px;"></i> Budget</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/category']"><i class="fa fa-tags"
+              style="width: 24px;"></i> Category</button>
+        </mat-menu>
 
-      <!-- RIGHT -->
-      <div class="cat-title" style="flex: 1;
-        display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;">
-        
-        <button class="pw-btn pw-btn-primary" (click)="openDialog('', 'Expense-Add', 100, 100)">
-          <i class="fa fa-plus"></i>
-          Add
-        </button>
-      
-      </div>
 
+        <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
+          Expense
+        </h2>
+      </div>
     </div>
 
-    <div *ngIf="count > 0 && !loading" class="table-container">
-      <div *ngFor="let group of groupedDataArray" class="pw-glas pw-car day-group">
-        <div class="day-title">{{ group.date | date : 'MMM dd, EEEE'}}</div>
-        <div *ngFor="let item of group.items" style="margin-bottom: 0px;">
-          <button class="main-btn ro" [matMenuTriggerFor]="beforeMenu" style="padding: 20px 6px;">
-            <div class="col-8" style="text-align: left;">
-              <h6 class="exp-cat">{{item.category}}</h6>
-              <h4 class="exp-sub">{{item.superCategory}} - {{item.parentCategory}}</h4>
-            </div>
-            <div class="col-4" style="text-align: right;">
-              <h6 class="exp-amt">{{item.price | number:'1.2-2'}} <small style="font-size: 0.475em">AED</small></h6>
-              <h4 class="exp-note">{{item.note}}</h4>
-            </div>
-          </button>
-          <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="openDialog(item, 'Expense-Edit', 100, 100)">Edit</button>
-            <button mat-menu-item (click)="openDialog(item, 'Expense-Delete', 100, 100)">Delete</button>
-          </mat-menu>
+    <!-- Month & Total Sub-Header -->
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 0 0px;">
+      <!-- Month selection -->
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
+            class="fa fa-chevron-left"></i></button>
+        <div
+          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 110px; text-align: center;">
+          {{monthText}} {{year}}</div>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
+            class="fa fa-chevron-right"></i></button>
+      </div>
+
+      <!-- Total Amount -->
+      <div
+        style="font-weight: 700; font-size: 18px; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); text-align: right;">
+        {{total | number:'1.2-2'}} <span
+          style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+      </div>
+    </div>
+
+    <!-- Expand/Collapse, Items count & Add -->
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;">
+
+      <!-- Expand & Collapse (Left) -->
+      <div *ngIf="count > 0 && !loading" style="display: flex; gap: 16px;">
+        <button class="pw-btn-text" (click)="expandAll()" style="color: #0ea5e9; font-size: 12px;">
+          Expand All
+        </button>
+        <div style="width: 1px; background: rgba(14, 165, 233, 0.2); height: 16px; align-self: center;"></div>
+        <button class="pw-btn-text" (click)="collapseAll()" style="color: #0ea5e9; font-size: 12px;">
+          Collapse All
+        </button>
+      </div>
+
+      <!-- Items Count & Add Wrapper (Right) -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
+        <div style="font-size: 14px; letter-spacing: 0px;">
+          <span style="font-weight: 700; color: #fff;">{{ count }}</span> <span class="pw-muted">&nbsp;Items</span>
         </div>
+        <button class="pw-btn pw-btn-ghost pw-btn-sm"
+          style="border: 1px solid rgba(14, 165, 233, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
+          (click)="openDialog('', 'Expense-Add', 100, 100)">
+          <i class="fa fa-plus" style="margin-right: 4px; color: #14b8a6;"></i> Add
+        </button>
       </div>
-    </div>
-    <div class="" *ngIf="count == 0" style="margin: auto; text-align: center; margin-top:4em">
-      <i class="fa fa-exclamation-triangle grey-color fa-5x"></i>
-      <p></p>
-      No record in this month
-      <p></p>Tap + to add new Expense.
+
     </div>
 
-    <div *ngIf="loading" style="text-align: center; ">
-      <img src="./../../../assets/loading.gif" style="height: 15em; ">
+    <!-- Main List Card -->
+    <div *ngIf="count > 0 && !loading" class="cat-main-card pw-glass">
+
+      <div *ngFor="let group of groupedDataArray; let lastParent = last" class="parent-block"
+        [class.no-border]="lastParent">
+
+        <!-- Date Header Row -->
+        <button class="row-btn parent-row" (click)="toggleGroup(group.date)">
+          <div class="row-left">
+            <!-- Expense dots get red highlight -->
+            <div class="dot-indicator"></div>
+            <div class="parent-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
+          </div>
+          <div class="row-right">
+            <i class="fa" [ngClass]="isGroupExpanded(group.date) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </div>
+        </button>
+
+        <div *ngIf="isGroupExpanded(group.date)" class="subcat-container">
+          <!-- Items Block -->
+          <div class="items-container">
+            <div *ngFor="let item of group.items; let isLast = last" class="item-row" [class.item-row-last]="isLast"
+              style="padding-top: 14px; padding-bottom: 14px;">
+
+              <div class="row-left" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.category }}</div>
+                <div style="font-size: 12px; color: var(--pw-muted);">{{ item.superCategory }} - {{ item.parentCategory
+                  }}</div>
+              </div>
+
+              <div class="row-right" style="flex-direction: row; align-items: center; gap: 16px;">
+                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                  <div
+                    style="font-weight: 500; font-size: 14px; color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4);">
+                    {{item.price | number:'1.2-2'}} <span
+                      style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+                  </div>
+                  <div
+                    style="font-size: 12px; color: var(--pw-muted); max-width: 110px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{item.note}}</div>
+                </div>
+
+                <div style="margin-left: 0px;">
+                  <button class="pw-btn-icon-small" [matMenuTriggerFor]="beforeMenu">
+                    <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>
+                  </button>
+                  <mat-menu #beforeMenu="matMenu" xPosition="before">
+                    <button mat-menu-item (click)="openDialog(item, 'Expense-Edit', 100, 100)">Edit</button>
+                    <button mat-menu-item (click)="openDialog(item, 'Expense-Delete', 100, 100)">Delete</button>
+                  </mat-menu>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
-    <app-footer></app-footer>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="count == 0 && !loading" class="empty-state">
+      <i class="fa fa-exclamation-triangle"></i>
+      <p>No records in this month</p>
+      <small>Tap + to add new Expense.</small>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="loading" class="loading">
+      <img src="./../../../assets/loading.gif" style="height: 15em;">
+    </div>
+
+    <!-- <app-footer></app-footer> -->
+
   </div>
 </div>

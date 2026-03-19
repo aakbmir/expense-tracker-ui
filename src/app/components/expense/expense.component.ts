@@ -113,6 +113,27 @@ export class ExpenseComponent implements OnInit {
 
   groupedData: { [key: string]: any[] } = {};
   groupedDataArray: { date: string; items: any[] }[] = [];
+  expandedGroups: { [key: string]: boolean } = {};
+
+  toggleGroup(date: string) {
+    this.expandedGroups[date] = !this.isGroupExpanded(date);
+  }
+
+  isGroupExpanded(date: string) {
+    return this.expandedGroups[date] === true;
+  }
+
+  expandAll() {
+    for (let group of this.groupedDataArray) {
+      this.expandedGroups[group.date] = true;
+    }
+  }
+
+  collapseAll() {
+    for (let group of this.groupedDataArray) {
+      this.expandedGroups[group.date] = false;
+    }
+  }
 
   groupDataByDate(data: any) {
     this.groupedData = data.reduce((grouped, item) => {

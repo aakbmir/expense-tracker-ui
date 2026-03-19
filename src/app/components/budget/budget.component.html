@@ -1,108 +1,165 @@
 <div class="pw-page">
   <div class="pw-container pw-stack">
-    <div class="pw-glass pw-header cat-header" style="display: flex; justify-content: space-between; align-items: center;">
 
-      <!-- LEFT -->
-      <div class="cat-add pw-row" style="flex: 1; align-items: center; justify-content: center; display: flex; gap: 8px;">
-        <button class="pw-btn pw-btn-icon" (click)="applyFilters('left')" aria-label="Previous month">
-          <i class="fa fa-chevron-left" style="font-size: 14px;"></i>
-        </button>
-        <div class="pw-subtitle" style="margin-top: 2px; text-align: center;">{{monthText}} {{year}}</div>
-        <button class="pw-btn pw-btn-icon" (click)="applyFilters('right')" aria-label="Next month">
-          <i class="fa fa-chevron-right" style="font-size: 14px;"></i>
-        </button>
+    <!-- Top Header -->
+    <div
+      style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 2px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      <div style="position: relative; text-align: center;">
+        <i class="fa fa-bars" [matMenuTriggerFor]="routeMenu"
+          style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; cursor: pointer; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);"></i>
 
-        <button *ngIf="resData.length == 0" class="pw-btn pw-btn-primary" (click)="addAllBudget()">
-          <i class="fa fa-plus"></i>
-          Add
-        </button>
+        <mat-menu #routeMenu="matMenu">
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/reports']"><i class="fa fa-pie-chart"
+              style="width: 24px;"></i> Overview</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/expense']"><i class="fa fa-list-alt"
+              style="width: 24px;"></i> Expense</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/budget']"><i class="fa fa-credit-card"
+              style="width: 24px;"></i> Budget</button>
+          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/category']"><i class="fa fa-tags"
+              style="width: 24px;"></i> Category</button>
+        </mat-menu>
+
+
+        <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
+          Budget
+        </h2>
       </div>
-
-      <!-- CENTER -->
-      <div class="cat-count pw-kpi" style="flex: 1;
-        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-        <div class="pw-subtitle" style="margin-bottom: 2px;">Total (AED)</div>
-        <div class="pw-kpi-value">{{total | number:'1.2-2'}}</div>
-      </div>
-
-      <!-- RIGHT -->
-      <div class="cat-title" style="flex: 1;
-        display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;">
-        <div class="pw-subtitle" style="font-size: 12px;">{{count}} items</div>
-      </div>
-
     </div>
 
+    <!-- Month & Total Sub-Header -->
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+      <!-- Month selection -->
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
+            class="fa fa-chevron-left"></i></button>
+        <div
+          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 110px; text-align: center;">
+          {{monthText}} {{year}}</div>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
+            class="fa fa-chevron-right"></i></button>
+      </div>
+
+      <!-- Total Amount -->
+      <div
+        style="font-weight: 700; font-size: 18px; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); text-align: right;">
+        {{total | number:'1.2-2'}} <span
+          style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+      </div>
+    </div>
+
+    <!-- Expand/Collapse Actions & Items Count -->
     <div *ngIf="count > 0 && !loading"
-      style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; padding-right: 4px;">
-      <button class="pw-btn pw-btn-ghost pw-btn-sm" (click)="expandAll()" style="padding: 4px 10px; font-size: 13px;">
-        <i class="fa fa-expand" style="margin-right: 4px;"></i> Expand All
-      </button>
-      <button class="pw-btn pw-btn-ghost pw-btn-sm" (click)="collapseAll()" style="padding: 4px 10px; font-size: 13px;">
-        <i class="fa fa-compress" style="margin-right: 4px;"></i> Collapse All
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;">
+      <div style="display: flex; gap: 16px;">
+        <button class="pw-btn-text" (click)="expandAll()" style="color: #0ea5e9; font-size: 12px;">
+          Expand All
+        </button>
+        <div style="width: 1px; background: rgba(14, 165, 233, 0.2); height: 16px; align-self: center;"></div>
+        <button class="pw-btn-text" (click)="collapseAll()" style="color: #0ea5e9; font-size: 12px;">
+          Collapse All
+        </button>
+      </div>
+      <div style="font-size: 14px; letter-spacing: 0px;">
+        <span style="font-weight: 700; color: #fff;">{{ count }}</span> <span class="pw-muted">&nbsp;Items</span>
+      </div>
+    </div>
+
+    <!-- Add All Button (when empty) -->
+    <div *ngIf="resData.length == 0 && !loading" style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+      <button class="pw-btn pw-btn-ghost pw-btn-sm"
+        style="border: 1px solid rgba(14, 165, 233, 0.4); padding: 6px 14px; border-radius: 999px; font-weight: 600;"
+        (click)="addAllBudget()">
+        <i class="fa fa-plus" style="margin-right: 4px; color: #14b8a6;"></i> Add All
       </button>
     </div>
 
-    <div *ngIf="count > 0 && !loading" class="table-container cat-accordion">
-      <section *ngFor="let parent of groupedDataKeys()" class="pw-glass pw-card parent-card">
-        <button class="parent-head" (click)="toggleParent(parent)">
-          <div class="parent-left">
-            <div class="parent-title">{{ parent }}</div>
-            <div class="parent-meta">{{ parentCount(parent) }} items | {{ parentTotal(parent) | number:'1.2-2' }} AED
-            </div>
-          </div>
+    <!-- Main List Card -->
+    <div *ngIf="count > 0 && !loading" class="cat-main-card pw-glass">
 
-          <div class="parent-right">
-            <span class="pill">{{ parentCount(parent) }}</span>
+      <div *ngFor="let parent of groupedDataKeys(); let lastParent = last" class="parent-block"
+        [class.no-border]="lastParent">
+        <!-- Parent Row -->
+        <button class="row-btn parent-row" (click)="toggleParent(parent)">
+          <div class="row-left">
+            <div class="dot-indicator"></div>
+            <div class="parent-title">{{ parent | uppercase }}</div>
+          </div>
+          <div class="row-right">
+            <span class="row-meta"><span
+                style="color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4); opacity: 1;">{{ parentTotal(parent)
+                | number:'1.2-2'
+                }}</span> <span
+                style="font-weight:400; font-size:11px; opacity:0.6; color: var(--pw-text); text-shadow: none;">AED</span></span>
             <i class="fa" [ngClass]="isParentExpanded(parent) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
           </div>
         </button>
 
-        <div *ngIf="isParentExpanded(parent)" class="parent-body">
-          <div *ngFor="let sub of groupedData[parent] | keys" class="sub-card">
-            <button class="sub-head" (click)="toggleSub(parent, sub.key)">
-              <div class="sub-left">
-                <div class="sub-title">{{ sub.key }}</div>
-                <div class="sub-meta">{{ sub.value.length }} items | {{ subTotal(parent, sub.key) | number:'1.2-2' }}
-                  AED</div>
+        <!-- Subcategories Block -->
+        <div *ngIf="isParentExpanded(parent)" class="subcat-container">
+          <div *ngFor="let sub of groupedData[parent] | keys" class="sub-block">
+            <!-- Subcategory Row -->
+            <button class="row-btn subcat-row" (click)="toggleSub(parent, sub.key)">
+              <div class="row-left">
+                <div class="subcat-title">{{ sub.key }}</div>
               </div>
-              <div class="sub-right">
-                <span class="pill pill--soft">{{ sub.value.length }}</span>
-                <i class="fa" [ngClass]="isSubExpanded(parent, sub.key) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              <div class="row-right">
+                <span class="row-meta"><span
+                    style="color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4); opacity: 1;">{{
+                    subTotal(parent, sub.key) |
+                    number:'1.2-2' }}</span> <span
+                    style="font-weight:400; font-size:11px; opacity:0.6; color: var(--pw-text); text-shadow: none;">AED</span></span>
+                <i class="fa" [ngClass]="isSubExpanded(parent, sub.key) ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
               </div>
             </button>
 
-            <div *ngIf="isSubExpanded(parent, sub.key)" class="item-grid">
-              <div *ngFor="let categoryObj of sub.value">
-                <button class="pw-glass pw-glass--tight cat-item" [matMenuTriggerFor]="afterMenu">
-                  <span>{{categoryObj.category}}</span>
-                  <div class="item-sub">
-                    {{categoryObj.price}} <span class="item-currency">AED</span>
-                  </div>
-                </button>
+            <!-- Items Block -->
+            <div *ngIf="isSubExpanded(parent, sub.key)" class="items-container">
+              <div *ngFor="let categoryObj of sub.value; let isLast = last" class="item-row"
+                [class.item-row-last]="isLast">
 
-                <mat-menu #afterMenu="matMenu" xPosition="after">
-                  <button mat-menu-item (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
-                </mat-menu>
+                <div class="row-left">
+                  <div class="item-title">{{ categoryObj.category }}</div>
+                </div>
+
+                <div class="row-right">
+                  <div
+                    style="font-weight: 500; font-size: 14px; color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4);">
+                    {{categoryObj.price}} <span
+                      style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+                  </div>
+                  <button class="pw-btn-icon-small" [matMenuTriggerFor]="afterMenu">
+                    <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>
+                  </button>
+
+                  <mat-menu #afterMenu="matMenu" xPosition="after">
+                    <button mat-menu-item (click)="openDialog(categoryObj, 'Budget-Edit', 100, 100)">Edit</button>
+                  </mat-menu>
+                </div>
+
               </div>
             </div>
+
           </div>
         </div>
-      </section>
+
+      </div>
+
     </div>
 
-    <!-- ================= EMPTY STATE ================= -->
+    <!-- EMPTY STATE -->
     <div *ngIf="count == 0 && !loading" class="empty-state">
-      <i class="fa fa-exclamation-triangle grey-color"></i>
+      <i class="fa fa-exclamation-triangle"></i>
       <p>No records in this month</p>
-      <small>Tap + to add new category.</small>
+      <small>Tap + to add new budget.</small>
     </div>
 
-    <!-- ================= LOADING ================= -->
+    <!-- LOADING -->
     <div *ngIf="loading" class="loading">
       <img src="./../../../assets/loading.gif" style="height: 15em;">
     </div>
 
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
+
   </div>
 </div>
