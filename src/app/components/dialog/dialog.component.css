@@ -2,10 +2,12 @@
   padding: 18px;
   border-radius: var(--pw-r-xl);
   background: var(--pw-glass);
-  border: 1px solid var(--pw-border);
-  box-shadow: var(--pw-shadow);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  /* Increased brightness and opacity */
+  border: 3px solid white;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 2px 20px rgba(255, 255, 255, 0.05);
+  /* Enhanced shadow */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
 .pw-dialog.pw-dialog--center {
@@ -28,7 +30,7 @@
   align-items: center;
 }
 
-.pw-dialog .input-group > span {
+.pw-dialog .input-group>span {
   color: var(--pw-muted);
   font-weight: 650;
 }
@@ -37,9 +39,6 @@
 .pw-dialog .form-select,
 .pw-dialog textarea.form-control {
   width: 100%;
-  background: rgba(16, 25, 43, 0.6);
-  color: var(--pw-text);
-  border: 1px solid rgba(56, 189, 248, 0.16);
   border-radius: var(--pw-r-md);
   padding: 10px 12px;
 }
@@ -47,8 +46,8 @@
 .pw-dialog .form-control:focus,
 .pw-dialog .form-select:focus,
 .pw-dialog textarea.form-control:focus {
-  border-color: rgba(37,99,235,0.40);
-  box-shadow: 0 0 0 4px rgba(37,99,235,0.14);
+  border-color: rgba(37, 99, 235, 0.40);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
 }
 
 .pw-dialog .btn {
@@ -66,13 +65,13 @@
 }
 
 .pw-dialog .btn.btn-warning {
-  background: linear-gradient(135deg, rgba(37,99,235,0.96), rgba(96,165,250,0.90));
-  border-color: rgba(37,99,235,0.25);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.96), rgba(96, 165, 250, 0.90));
+  border-color: rgba(37, 99, 235, 0.25);
   color: #fff;
 }
 
 .pw-dialog .btn.btn-warning:hover {
-  background: linear-gradient(135deg, rgba(29,78,216,1), rgba(96,165,250,0.98));
+  background: linear-gradient(135deg, rgba(29, 78, 216, 1), rgba(96, 165, 250, 0.98));
 }
 
 .pw-dialog .btn.btn-secondary {
@@ -90,9 +89,9 @@ mat-form-field {
 }
 
 ::ng-deep .pw-dialog .mat-mdc-text-field-wrapper {
-  background-color: rgba(16, 25, 43, 0.6) !important;
+  background-color: #ffffff !important;
   border-radius: var(--pw-r-md) !important;
-  border: 1px solid rgba(56, 189, 248, 0.16) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
 }
 
 ::ng-deep .pw-dialog .mdc-line-ripple {
@@ -100,14 +99,15 @@ mat-form-field {
 }
 
 ::ng-deep .pw-dialog input.mat-mdc-input-element {
-  color: var(--pw-text) !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
 }
 
 ::ng-deep .pw-dialog .mdc-floating-label {
-  color: var(--pw-muted) !important;
+  color: #64748b !important;
 }
 
-::ng-deep .pw-dialog .mat-datepicker-toggle, 
+::ng-deep .pw-dialog .mat-datepicker-toggle,
 ::ng-deep .pw-dialog .mat-datepicker-toggle-default-icon {
-  color: var(--pw-text) !important;
+  color: #0f172a !important;
 }

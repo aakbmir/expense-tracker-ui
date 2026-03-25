@@ -25,9 +25,14 @@
       </div>
     </div>
 
-    <div
-      style="text-align: center; margin-bottom: 16px; color: var(--pw-muted); font-size: 12px; letter-spacing: 0.5px;">
-      Month-by-month summary</div>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <div style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--pw-text);" [style.color]="totalSavings >= 0 ? '#10b981' : '#f43f5e'">
+        {{ totalSavings | number:'1.2-2' }} <span style="font-size: 14px; opacity: 0.8; font-weight: 700;">AED</span>
+      </div>
+      <div style="color: var(--pw-muted); font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700; margin-top: 4px;">
+        Total Savings Over Trends
+      </div>
+    </div>
 
     <div class="table-container">
       <div *ngFor="let item of responseList" class="pw-glass pw-card trend-card">

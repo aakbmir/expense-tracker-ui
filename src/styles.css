@@ -245,6 +245,22 @@ select option {
   max-height: 50vh;
 }
 
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Highlight the dialog by obscuring the background */
+.cdk-overlay-dark-backdrop {
+  background: rgba(4, 8, 16, 0.80) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body.light-theme .cdk-overlay-dark-backdrop {
+  background: rgba(15, 23, 42, 0.60) !important;
+}
+
 /* ===== Material Menu Overrides (Dark Cosmic Theme) ===== */
 .mat-mdc-menu-panel, .mat-menu-panel {
   background: linear-gradient(180deg, rgba(16, 25, 43, 0.95) 0%, rgba(10, 14, 23, 0.95) 100%) !important;
@@ -309,6 +325,13 @@ select option {
     /* For desktop, adjust padding to look better inside the scrolling pane */
     padding: var(--pw-space-5);
     padding-bottom: var(--pw-space-5);
+  }
+
+  .mat-mdc-dialog-panel, .mat-dialog-panel, .custom-modalbox {
+    max-width: 50vw !important;
+    width: 50vw !important;
+    min-width: 50vw !important;
+    margin: 0 auto;
   }
 }
 

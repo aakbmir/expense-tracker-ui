@@ -18,6 +18,7 @@ export class TrendReportComponent {
   responseList: any = [];
 
   filterForm: any;
+  totalSavings: number = 0;
 
   constructor(
     private reportService: ReportService,
@@ -32,6 +33,8 @@ export class TrendReportComponent {
 
   fetchTrendsReport() {
     this.reportService.trendsReport().subscribe((data: any) => {
+      this.responseList = [];
+      let sum = 0;
       for (let ove of data) {
         const obj = ove;
         obj['totalSalary'] = this.commonService.getBudget();
@@ -39,7 +42,9 @@ export class TrendReportComponent {
         obj['savings'] = obj['totalSalary'] - obj['totalExpense'];
         obj['deviate'] = obj['totalBudget'] - obj['totalExpense'];
         this.responseList.push(obj);
+        sum += obj['savings'];
       }
+      this.totalSavings = sum;
     });
   }
 
