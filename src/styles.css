@@ -299,3 +299,15 @@ select option {
   opacity: 1 !important;
   text-shadow: 0 0 10px rgba(56, 189, 248, 0.8) !important;
 }
+
+/* ===== Responsive Utilities ===== */
+@media (min-width: 900px) {
+  .mobile-only {
+    display: none !important;
+  }
+  .pw-page {
+    /* For desktop, adjust padding to look better inside the scrolling pane */
+    padding: var(--pw-space-5);
+    padding-bottom: var(--pw-space-5);
+  }
+}

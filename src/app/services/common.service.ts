@@ -26,7 +26,7 @@ export class CommonService {
   }
 
   getBudget() {
-    return '17717';
+    return '36000';
   }
 
   getCurrentMonth() {

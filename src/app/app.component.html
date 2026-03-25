@@ -1,3 +1,46 @@
-<div class="containe">
-  <router-outlet></router-outlet>
+<div class="pw-app-layout">
+  <!-- Desktop Sidebar -->
+  <nav class="pw-desktop-sidebar">
+    <div class="sidebar-brand">
+      <img src="assets/images/penny_logo.png" alt="PennyWise logo" class="sidebar-logo">
+      <h1 class="sidebar-title">PennyWise</h1>
+    </div>
+
+    <div class="sidebar-menu">
+      <!-- <a class="sidebar-link" routerLink="/home" routerLinkActive="active">
+        <i class="fa fa-home"></i> Home
+      </a> -->
+      <a class="sidebar-link" routerLink="/reports" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="fa fa-pie-chart"></i> Reports
+      </a>
+      <a class="sidebar-sublink" routerLink="/reports/overview" routerLinkActive="active">
+        <i class="fa fa-bar-chart"></i> Overview
+      </a>
+      <a class="sidebar-sublink" routerLink="/reports/trend" routerLinkActive="active">
+        <i class="fa fa-line-chart"></i> Trend
+      </a>
+      <a class="sidebar-sublink" routerLink="/reports/group" routerLinkActive="active">
+        <i class="fa fa-users"></i> Group
+      </a>
+      <a class="sidebar-link" routerLink="/expense" routerLinkActive="active">
+        <i class="fa fa-list-alt"></i> Expense
+      </a>
+      <a class="sidebar-link" routerLink="/budget" routerLinkActive="active">
+        <i class="fa fa-credit-card"></i> Budget
+      </a>
+      <a class="sidebar-link" routerLink="/category" routerLinkActive="active">
+        <i class="fa fa-tags"></i> Category
+      </a>
+      <!-- <a class="sidebar-link" routerLink="/bank" routerLinkActive="active">
+        <i class="fa fa-university"></i> Bank
+      </a> -->
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="pw-app-content">
+    <div class="containe">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 </div>
