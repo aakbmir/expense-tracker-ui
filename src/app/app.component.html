@@ -35,7 +35,21 @@
         <i class="fa fa-university"></i> Bank
       </a> -->
     </div>
+
+    <!-- Desktop Theme Toggle -->
+    <div style="margin-top: auto; padding-top: 20px;">
+      <button class="pw-btn pw-btn-ghost" style="width: 100%; display: flex; align-items: center; gap: 12px; justify-content: center;" (click)="toggleTheme()">
+        <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+        <span *ngIf="(themeService.isLightMode$ | async)">Dark Mode</span>
+        <span *ngIf="!(themeService.isLightMode$ | async)">Light Mode</span>
+      </button>
+    </div>
   </nav>
+
+  <!-- Mobile Floating Theme Toggle -->
+  <button class="pw-theme-toggle-mobile mobile-only" (click)="toggleTheme()">
+    <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+  </button>
 
   <!-- Main Content Area -->
   <main class="pw-app-content">
