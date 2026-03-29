@@ -214,6 +214,104 @@
         </div>
     </div>
 </div>
+<!-- Income -->
+<div class="pw-dialog" *ngIf="screen ==='Income-Add'">
+    <h3>Add Income</h3>
+    <hr />
+    <form [formGroup]="addIncomeForm" (ngSubmit)="addIncome()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Name</span>
+            <input class="form-control" type="text" formControlName="name" id="name" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
+            <input class="form-control" type="text" formControlName="category" id="name" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="number" inputmode="decimal" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date" (click)="datepicker.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
+            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Add</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="pw-dialog" *ngIf="screen ==='Income-Edit'">
+    <h3>Edit Income</h3>
+    <hr />
+    <form [formGroup]="editIncomeForm" (ngSubmit)="editIncome()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Name</span>
+            <input class="form-control" type="text" formControlName="name" id="name" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
+            <input class="form-control" type="number" inputmode="decimal" formControlName="price" id="price" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date" (click)="datepicker.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
+            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="pw-dialog pw-dialog--center" *ngIf="screen ==='Income-Delete'">
+    <h3>Delete Income</h3>
+    <p></p>
+    <span>Deleting this Income will impact
+        <p></p>reports.
+        <p></p> Are you sure?
+    </span>
+    <p></p>
+    <div class="form-group row">
+        <div class="col" style="text-align: center;">
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteIncome()">Delete</button>
+            <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+</div>
 
 <!-- Bank -->
 <div class="pw-dialog" *ngIf="screen ==='Bank-Record-Add'">
@@ -342,7 +440,7 @@
         <div class="col-6" style="text-align: left;">
             <h6 style="color: dimgrey">{{item.category}}</h6>
             <h6 style="color: #6d9773">{{item.note}}</h6>
-            
+
         </div>
         <div class="col-6" style="text-align: right;">
             <h6 style="color: dimgrey">{{item.date | date : 'dd, MMM'}}</h6>

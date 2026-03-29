@@ -22,7 +22,7 @@
 
 
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
-          Expense
+          Income
         </h2>
       </div>
     </div>
@@ -43,7 +43,7 @@
 
       <!-- Total Amount -->
       <div
-        style="font-weight: 700; font-size: 18px; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); text-align: right;">
+        style="font-weight: 700; font-size: 18px; color: #10b981; text-shadow: 0 0 8px rgba(16, 185, 129, 0.5); text-align: right;">
         {{total | number:'1.2-2'}} <span
           style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
       </div>
@@ -55,11 +55,11 @@
 
       <!-- Expand & Collapse (Left) -->
       <div *ngIf="count > 0 && !loading" style="display: flex; gap: 16px;">
-        <button class="pw-btn-text" (click)="expandAll()" style="color: #0ea5e9; font-size: 12px;">
+        <button class="pw-btn-text" (click)="expandAll()" style="color: #10b981; font-size: 12px;">
           Expand All
         </button>
-        <div style="width: 1px; background: rgba(14, 165, 233, 0.2); height: 16px; align-self: center;"></div>
-        <button class="pw-btn-text" (click)="collapseAll()" style="color: #0ea5e9; font-size: 12px;">
+        <div style="width: 1px; background: rgba(16, 185, 129, 0.2); height: 16px; align-self: center;"></div>
+        <button class="pw-btn-text" (click)="collapseAll()" style="color: #10b981; font-size: 12px;">
           Collapse All
         </button>
       </div>
@@ -70,9 +70,9 @@
           <span style="font-weight: 700; color: #fff;">{{ count }}</span> <span class="pw-muted">&nbsp;Items</span>
         </div>
         <button class="pw-btn pw-btn-ghost pw-btn-sm"
-          style="border: 1px solid rgba(14, 165, 233, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
-          (click)="openDialog('', 'Expense-Add', 100, 100)">
-          <i class="fa fa-plus" style="margin-right: 4px; color: #14b8a6;"></i> Add
+          style="border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
+          (click)="openDialog('', 'Income-Add', 100, 100)">
+          <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add
         </button>
       </div>
 
@@ -87,7 +87,7 @@
         <!-- Date Header Row -->
         <button class="row-btn parent-row" (click)="toggleGroup(group.date)">
           <div class="row-left">
-            <!-- Expense dots get red highlight -->
+            <!-- Income dots get green highlight -->
             <div class="dot-indicator"></div>
             <div class="parent-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
           </div>
@@ -104,14 +104,12 @@
 
               <div class="row-left" style="flex-direction: column; align-items: flex-start; gap: 4px;">
                 <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.category }}</div>
-                <div style="font-size: 12px; color: var(--pw-muted);">{{ item.superCategory }} - {{ item.parentCategory
-                  }}</div>
               </div>
 
               <div class="row-right" style="flex-direction: row; align-items: center; gap: 16px;">
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
                   <div
-                    style="font-weight: 500; font-size: 14px; color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4);">
+                    style="font-weight: 500; font-size: 14px; color: #10b981; text-shadow: 0 0 4px rgba(16, 185, 129, 0.4);">
                     {{item.price | number:'1.2-2'}} <span
                       style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
                   </div>
@@ -125,8 +123,8 @@
                     <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>
                   </button>
                   <mat-menu #beforeMenu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="openDialog(item, 'Expense-Edit', 100, 100)">Edit</button>
-                    <button mat-menu-item (click)="openDialog(item, 'Expense-Delete', 100, 100)">Delete</button>
+                    <button mat-menu-item (click)="openDialog(item, 'Income-Edit', 100, 100)">Edit</button>
+                    <button mat-menu-item (click)="openDialog(item, 'Income-Delete', 100, 100)">Delete</button>
                   </mat-menu>
                 </div>
               </div>
@@ -142,15 +140,13 @@
     <div *ngIf="count == 0 && !loading" class="empty-state">
       <i class="fa fa-exclamation-triangle"></i>
       <p>No records in this month</p>
-      <small>Tap + to add new Expense.</small>
+      <small>Tap + to add new Income.</small>
     </div>
 
     <!-- LOADING -->
     <div *ngIf="loading" class="loading">
       <img src="./../../../assets/loading.gif" style="height: 15em;">
     </div>
-
-    <!-- <app-footer></app-footer> -->
 
   </div>
 </div>

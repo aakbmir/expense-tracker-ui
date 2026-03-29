@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReportsComponent } from './components/reports/reports.component';
 import { ExpenseComponent } from './components/expense/expense.component';
+import { IncomeComponent } from './components/income/income.component';
 import { CategoryComponent } from './components/category/category.component';
 import { BudgetComponent } from './components/budget/budget.component';
 import { OverviewReportComponent } from './components/reports/overview-report/overview-report.component';
@@ -52,6 +53,10 @@ const routes: Routes = [
   {
     path: 'expense',
     component: ExpenseComponent,
+  },
+  {
+    path: 'income',
+    component: IncomeComponent,
   },
   {
     path: 'bank',

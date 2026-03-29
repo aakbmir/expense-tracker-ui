@@ -7,6 +7,7 @@ import { BudgetService } from 'src/app/services/budget.service';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { ReportService } from 'src/app/services/report.service';
 import { BankService } from 'src/app/services/bank.service';
+import { IncomeService } from 'src/app/services/income.service';
 
 @Component({
   selector: 'app-dialog',
@@ -29,6 +30,7 @@ export class DialogComponent {
     private budgetService: BudgetService,
     private reportsService: ReportService,
     private bankService: BankService,
+    private incomeService: IncomeService,
     private snackBar: MatSnackBar
   ) {
     this.screen = this.data.screen;
@@ -150,10 +152,46 @@ export class DialogComponent {
 
   addIncomeForm = new FormGroup({
     name: new FormControl('', Validators.required),
+    category: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
     date: new FormControl('', Validators.required),
+
     note: new FormControl('', Validators.required),
   });
+
+  editIncomeForm = new FormGroup({
+    id: new FormControl(this.data.item.id, Validators.required),
+    name: new FormControl(this.data.item.name, Validators.required),
+    category: new FormControl(this.data.item.category, Validators.required),
+    price: new FormControl(this.data.item.price, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+    note: new FormControl(this.data.item.note, Validators.required),
+  });
+
+  addIncome() {
+    this.incomeService.saveIncome(this.addIncomeForm.value).subscribe(
+      (data) => {
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        this.onCancel();
+      }
+    );
+  }
+
+  editIncome() {
+    this.incomeService
+      .updateIncome(this.editIncomeForm.value)
+      .subscribe((data) => {
+        this.dialogRef.close(true);
+      });
+  }
+
+  deleteIncome() {
+    this.incomeService.deleteIncome(this.data.item.id).subscribe((data) => {
+      this.dialogRef.close(true);
+    });
+  }
 
   addExpenseForm = new FormGroup({
     category: new FormControl(this.data.item.category, Validators.required),

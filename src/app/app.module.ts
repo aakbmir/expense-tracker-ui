@@ -24,6 +24,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BudgetComponent } from './components/budget/budget.component';
+import { IncomeComponent } from './components/income/income.component';
 
 import { NgChartsModule } from 'ng2-charts';
 import { AppConfigService } from './providers/app-config.service';
@@ -45,6 +46,7 @@ export function initConfig(appConfig: AppConfigService) {
   declarations: [
     AppComponent,
     ExpenseComponent,
+    IncomeComponent,
     CategoryComponent,
     ReportsComponent,
     DialogComponent,
