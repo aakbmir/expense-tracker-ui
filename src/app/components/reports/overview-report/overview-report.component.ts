@@ -25,8 +25,8 @@ export class OverviewReportComponent {
   categoryList: any = [];
   categoryTransactionList: any = [];
 
-  superCategoryList: any = [];
-  parentCategoryList: any = [];
+  subCategoryList: any = [];
+  mainCategoryList: any = [];
 
   constructor(private reportService: ReportService, private commonService: CommonService, private router: Router) {
     this.months = this.commonService.getMonths();
@@ -69,11 +69,11 @@ export class OverviewReportComponent {
     this.reportService.fetchAllCategoriesDetails().subscribe(
       (data: any) => {
         this.categoryList = [...new Set(data.map((item) => item.category))];
-        this.superCategoryList = [
-          ...new Set(data.map((item) => item.superCategory)),
+        this.subCategoryList = [
+          ...new Set(data.map((item) => item.subCategory)),
         ];
-        this.parentCategoryList = [
-          ...new Set(data.map((item) => item.parentCategory)),
+        this.mainCategoryList = [
+          ...new Set(data.map((item) => item.mainCategory)),
         ];
       },
       (error) => { }

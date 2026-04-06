@@ -4,21 +4,6 @@
     <div
       style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 2px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
       <div style="position: relative; text-align: center;">
-        <i class="fa fa-bars mobile-only" [matMenuTriggerFor]="routeMenu"
-          style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; cursor: pointer; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);"></i>
-
-        <mat-menu #routeMenu="matMenu">
-          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/reports']"><i class="fa fa-pie-chart"
-              style="width: 24px;"></i> Overview</button>
-          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/expense']"><i class="fa fa-list-alt"
-              style="width: 24px;"></i> Expense</button>
-          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/income']"><i class="fa fa-money"
-              style="width: 24px;"></i> Income</button>
-          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/budget']"><i class="fa fa-credit-card"
-              style="width: 24px;"></i> Budget</button>
-          <button mat-menu-item routerLinkActive="active-route" [routerLink]="['/category']"><i class="fa fa-tags"
-              style="width: 24px;"></i> Category</button>
-        </mat-menu>
 
 
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
@@ -81,15 +66,14 @@
     <!-- Main List Card -->
     <div *ngIf="count > 0 && !loading" class="cat-main-card pw-glass">
 
-      <div *ngFor="let group of groupedDataArray; let lastParent = last" class="parent-block"
-        [class.no-border]="lastParent">
+      <div *ngFor="let group of groupedDataArray; let lastMain = last" class="main-block" [class.no-border]="lastMain">
 
         <!-- Date Header Row -->
-        <button class="row-btn parent-row" (click)="toggleGroup(group.date)">
+        <button class="row-btn main-row" (click)="toggleGroup(group.date)">
           <div class="row-left">
             <!-- Expense dots get red highlight -->
             <div class="dot-indicator"></div>
-            <div class="parent-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
+            <div class="main-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
           </div>
           <div class="row-right">
             <i class="fa" [ngClass]="isGroupExpanded(group.date) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
@@ -104,7 +88,7 @@
 
               <div class="row-left" style="flex-direction: column; align-items: flex-start; gap: 4px;">
                 <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.category }}</div>
-                <div style="font-size: 12px; color: var(--pw-muted);">{{ item.superCategory }} - {{ item.parentCategory
+                <div style="font-size: 12px; color: var(--pw-muted);">{{ item.subCategory }} - {{ item.mainCategory
                   }}</div>
               </div>
 

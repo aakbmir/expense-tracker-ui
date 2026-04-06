@@ -44,25 +44,25 @@ export class CategoryReportComponent {
   fetchCategoryReport(month: any, year: any) {
     this.reportService.categoryReport(month, year).subscribe((data) => {
       this.categoryList = data;
-      this.groupedData = this.groupDataByParent(data);
+      this.groupedData = this.groupDataByMain(data);
       for (let dd of data) {
         this.expensesTotal = this.expensesTotal + dd.expense;
       }
     });
   }
 
-  groupDataByParent(data: any[]): any {
+  groupDataByMain(data: any[]): any {
     const grouped = {};
     data.forEach((item) => {
-      const parentCategory = item.parentCategory;
-      const superCategory = item.superCategory;
-      if (!grouped[parentCategory]) {
-        grouped[parentCategory] = {};
+      const mainCategory = item.mainCategory;
+      const subCategory = item.subCategory;
+      if (!grouped[mainCategory]) {
+        grouped[mainCategory] = {};
       }
-      if (!grouped[parentCategory][superCategory]) {
-        grouped[parentCategory][superCategory] = [];
+      if (!grouped[mainCategory][subCategory]) {
+        grouped[mainCategory][subCategory] = [];
       }
-      grouped[parentCategory][superCategory].push(item);
+      grouped[mainCategory][subCategory].push(item);
     });
     return grouped;
   }
@@ -73,7 +73,7 @@ export class CategoryReportComponent {
 
   openDialog(category: any, screen: string, height: number, width: number) {
     let item = {
-      parent: category,
+      main: category,
       month: this.month,
       year: this.year,
     };
@@ -93,7 +93,7 @@ export class CategoryReportComponent {
       if (result) {
       }
     });
-  } 
-  
+  }
+
 
 }

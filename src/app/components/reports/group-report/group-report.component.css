@@ -53,7 +53,7 @@
   min-width: 200px;
 }
 
-.header-left > div {
+.header-left>div {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -138,7 +138,7 @@
   padding-bottom: 20px;
 }
 
-.parent-card {
+.main-card {
   background: linear-gradient(180deg, rgba(8, 20, 42, 0.80) 0%, rgba(15, 20, 30, 0.70) 100%);
   border-radius: 16px;
   border: 1px solid rgba(56, 189, 248, 0.2);
@@ -149,7 +149,7 @@
   overflow: hidden;
 }
 
-.parent-head {
+.main-head {
   width: 100%;
   border: none;
   background: transparent;
@@ -165,19 +165,19 @@
   border-bottom: 1px solid rgba(56, 189, 248, 0.12);
 }
 
-.parent-head:hover {
+.main-head:hover {
   background: rgba(255, 255, 255, 0.02);
   transform: translateY(-1px);
 }
 
-.parent-head-content {
+.main-head-content {
   display: flex;
   flex-direction: column;
   gap: 8px;
   flex: 1;
 }
 
-.parent-title {
+.main-title {
   font-weight: 900;
   letter-spacing: -0.3px;
   color: #38bdf8;
@@ -185,7 +185,7 @@
   text-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
 }
 
-.parent-stats {
+.main-stats {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
@@ -222,14 +222,14 @@
   text-shadow: 0 0 6px rgba(244, 63, 94, 0.4);
 }
 
-.parent-head > i {
+.main-head>i {
   font-size: 16px;
   color: rgba(56, 189, 248, 0.8);
   margin-left: 12px;
   flex-shrink: 0;
 }
 
-.parent-body {
+.main-body {
   display: grid;
   gap: 12px;
   padding: 16px;
@@ -305,7 +305,7 @@
   color: #f43f5e;
 }
 
-.sub-head > i {
+.sub-head>i {
   font-size: 14px;
   color: rgba(22, 163, 74, 0.95);
   margin-left: 10px;

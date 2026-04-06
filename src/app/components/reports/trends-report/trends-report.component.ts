@@ -25,7 +25,7 @@ export class TrendReportComponent {
     private commonService: CommonService,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.fetchTrendsReport();
@@ -37,7 +37,7 @@ export class TrendReportComponent {
       let sum = 0;
       for (let ove of data) {
         const obj = ove;
-        obj['totalSalary'] = this.commonService.getBudget();
+        obj['totalSalary'] = obj['totalIncome'];
         //obj['totalBudget'] = this.commonService.getBudget();
         obj['savings'] = obj['totalSalary'] - obj['totalExpense'];
         obj['deviate'] = obj['totalBudget'] - obj['totalExpense'];
@@ -51,7 +51,7 @@ export class TrendReportComponent {
   overviewFlag = true;
   groupFlag = false;
   bankFlag = false;
-  
+
   searchFlag = false;
 
   showReport(value: string) {

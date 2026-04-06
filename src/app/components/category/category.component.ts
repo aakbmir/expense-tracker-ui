@@ -11,13 +11,13 @@ export class CategoryComponent implements OnInit {
   loading = false;
   total = 0;
   groupedData: any = {};
-  expandedParents: Record<string, boolean> = {};
+  expandedMains: Record<string, boolean> = {};
   expandedSubs: Record<string, Record<string, boolean>> = {};
 
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -30,8 +30,8 @@ export class CategoryComponent implements OnInit {
       if (screen == 'Category-Edit') {
         category = {
           category: cat.category,
-          parentCategory: cat.parentCategory,
-          superCategory: cat.superCategory,
+          mainCategory: cat.mainCategory,
+          subCategory: cat.subCategory,
           id: cat.id,
         };
       } else {
@@ -64,18 +64,18 @@ export class CategoryComponent implements OnInit {
     this.categoryService.getAllCategories().subscribe((data: any) => {
       this.loading = false;
       this.total = data.length;
-      this.groupedData = this.groupDataByParent(data);
+      this.groupedData = this.groupDataByMain(data);
       this.initExpandedState();
     });
   }
 
   private initExpandedState() {
-    const parents = Object.keys(this.groupedData || {});
-    const nextParents: Record<string, boolean> = {};
+    const mains = Object.keys(this.groupedData || {});
+    const nextMains: Record<string, boolean> = {};
     const nextSubs: Record<string, Record<string, boolean>> = {};
 
-    parents.forEach((p, idx) => {
-      nextParents[p] = false;
+    mains.forEach((p, idx) => {
+      nextMains[p] = false;
       const subs = Object.keys(this.groupedData[p] || {});
       nextSubs[p] = {};
       subs.forEach((s) => {
@@ -83,25 +83,25 @@ export class CategoryComponent implements OnInit {
       });
     });
 
-    this.expandedParents = nextParents;
+    this.expandedMains = nextMains;
     this.expandedSubs = nextSubs;
   }
 
-  toggleParent(parent: string) {
-    this.expandedParents[parent] = !this.isParentExpanded(parent);
+  toggleMain(main: string) {
+    this.expandedMains[main] = !this.isMainExpanded(main);
   }
 
-  isParentExpanded(parent: string) {
-    return this.expandedParents[parent] ?? false;
+  isMainExpanded(main: string) {
+    return this.expandedMains[main] ?? false;
   }
 
-  toggleSub(parent: string, sub: string) {
-    if (!this.expandedSubs[parent]) this.expandedSubs[parent] = {};
-    this.expandedSubs[parent][sub] = !this.isSubExpanded(parent, sub);
+  toggleSub(main: string, sub: string) {
+    if (!this.expandedSubs[main]) this.expandedSubs[main] = {};
+    this.expandedSubs[main][sub] = !this.isSubExpanded(main, sub);
   }
 
-  isSubExpanded(parent: string, sub: string) {
-    return this.expandedSubs[parent]?.[sub] ?? false;
+  isSubExpanded(main: string, sub: string) {
+    return this.expandedSubs[main]?.[sub] ?? false;
   }
 
   expandAll() {
@@ -113,9 +113,9 @@ export class CategoryComponent implements OnInit {
   }
 
   private setAllExpandedState(state: boolean) {
-    const parents = Object.keys(this.groupedData || {});
-    parents.forEach((p) => {
-      this.expandedParents[p] = state;
+    const mains = Object.keys(this.groupedData || {});
+    mains.forEach((p) => {
+      this.expandedMains[p] = state;
       if (!this.expandedSubs[p]) this.expandedSubs[p] = {};
       const subs = Object.keys(this.groupedData[p] || {});
       subs.forEach((s) => {
@@ -124,33 +124,33 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  parentCount(parent: string) {
-    const subs = this.groupedData?.[parent] || {};
+  mainCount(main: string) {
+    const subs = this.groupedData?.[main] || {};
     return Object.values(subs).reduce((acc: number, arr: any) => acc + (Array.isArray(arr) ? arr.length : 0), 0);
   }
 
-  groupDataByParent(data: any[]): any {
+  groupDataByMain(data: any[]): any {
     const grouped = {};
     data.forEach((item) => {
-      const parentCategory = item.parentCategory;
-      const superCategory = item.superCategory;
+      const mainCategory = item.mainCategory;
+      const subCategory = item.subCategory;
 
       let cat = {
-        parentCategory: item.parentCategory,
-        superCategory: item.superCategory,
+        mainCategory: item.mainCategory,
+        subCategory: item.subCategory,
         category: item.category,
         id: item.id,
       };
 
-      if (!grouped[parentCategory]) {
-        grouped[parentCategory] = {};
+      if (!grouped[mainCategory]) {
+        grouped[mainCategory] = {};
       }
 
-      if (!grouped[parentCategory][superCategory]) {
-        grouped[parentCategory][superCategory] = [];
+      if (!grouped[mainCategory][subCategory]) {
+        grouped[mainCategory][subCategory] = [];
       }
 
-      grouped[parentCategory][superCategory].push(cat);
+      grouped[mainCategory][subCategory].push(cat);
     });
     return grouped;
   }

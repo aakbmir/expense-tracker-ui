@@ -8,12 +8,16 @@
             <input class="form-control" type="text" formControlName="category" id="category" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Super Category</span>
-            <input class="form-control" type="text" formControlName="superCategory" id="superCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Sub Category</span>
+            <input class="form-control" type="text" formControlName="subCategory" id="subCategory" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Parent Category</span>
-            <input class="form-control" type="text" formControlName="parentCategory" id="parentCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Main Category</span>
+            <input class="form-control" type="text" formControlName="mainCategory" id="mainCategory" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category Group</span>
+            <input class="form-control" type="text" formControlName="categoryGroup" id="categoryGroup" />
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
@@ -33,12 +37,12 @@
             <input class="form-control" type="text" formControlName="category" id="category" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Super Category</span>
-            <input class="form-control" type="text" formControlName="superCategory" id="superCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Sub Category</span>
+            <input class="form-control" type="text" formControlName="subCategory" id="subCategory" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Parent Category</span>
-            <input class="form-control" type="text" formControlName="parentCategory" id="parentCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Main Category</span>
+            <input class="form-control" type="text" formControlName="mainCategory" id="mainCategory" />
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
@@ -410,7 +414,7 @@
 
 <!-- Reports -->
 <div class="pw-dialog" *ngIf="screen ==='fetch-category-report-details'">
-    <h3>Expense Details for {{parent}}</h3>
+    <h3>Expense Details for {{main}}</h3>
     <hr />
     <div class="row" *ngFor="let item of reportsDetailsList"
         style="margin-bottom: 1em; border-bottom: 1px solid dimgrey">
@@ -432,8 +436,8 @@
     </div>
 </div>
 
-<div class="pw-dialog" *ngIf="screen ==='fetch-super-category-report-details'">
-    <h3>Expense Details for {{parent}}</h3>
+<div class="pw-dialog" *ngIf="screen ==='fetch-sub-category-report-details'">
+    <h3>Expense Details for {{main}}</h3>
     <hr />
     <div class="row" *ngFor="let item of reportsDetailsList"
         style="margin-bottom: 1em; border-bottom: 1px solid dimgrey">

@@ -44,7 +44,7 @@ export class GroupReportComponent {
     this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
     this.reportsService.groupedReport(month, year).subscribe((data: any) => {
       this.cumulativeReport = data;
-      for(let report of this.cumulativeReport) {
+      for (let report of this.cumulativeReport) {
         report.expanded = false;
         this.totalExpense = this.totalExpense + report.expense;
         this.totalBudget = this.totalBudget + report.budget;
@@ -60,18 +60,18 @@ export class GroupReportComponent {
     let calcMnth = Number(this.month) - 1;
     let calcYear = Number(this.year);
     if (clickedBtn === 'left') {
-       calcMnth = Number(this.month) - 1;
+      calcMnth = Number(this.month) - 1;
       calcYear = Number(this.year);
       if (calcMnth == 0) {
         calcMnth = 12;
-        calcYear =calcYear -1;
+        calcYear = calcYear - 1;
       }
     } else {
       calcMnth = Number(this.month) + 1;
       calcYear = Number(this.year);
       if (calcMnth == 13) {
         calcMnth = 1;
-        calcYear = calcYear +1;
+        calcYear = calcYear + 1;
       }
     }
 
@@ -132,7 +132,7 @@ export class GroupReportComponent {
 
   openDialog(category: any, screen: string, height: number, width: number) {
     let item = {
-      parent: category,
+      main: category,
       month: this.month,
       year: this.year,
     };

@@ -52,25 +52,25 @@ export class ReportService {
     });
   }
 
-  superCategoryReport(month: any, year: any): Observable<any> {
+  subCategoryReport(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/super-category-report`, {
+    return this.http.get(`${this.baseUrl}/sub-category-report`, {
       params: queryParams,
     });
   }
 
-  fetchSuperCategoryReportDetails(
+  fetchSubCategoryReportDetails(
     item: any,
     month: any,
     year: any
   ): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams
-      .append('superCategory', item)
+      .append('subCategory', item)
       .append('month', month)
       .append('year', year);
-    return this.http.get(`${this.baseUrl}/super-category-report-details`, {
+    return this.http.get(`${this.baseUrl}/sub-category-report-details`, {
       params: queryParams,
     });
   }

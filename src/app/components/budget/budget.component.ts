@@ -17,10 +17,10 @@ export class BudgetComponent implements OnInit {
 
   groupedData: any = {};
   resData: any = [];
-  expandedParents: Record<string, boolean> = {};
+  expandedMains: Record<string, boolean> = {};
   expandedSubs: Record<string, Record<string, boolean>> = {};
 
-  
+
   monthText = '';
   month = this.commonService.getCurrentMonth();
   year = this.commonService.getCurrentYear();
@@ -42,8 +42,8 @@ export class BudgetComponent implements OnInit {
     if (cat !== '') {
       category = {
         category: cat.category,
-        parentCategory: cat.parentCategory,
-        superCategory: cat.superCategory,
+        mainCategory: cat.mainCategory,
+        subCategory: cat.subCategory,
         price: cat.price,
         date: cat.date,
         id: cat.id,
@@ -75,7 +75,7 @@ export class BudgetComponent implements OnInit {
       this.count = data.length;
       this.total = 0;
       this.resData = data;
-      this.groupedData = this.groupDataByParent(data);
+      this.groupedData = this.groupDataByMain(data);
       this.initExpandedState();
 
       for (let bud of data) {
@@ -92,18 +92,18 @@ export class BudgetComponent implements OnInit {
     let calcMnth = Number(this.month) - 1;
     let calcYear = Number(this.year);
     if (clickedBtn === 'left') {
-       calcMnth = Number(this.month) - 1;
+      calcMnth = Number(this.month) - 1;
       calcYear = Number(this.year);
       if (calcMnth == 0) {
         calcMnth = 12;
-        calcYear =calcYear -1;
+        calcYear = calcYear - 1;
       }
     } else {
       calcMnth = Number(this.month) + 1;
       calcYear = Number(this.year);
       if (calcMnth == 13) {
         calcMnth = 1;
-        calcYear = calcYear +1;
+        calcYear = calcYear + 1;
       }
     }
 
@@ -114,27 +114,27 @@ export class BudgetComponent implements OnInit {
     this.fetchAllBudgetList(this.month, this.year);
   }
 
-  groupDataByParent(data: any[]): any {
+  groupDataByMain(data: any[]): any {
     const grouped = {};
     data.forEach((item) => {
-      const parentCategory = item.parentCategory;
-      const superCategory = item.superCategory;
+      const mainCategory = item.mainCategory;
+      const subCategory = item.subCategory;
 
       let cat = {
         category: item.category,
-        parentCategory: parentCategory,
-        superCategory: superCategory,
+        mainCategory: mainCategory,
+        subCategory: subCategory,
         price: item.price,
         date: item.date,
         id: item.id,
       };
-      if (!grouped[parentCategory]) {
-        grouped[parentCategory] = {};
+      if (!grouped[mainCategory]) {
+        grouped[mainCategory] = {};
       }
-      if (!grouped[parentCategory][superCategory]) {
-        grouped[parentCategory][superCategory] = [];
+      if (!grouped[mainCategory][subCategory]) {
+        grouped[mainCategory][subCategory] = [];
       }
-      grouped[parentCategory][superCategory].push(cat);
+      grouped[mainCategory][subCategory].push(cat);
     });
     return grouped;
   }
@@ -144,12 +144,12 @@ export class BudgetComponent implements OnInit {
   }
 
   private initExpandedState() {
-    const parents = Object.keys(this.groupedData || {});
-    const nextParents: Record<string, boolean> = {};
+    const mains = Object.keys(this.groupedData || {});
+    const nextMains: Record<string, boolean> = {};
     const nextSubs: Record<string, Record<string, boolean>> = {};
 
-    parents.forEach((p) => {
-      nextParents[p] = false;
+    mains.forEach((p) => {
+      nextMains[p] = false;
       const subs = Object.keys(this.groupedData[p] || {});
       nextSubs[p] = {};
       subs.forEach((s) => {
@@ -157,25 +157,25 @@ export class BudgetComponent implements OnInit {
       });
     });
 
-    this.expandedParents = nextParents;
+    this.expandedMains = nextMains;
     this.expandedSubs = nextSubs;
   }
 
-  toggleParent(parent: string) {
-    this.expandedParents[parent] = !this.isParentExpanded(parent);
+  toggleMain(main: string) {
+    this.expandedMains[main] = !this.isMainExpanded(main);
   }
 
-  isParentExpanded(parent: string) {
-    return this.expandedParents[parent] ?? false;
+  isMainExpanded(main: string) {
+    return this.expandedMains[main] ?? false;
   }
 
-  toggleSub(parent: string, sub: string) {
-    if (!this.expandedSubs[parent]) this.expandedSubs[parent] = {};
-    this.expandedSubs[parent][sub] = !this.isSubExpanded(parent, sub);
+  toggleSub(main: string, sub: string) {
+    if (!this.expandedSubs[main]) this.expandedSubs[main] = {};
+    this.expandedSubs[main][sub] = !this.isSubExpanded(main, sub);
   }
 
-  isSubExpanded(parent: string, sub: string) {
-    return this.expandedSubs[parent]?.[sub] ?? false;
+  isSubExpanded(main: string, sub: string) {
+    return this.expandedSubs[main]?.[sub] ?? false;
   }
 
   expandAll() {
@@ -187,9 +187,9 @@ export class BudgetComponent implements OnInit {
   }
 
   private setAllExpandedState(state: boolean) {
-    const parents = Object.keys(this.groupedData || {});
-    parents.forEach((p) => {
-      this.expandedParents[p] = state;
+    const mains = Object.keys(this.groupedData || {});
+    mains.forEach((p) => {
+      this.expandedMains[p] = state;
       if (!this.expandedSubs[p]) this.expandedSubs[p] = {};
       const subs = Object.keys(this.groupedData[p] || {});
       subs.forEach((s) => {
@@ -198,13 +198,13 @@ export class BudgetComponent implements OnInit {
     });
   }
 
-  parentCount(parent: string) {
-    const subs = this.groupedData?.[parent] || {};
+  mainCount(main: string) {
+    const subs = this.groupedData?.[main] || {};
     return Object.values(subs).reduce((acc: number, arr: any) => acc + (Array.isArray(arr) ? arr.length : 0), 0);
   }
 
-  parentTotal(parent: string): number {
-    const subs = this.groupedData?.[parent] || {};
+  mainTotal(main: string): number {
+    const subs = this.groupedData?.[main] || {};
     let total = 0;
     Object.values(subs).forEach((arr: any) => {
       if (Array.isArray(arr)) {
@@ -216,8 +216,8 @@ export class BudgetComponent implements OnInit {
     return total;
   }
 
-  subTotal(parent: string, sub: string): number {
-    const items = this.groupedData?.[parent]?.[sub] || [];
+  subTotal(main: string, sub: string): number {
+    const items = this.groupedData?.[main]?.[sub] || [];
     let total = 0;
     items.forEach((item: any) => {
       total += Number(item.price || 0);

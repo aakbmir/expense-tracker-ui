@@ -60,4 +60,28 @@
       <router-outlet></router-outlet>
     </div>
   </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="pw-bottom-nav mobile-only">
+    <a class="nav-item" routerLink="/reports" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+      <i class="fa fa-pie-chart"></i>
+      <span>Overview</span>
+    </a>
+    <a class="nav-item" routerLink="/expense" routerLinkActive="active">
+      <i class="fa fa-list-alt"></i>
+      <span>Expense</span>
+    </a>
+    <a class="nav-item" routerLink="/income" routerLinkActive="active">
+      <i class="fa fa-money"></i>
+      <span>Income</span>
+    </a>
+    <a class="nav-item" routerLink="/budget" routerLinkActive="active">
+      <i class="fa fa-credit-card"></i>
+      <span>Budget</span>
+    </a>
+    <a class="nav-item" routerLink="/category" routerLinkActive="active">
+      <i class="fa fa-tags"></i>
+      <span>Category</span>
+    </a>
+  </nav>
 </div>
