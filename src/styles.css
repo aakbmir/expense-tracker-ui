@@ -32,16 +32,16 @@
   --pw-bad: #f43f5e;
   --pw-warn: #f59e0b;
 
-  --pw-r-xl: 22px;
-  --pw-r-lg: 18px;
-  --pw-r-md: 14px;
-  --pw-r-sm: 12px;
+  --pw-r-xl: 16px;
+  --pw-r-lg: 12px;
+  --pw-r-md: 8px;
+  --pw-r-sm: 6px;
 
-  --pw-space-1: 8px;
-  --pw-space-2: 12px;
-  --pw-space-3: 16px;
-  --pw-space-4: 20px;
-  --pw-space-5: 28px;
+  --pw-space-1: 6px;
+  --pw-space-2: 8px;
+  --pw-space-3: 12px;
+  --pw-space-4: 16px;
+  --pw-space-5: 20px;
 }
 
 html,
@@ -64,8 +64,8 @@ body {
 /* ===== App layout ===== */
 .pw-page {
   min-height: 100vh;
-  padding: clamp(14px, 2.8vw, 24px);
-  padding-bottom: calc(clamp(14px, 2.8vw, 24px) + 78px);
+  padding: clamp(10px, 2vw, 16px);
+  padding-bottom: calc(clamp(10px, 2vw, 16px) + 78px);
 }
 
 .pw-container {
@@ -142,7 +142,7 @@ body {
   background: rgba(16, 25, 43, 0.40);
   border: 1px solid rgba(14, 165, 233, 0.15);
   color: var(--pw-text);
-  padding: 10px 18px;
+  padding: 8px 14px;
   border-radius: 999px;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -181,8 +181,8 @@ body {
 }
 
 .pw-btn-icon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: inline-grid;
   place-items: center;
   padding: 0;
@@ -208,7 +208,7 @@ select.pw-select {
   color: var(--pw-text);
   border: 1px solid rgba(14, 165, 233, 0.20);
   border-radius: var(--pw-r-md);
-  padding: 10px 14px;
+  padding: 8px 12px;
   outline: none;
   font-family: inherit;
   backdrop-filter: blur(8px);
