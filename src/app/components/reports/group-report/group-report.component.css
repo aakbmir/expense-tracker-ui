@@ -361,12 +361,28 @@
   line-height: 1.2;
   word-break: break-word;
   color: var(--pw-text);
+  width: 100%;
 }
 
-.item-amount {
+.item-main-val {
   font-weight: 800;
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(22, 163, 74, 0.95);
+  margin-top: 4px;
+}
+
+.item-main-val.negative {
+  color: #f43f5e;
+  text-shadow: 0 0 6px rgba(244, 63, 94, 0.4);
+}
+
+.item-sub-val {
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--pw-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
 }
 
 .pw-btn-icon-small {

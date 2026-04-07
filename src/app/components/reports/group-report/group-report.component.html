@@ -81,7 +81,10 @@
                 <button class="cat-item"
                   (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
                   <span class="item-name">{{categoryObj.name}}</span>
-                  <span class="item-amount">{{categoryObj.expense | number:'1.2-2'}} AED</span>
+                  <span class="item-main-val" [ngClass]="{'negative': categoryObj.expense > categoryObj.budget}">
+                    {{categoryObj.expense | number:'1.2-2'}}
+                  </span>
+                  <span class="item-sub-val">Bgt: {{categoryObj.budget | number:'1.2-2'}}</span>
                 </button>
               </div>
             </div>
