@@ -6,6 +6,7 @@ import { ExpenseService } from 'src/app/services/expense.service';
 import { ReportService } from 'src/app/services/report.service';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { Router } from '@angular/router';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-trends-report',
@@ -24,7 +25,8 @@ export class TrendReportComponent {
     private reportService: ReportService,
     private commonService: CommonService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) { }
 
   ngOnInit(): void {

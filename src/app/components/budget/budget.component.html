@@ -28,10 +28,9 @@
       </div>
 
       <!-- Total Amount -->
-      <div
-        style="font-weight: 700; font-size: 18px; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); text-align: right;">
+      <div style="font-weight: 700; font-size: 18px; color: #38bdf8; text-align: right;">
         {{total | number:'1.2-2'}} <span
-          style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+          style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED</span>
       </div>
     </div>
 
@@ -72,11 +71,10 @@
             <div class="main-title">{{ main | uppercase }}</div>
           </div>
           <div class="row-right">
-            <span class="row-meta"><span
-                style="color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4); opacity: 1;">{{ mainTotal(main)
+            <span class="row-meta"><span style="color: #38bdf8; opacity: 1;">{{ mainTotal(main)
                 | number:'1.2-2'
                 }}</span> <span
-                style="font-weight:400; font-size:11px; opacity:0.6; color: var(--pw-text); text-shadow: none;">AED</span></span>
+                style="font-weight:400; font-size:11px; opacity:0.6; color: var(--pw-text);">AED</span></span>
             <i class="fa" [ngClass]="isMainExpanded(main) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
           </div>
         </button>
@@ -90,11 +88,10 @@
                 <div class="subcat-title">{{ sub.key }}</div>
               </div>
               <div class="row-right">
-                <span class="row-meta"><span
-                    style="color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4); opacity: 1;">{{
+                <span class="row-meta"><span style="color: #38bdf8; opacity: 1;">{{
                     subTotal(main, sub.key) |
                     number:'1.2-2' }}</span> <span
-                    style="font-weight:400; font-size:11px; opacity:0.6; color: var(--pw-text); text-shadow: none;">AED</span></span>
+                    style="font-weight:400; font-size:11px; opacity:0.6; color: var(--pw-text);">AED</span></span>
                 <i class="fa" [ngClass]="isSubExpanded(main, sub.key) ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
               </div>
             </button>
@@ -109,10 +106,9 @@
                 </div>
 
                 <div class="row-right">
-                  <div
-                    style="font-weight: 500; font-size: 14px; color: #38bdf8; text-shadow: 0 0 4px rgba(56, 189, 248, 0.4);">
+                  <div style="font-weight: 500; font-size: 14px; color: #38bdf8;">
                     {{categoryObj.price}} <span
-                      style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
+                      style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED</span>
                   </div>
                   <button class="pw-btn-icon-small" [matMenuTriggerFor]="afterMenu">
                     <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>

@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ThemeService {
   private themeKey = 'pw-theme-pref';
-  private isLightModeSubject = new BehaviorSubject<boolean>(false);
+  private isLightModeSubject = new BehaviorSubject<boolean>(true);
   isLightMode$ = this.isLightModeSubject.asObservable();
 
   constructor(@Inject(DOCUMENT) private document: Document) {
@@ -16,8 +16,8 @@ export class ThemeService {
 
   private initTheme() {
     const savedTheme = localStorage.getItem(this.themeKey);
-    // Default to dark mode if no saved preference
-    const isLight = savedTheme === 'light';
+    // Default to light mode unless they explicitly chose dark
+    const isLight = savedTheme !== 'dark';
     this.isLightModeSubject.next(isLight);
     this.updateBodyClass(isLight);
   }
@@ -25,7 +25,7 @@ export class ThemeService {
   toggleTheme() {
     const currentMode = this.isLightModeSubject.value;
     const newMode = !currentMode;
-    
+
     this.isLightModeSubject.next(newMode);
     localStorage.setItem(this.themeKey, newMode ? 'light' : 'dark');
     this.updateBodyClass(newMode);

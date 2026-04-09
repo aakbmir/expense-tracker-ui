@@ -2,23 +2,35 @@
   <div class="pw-container pw-stack">
     <!-- Top Header -->
     <div
-      style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 2px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
-      <div style="position: relative; text-align: center;">
-
-
+      style="padding: 4px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
           Trends
         </h2>
+        <button class="pw-btn-icon-small mobile-only" (click)="themeService.toggleTheme()"
+          style="font-size: 18px; color: var(--pw-text); margin: 0; padding: 0; width: auto; height: auto;">
+          <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+        </button>
       </div>
     </div>
 
-    <div style="text-align: center; margin-bottom: 24px;">
+    <div style="display: flex;justify-content: space-between;" class="pw-segg quick-action">
+      <button class="pw-btn mobile-only" (click)="showReport('overview')">Overview</button>
+      <button class="pw-btn mobile-only" (click)="showReport('trend')">Trend</button>
+      <button class="pw-btn mobile-only" (click)="showReport('group')">Group</button>
+      <button class="pw-btn pw-btn-ghost" (click)="searchFlag = !searchFlag">
+        <i class="fa fa-sliders"></i>
+        Filter
+      </button>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 8px;">
       <div style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--pw-text);"
         [style.color]="totalSavings >= 0 ? '#10b981' : '#f43f5e'">
         {{ totalSavings | number:'1.2-2' }} <span style="font-size: 14px; opacity: 0.8; font-weight: 700;">AED</span>
       </div>
       <div
-        style="color: var(--pw-muted); font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700; margin-top: 4px;">
+        style="color: var(--pw-muted); font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700;">
         Total Savings Over Trends
       </div>
     </div>
@@ -27,28 +39,30 @@
       <div *ngFor="let item of responseList" class="pw-glass pw-card trend-card">
         <div class="trend-head">
           <div class="trend-month">{{item.month}}</div>
-          <div class="trend-dev" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
-            {{item.deviate | number:'1.2-2'}}
+          <div class="trend-dev" style="font-size: 16px;"
+            [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
+            {{item.savings | number:'1.2-2'}}
           </div>
         </div>
 
         <div class="trend-body">
-          <div class="circle" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
-            {{item.savings | number:'1.2-2'}}
-          </div>
-
           <div class="trend-grid">
             <div class="lbl">Remaining</div>
-            <div class="lbl">Budget</div>
-            <div class="lbl">Expense</div>
-          </div>
-
-          <div class="trend-grid right">
             <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
               {{item.deviate | number:'1.2-2'}}
             </div>
+          </div>
+
+          <div class="trend-grid center">
+            <div class="lbl">Budget</div>
             <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
-            <div class="val">{{item.totalExpense | number:'1.2-2'}}</div>
+          </div>
+
+          <div class="trend-grid right">
+            <div class="lbl">Expense</div>
+            <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
+              {{item.totalExpense | number:'1.2-2'}}
+            </div>
           </div>
         </div>
       </div>

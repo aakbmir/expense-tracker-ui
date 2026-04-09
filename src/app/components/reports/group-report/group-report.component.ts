@@ -4,6 +4,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { Router } from '@angular/router';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-group-report',
@@ -27,7 +28,7 @@ export class GroupReportComponent {
   totalDeviate: any = 0;
 
   constructor(private reportsService: ReportService, private commonService: CommonService, private dialog: MatDialog,
-    private router: Router
+    private router: Router, public themeService: ThemeService
   ) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();

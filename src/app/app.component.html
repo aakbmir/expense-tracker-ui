@@ -41,18 +41,15 @@
 
     <!-- Desktop Theme Toggle -->
     <div style="margin-top: auto; padding-top: 20px;">
-      <button class="pw-btn pw-btn-ghost" style="width: 100%; display: flex; align-items: center; gap: 12px; justify-content: center;" (click)="toggleTheme()">
+      <button class="pw-btn pw-btn-ghost"
+        style="width: 100%; display: flex; align-items: center; gap: 12px; justify-content: center;"
+        (click)="toggleTheme()">
         <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
         <span *ngIf="(themeService.isLightMode$ | async)">Dark Mode</span>
         <span *ngIf="!(themeService.isLightMode$ | async)">Light Mode</span>
       </button>
     </div>
   </nav>
-
-  <!-- Mobile Floating Theme Toggle -->
-  <button class="pw-theme-toggle-mobile mobile-only" (click)="toggleTheme()">
-    <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
-  </button>
 
   <!-- Main Content Area -->
   <main class="pw-app-content">
@@ -65,23 +62,18 @@
   <nav class="pw-bottom-nav mobile-only">
     <a class="nav-item" routerLink="/reports" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
       <i class="fa fa-pie-chart"></i>
-      <span>Overview</span>
     </a>
     <a class="nav-item" routerLink="/expense" routerLinkActive="active">
       <i class="fa fa-list-alt"></i>
-      <span>Expense</span>
     </a>
     <a class="nav-item" routerLink="/income" routerLinkActive="active">
       <i class="fa fa-money"></i>
-      <span>Income</span>
     </a>
     <a class="nav-item" routerLink="/budget" routerLinkActive="active">
       <i class="fa fa-credit-card"></i>
-      <span>Budget</span>
     </a>
     <a class="nav-item" routerLink="/category" routerLinkActive="active">
       <i class="fa fa-tags"></i>
-      <span>Category</span>
     </a>
   </nav>
 </div>

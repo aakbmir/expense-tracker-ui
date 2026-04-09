@@ -15,7 +15,6 @@
 
 .pw-btn-text:hover {
   opacity: 1;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
 }
 
 /* Main Card Wrapper */
@@ -105,7 +104,6 @@
   font-weight: 600;
   letter-spacing: 1px;
   font-size: 14px;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
 /* Subcategories Block */
@@ -156,7 +154,6 @@
 }
 
 .pw-btn-icon-small:hover {
-  text-shadow: 0 0 8px #f43f5e;
   opacity: 1 !important;
 }
 
@@ -171,7 +168,6 @@
   font-size: 60px;
   margin-bottom: 15px;
   color: #38bdf8;
-  text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
   display: block;
 }
 

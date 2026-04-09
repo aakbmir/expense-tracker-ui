@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-overview-report',
@@ -28,7 +29,7 @@ export class OverviewReportComponent {
   subCategoryList: any = [];
   mainCategoryList: any = [];
 
-  constructor(private reportService: ReportService, private commonService: CommonService, private router: Router) {
+  constructor(private reportService: ReportService, private commonService: CommonService, private router: Router, public themeService: ThemeService) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
