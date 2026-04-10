@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.et.app',
-  appName: 'Expense-Tracker-UI',
+  appName: 'Pennywise',
   webDir: 'dist/expense-tracker-ui'
 };
 
