@@ -28,29 +28,7 @@ jobs:
       - name: Sync Capacitor iOS
         run: npx cap sync ios
 
-      - name: Build iOS App (Unsigned)
-        run: |
-          cd ios/App
-          # Using xcodebuild to build the app for an iOS generic device
-          # Note: Without a provisioning profile, we cannot generate a signed .ipa file, 
-          # but we can build the .app file which can be run on iOS simulators.
-          xcodebuild clean build \
-            -workspace App.xcworkspace \
-            -scheme App \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
 
-      - name: Zip the .app file
-        run: |
-          cd ios/App/DerivedData/App/Build/Products/Release-iphoneos
-          # Some xcodebuild outputs might go to standard paths if not using DerivedData locally, 
-          # but GitHub Actions usually places them in standard derived data locations, 
-          # actually we should specify SYMROOT to easily find it.
-          
-      # Let's adjust the xcodebuild step to output to a specific folder:
       - name: Build iOS App (Fixed path)
         run: |
           cd ios/App
