@@ -93,7 +93,7 @@
             <div *ngIf="subCategoryObj.expanded" class="item-grid">
               <div *ngFor="let categoryObj of subCategoryObj.categoryDtoList">
                 <button class="cat-item"
-                  (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 100, 100)">
+                  (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 90, 100)">
                   <span class="item-name">{{categoryObj.name}}</span>
                   <span class="item-main-val" [ngClass]="{
                     'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0,
