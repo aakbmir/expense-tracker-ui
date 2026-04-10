@@ -65,8 +65,8 @@ body {
 .pw-page {
   min-height: 100vh;
   padding: clamp(10px, 2vw, 16px);
-  padding-top: calc(clamp(10px, 2vw, 16px) + env(safe-area-inset-top));
-  padding-bottom: calc(clamp(10px, 2vw, 16px) + 78px + env(safe-area-inset-bottom));
+  padding-top: calc(clamp(1px, 2vw, 1px) + env(safe-area-inset-top));
+  padding-bottom: calc(clamp(1px, 2vw, 1px) + 80px + env(safe-area-inset-bottom));
 }
 
 .pw-container {
@@ -336,7 +336,7 @@ body.light-theme .cdk-overlay-dark-backdrop {
   bottom: 0;
   left: 0;
   right: 0;
-  min-height: 60px;
+  min-height: 40px;
   background: var(--pw-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
