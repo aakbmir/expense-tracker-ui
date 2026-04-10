@@ -4,6 +4,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { CommonService } from 'src/app/services/common.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-expense',
@@ -25,7 +26,8 @@ export class ExpenseComponent implements OnInit {
   constructor(
     private expenseService: ExpenseService,
     private dialog: MatDialog,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public themeService: ThemeService
   ) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();

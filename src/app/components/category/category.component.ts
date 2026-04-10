@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { ThemeService } from 'src/app/services/theme.service';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -16,7 +17,8 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public themeService: ThemeService
   ) { }
 
   ngOnInit(): void {

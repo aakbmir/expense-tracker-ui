@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { BudgetService } from 'src/app/services/budget.service';
 import { CommonService } from 'src/app/services/common.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-budget',
@@ -25,7 +26,10 @@ export class BudgetComponent implements OnInit {
   month = this.commonService.getCurrentMonth();
   year = this.commonService.getCurrentYear();
 
-  constructor(private budgetService: BudgetService, private dialog: MatDialog, private commonService: CommonService) {
+  constructor(private budgetService: BudgetService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    public themeService: ThemeService) {
     this.month = this.commonService.getCurrentMonth();
     this.year = this.commonService.getCurrentYear();
   }

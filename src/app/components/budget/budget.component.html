@@ -3,13 +3,14 @@
 
     <!-- Top Header -->
     <div
-      style="margin-top: 2px; padding: 7px 0; padding-bottom: 20px; margin-bottom: 2px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
-      <div style="position: relative; text-align: center;">
-
-
+      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
-          Budget
-        </h2>
+          Budget </h2>
+        <button class="pw-btn-icon-small mobile-only" (click)="themeService.toggleTheme()"
+          style="font-size: 18px; color: var(--pw-text); margin: 0; padding: 0; width: auto; height: auto;">
+          <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+        </button>
       </div>
     </div>
 
