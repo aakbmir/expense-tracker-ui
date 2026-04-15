@@ -21,6 +21,7 @@ export class OverviewReportComponent {
   totalSavings: any = 0;
   totalExpense: any = 0;
   totalBudget: any = 0;
+  loading: boolean = false;
 
   selectedCategory = '';
   categoryList: any = [];
@@ -48,13 +49,14 @@ export class OverviewReportComponent {
     this.totalBudget = 0;
     this.totalExpense = 0;
     this.monthText = this.commonService.getCurrentMonthString(this.month);
+    this.loading = true;
     this.reportService.overviewReport(month, year).subscribe((data) => {
       for (let da of data) {
         this.totalSavings = this.totalSavings + da.deviate;
         this.totalExpense = this.totalExpense + da.expense;
         this.totalBudget = this.totalBudget + da.budget;
       }
-
+      this.loading = false;
     });
   }
 

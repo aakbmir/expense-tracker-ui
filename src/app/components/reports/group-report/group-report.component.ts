@@ -26,6 +26,7 @@ export class GroupReportComponent {
   totalExpense: any = 0;
   totalBudget: any = 0;
   totalDeviate: any = 0;
+  loading: boolean = false;
 
   constructor(private reportsService: ReportService, private commonService: CommonService, private dialog: MatDialog,
     private router: Router, public themeService: ThemeService
@@ -43,6 +44,7 @@ export class GroupReportComponent {
 
   fetchAllData(month, year) {
     this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
+    this.loading = true;
     this.reportsService.groupedReport(month, year).subscribe((data: any) => {
       this.cumulativeReport = data;
       for (let report of this.cumulativeReport) {
@@ -51,6 +53,7 @@ export class GroupReportComponent {
         this.totalBudget = this.totalBudget + report.budget;
       }
       this.totalDeviate = this.totalBudget - this.totalExpense;
+      this.loading = false;
     });
   }
 

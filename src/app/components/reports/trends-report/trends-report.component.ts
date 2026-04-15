@@ -20,6 +20,7 @@ export class TrendReportComponent {
 
   filterForm: any;
   totalSavings: number = 0;
+  loading: boolean = false;
 
   constructor(
     private reportService: ReportService,
@@ -34,6 +35,7 @@ export class TrendReportComponent {
   }
 
   fetchTrendsReport() {
+    this.loading = true;
     this.reportService.trendsReport().subscribe((data: any) => {
       this.responseList = [];
       let sum = 0;
@@ -47,6 +49,7 @@ export class TrendReportComponent {
         sum += obj['savings'];
       }
       this.totalSavings = sum;
+      this.loading = false;
     });
   }
 
