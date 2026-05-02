@@ -41,6 +41,7 @@ export class TrendReportComponent {
       let sum = 0;
       for (let ove of data) {
         const obj = ove;
+        obj['income'] = obj['totalIncome'];
         obj['totalSalary'] = obj['totalIncome'];
         //obj['totalBudget'] = this.commonService.getBudget();
         obj['savings'] = obj['totalSalary'] - obj['totalExpense'];

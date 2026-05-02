@@ -65,7 +65,61 @@ export class OverviewReportComponent {
       .fetchTransactionForCategory(this.selectedCategory, clickedButton)
       .subscribe((data) => {
         this.categoryTransactionList = data;
+        this.groupDataByMonth(data);
       });
+  }
+
+  groupedData: { [key: string]: any[] } = {};
+  groupedDataArray: { month: string; items: any[] }[] = [];
+  expandedGroups: { [key: string]: boolean } = {};
+
+  toggleGroup(month: string) {
+    this.expandedGroups[month] = !this.isGroupExpanded(month);
+  }
+
+  isGroupExpanded(month: string) {
+    return this.expandedGroups[month] === true;
+  }
+
+  expandAll() {
+    for (let group of this.groupedDataArray) {
+      this.expandedGroups[group.month] = true;
+    }
+  }
+
+  collapseAll() {
+    for (let group of this.groupedDataArray) {
+      this.expandedGroups[group.month] = false;
+    }
+  }
+
+  groupDataByMonth(data: any) {
+    this.groupedData = data.reduce((grouped: any, item: any) => {
+      const dateStr = item.date ? item.date.toString() : '';
+      let monthKey = '';
+      if (dateStr.length >= 7 && dateStr.includes('-')) {
+        monthKey = dateStr.substring(0, 7); // YYYY-MM
+      } else {
+        const d = new Date(item.date);
+        const m = d.getMonth() + 1;
+        monthKey = d.getFullYear() + '-' + (m < 10 ? '0' + m : m);
+      }
+
+      if (!grouped[monthKey]) {
+        grouped[monthKey] = [];
+      }
+      grouped[monthKey].push(item);
+      return grouped;
+    }, {});
+
+    this.groupedDataArray = Object.keys(this.groupedData)
+      .sort((a, b) => b.localeCompare(a)) // Sort descending
+      .map((monthKey) => ({
+        month: monthKey,
+        items: this.groupedData[monthKey],
+      }));
+
+    this.expandAll();
   }
 
   fetchDistinctCategories() {

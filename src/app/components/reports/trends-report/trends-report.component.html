@@ -63,33 +63,50 @@
     <!-- ================= TRENDS ================= -->
     <div *ngIf="!loading" class="table-container">
       <div *ngFor="let item of responseList" class="pw-glass pw-card trend-card">
-        <div class="trend-head">
-          <div class="trend-month">{{item.month}}</div>
-          <div class="trend-dev" style="font-size: 16px;"
-            [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
-            {{item.savings | number:'1.2-2'}}
+        <div class="trend-body">
+
+          <div class="trend-grid">
+            <div class="trend-month">{{item.month}}</div>
+          </div>
+
+          <div class="trend-grid center">
+            <div class="lbl">Savings</div>
+            <div class="val" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
+              {{item.savings | number:'1.2-2'}}
+            </div>
+          </div>
+
+          <div class="trend-grid right">
+            <div class="lbl">Income</div>
+            <div class="val">
+              {{item.income | number:'1.2-2'}}
+            </div>
           </div>
         </div>
 
         <div class="trend-body">
           <div class="trend-grid">
+            <div class="lbl">Budget</div>
+            <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
+          </div>
+
+          <div class="trend-grid center">
+            <div class="lbl">Expense</div>
+            <div class="val">
+              {{item.totalExpense | number:'1.2-2'}}
+            </div>
+          </div>
+
+          <div class="trend-grid right">
             <div class="lbl">Remaining</div>
             <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
               {{item.deviate | number:'1.2-2'}}
             </div>
           </div>
 
-          <div class="trend-grid center">
-            <div class="lbl">Budget</div>
-            <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
-          </div>
 
-          <div class="trend-grid right">
-            <div class="lbl">Expense</div>
-            <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
-              {{item.totalExpense | number:'1.2-2'}}
-            </div>
-          </div>
+
+
         </div>
       </div>
     </div>
