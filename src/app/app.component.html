@@ -59,7 +59,7 @@
   </main>
 
   <!-- Mobile Bottom Navigation -->
-  <nav class="pw-bottom-nav mobile-only">
+  <nav class="pw-bottom-nav mobile-only" *ngIf="router.url !== '/home' && router.url !== '/'">
     <a class="nav-item" routerLink="/reports" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
       <i class="fa fa-pie-chart"></i>
     </a>

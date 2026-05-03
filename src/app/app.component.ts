@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './services/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,10 @@ import { ThemeService } from './services/theme.service';
 })
 export class AppComponent {
   title = 'Expense-Tracker-UI';
-  
-  constructor(public themeService: ThemeService) {}
+  constructor(
+    public themeService: ThemeService,
+    public router: Router
+  ) {}
 
   toggleTheme() {
     this.themeService.toggleTheme();
