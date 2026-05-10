@@ -46,6 +46,9 @@ export class GroupReportComponent {
   fetchAllData(month, year) {
     this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
     this.loading = true;
+    this.totalExpense = 0;
+    this.totalBudget = 0;
+    this.totalDeviate = 0;
     this.reportsService.groupedReport(month, year).subscribe((data: any) => {
       this.cumulativeReport = data;
       for (let report of this.cumulativeReport) {

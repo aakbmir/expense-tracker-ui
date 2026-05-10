@@ -24,17 +24,6 @@
       </button>
     </div>
 
-    <div style="text-align: center; margin-bottom: 8px;">
-      <div style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--pw-text);"
-        [style.color]="totalSavings >= 0 ? '#10b981' : '#f43f5e'">
-        {{ totalSavings | number:'1.2-2' }} <span style="font-size: 14px; opacity: 0.8; font-weight: 700;">AED</span>
-      </div>
-      <div
-        style="color: var(--pw-muted); font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700;">
-        Total Savings Over Trends
-      </div>
-    </div>
-
     <!-- ================= TRENDS SKELETON ================= -->
     <div *ngIf="loading" class="skeleton-wrapper" style="margin-top: 10px;">
       <div class="skeleton-row">
@@ -42,73 +31,181 @@
           <div class="skeleton skeleton-title"></div>
           <div class="skeleton skeleton-text" style="width: 60%;"></div>
         </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
       </div>
       <div class="skeleton-row">
         <div class="skeleton-col" style="gap: 4px;">
           <div class="skeleton skeleton-title" style="width: 40%;"></div>
           <div class="skeleton skeleton-text" style="width: 70%;"></div>
         </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
       </div>
       <div class="skeleton-row">
         <div class="skeleton-col" style="gap: 4px;">
           <div class="skeleton skeleton-title" style="width: 55%;"></div>
           <div class="skeleton skeleton-text" style="width: 50%;"></div>
         </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
       </div>
     </div>
 
-    <!-- ================= TRENDS ================= -->
-    <div *ngIf="!loading" class="table-container">
-      <div *ngFor="let item of responseList" class="pw-glass pw-card trend-card">
-        <div class="trend-body">
+    <!-- ================= TRENDS CONTENT ================= -->
+    <ng-container *ngIf="!loading">
 
-          <div class="trend-grid">
-            <div class="trend-month">{{item.month}}</div>
-          </div>
-
-          <div class="trend-grid center">
-            <div class="lbl">Savings</div>
-            <div class="val" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
-              {{item.savings | number:'1.2-2'}}
-            </div>
-          </div>
-
-          <div class="trend-grid right">
-            <div class="lbl">Income</div>
-            <div class="val">
-              {{item.income | number:'1.2-2'}}
-            </div>
+      <!-- HERO TABLE -->
+      <div class="summary-hero-card">
+        <div class="hero-left">
+          <div class="hero-label">Total Savings (Last 6 Months) <i class="fa fa-info-circle"></i></div>
+          <div class="hero-value">{{ totalSavings | number:'1.2-2' }} <small>AED</small></div>
+          <div class="hero-desc">Total amount you've saved over the selected period</div>
+        </div>
+        <div class="hero-center">
+          <div class="hero-illustration">
+            <i class="fa fa-briefcase"></i>
           </div>
         </div>
-
-        <div class="trend-body">
-          <div class="trend-grid">
-            <div class="lbl">Budget</div>
-            <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
+        <div class="hero-right">
+          <div class="trend-indicator positive">
+            <i class="fa fa-line-chart"></i> +18.6%
           </div>
-
-          <div class="trend-grid center">
-            <div class="lbl">Expense</div>
-            <div class="val">
-              {{item.totalExpense | number:'1.2-2'}}
-            </div>
-          </div>
-
-          <div class="trend-grid right">
-            <div class="lbl">Remaining</div>
-            <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
-              {{item.deviate | number:'1.2-2'}}
-            </div>
-          </div>
-
-
-
-
+          <div class="trend-vs">vs previous 6 months</div>
         </div>
       </div>
-    </div>
+
+      <!-- BOTTOM SUMMARY CARDS -->
+      <div>
+        <h3 class="section-title">Summary</h3>
+        <div class="summary-cards-row">
+          <!-- Total Income -->
+          <div class="summary-stat-card pw-glass">
+            <div class="stat-icon-wrapper income"><i class="fa fa-bar-chart"></i></div>
+            <div class="stat-content">
+              <div class="stat-lbl">Total Income</div>
+              <div class="stat-val">{{ totalIncome | number:'1.2-2' }} <small>AED</small></div>
+              <div class="stat-avg">Avg. {{ averageIncome | number:'1.2-2' }} AED / month</div>
+            </div>
+          </div>
+
+          <!-- Total Expense -->
+          <div class="summary-stat-card pw-glass">
+            <div class="stat-icon-wrapper expense"><i class="fa fa-credit-card"></i></div>
+            <div class="stat-content">
+              <div class="stat-lbl">Total Expense</div>
+              <div class="stat-val">{{ totalExpense | number:'1.2-2' }} <small>AED</small></div>
+              <div class="stat-avg">Avg. {{ averageExpense | number:'1.2-2' }} AED / month</div>
+            </div>
+          </div>
+
+          <!-- Total Savings -->
+          <div class="summary-stat-card pw-glass">
+            <div class="stat-icon-wrapper savings"><i class="fa fa-briefcase"></i></div>
+            <div class="stat-content">
+              <div class="stat-lbl">Total Savings</div>
+              <div class="stat-val">{{ totalSavings | number:'1.2-2' }} <small>AED</small></div>
+              <div class="stat-avg">Avg. {{ averageSavings | number:'1.2-2' }} AED / month</div>
+            </div>
+
+          </div>
+
+          <!-- Total Savings Rate -->
+          <div class="summary-stat-card pw-glass">
+            <div class="stat-icon-wrapper savings-rate"><i class="fa fa-percent"></i></div>
+            <div class="stat-content">
+              <div class="stat-lbl">Savings Rate</div>
+              <div class="stat-val">{{ savingsRate | number:'1.2-2' }}%</div>
+              <div class="stat-avg">of total income</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE CARDS -->
+      <div *ngIf="!loading" class="table-container">
+        <h3 class="section-title">Month on Month Summary</h3>
+        <div *ngFor="let item of responseList" class="pw-glass pw-card trend-card">
+          <div class="trend-body">
+
+            <div class="trend-grid">
+              <div class="trend-month">{{item.month}}</div>
+            </div>
+
+            <div class="trend-grid center">
+              <div class="lbl">Savings</div>
+              <div class="val" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
+                {{item.savings | number:'1.2-2'}}
+              </div>
+            </div>
+
+            <div class="trend-grid right">
+              <div class="lbl">Income</div>
+              <div class="val">
+                {{item.income | number:'1.2-2'}}
+              </div>
+            </div>
+          </div>
+
+          <div class="trend-body">
+            <div class="trend-grid">
+              <div class="lbl">Budget</div>
+              <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
+            </div>
+
+            <div class="trend-grid center">
+              <div class="lbl">Expense</div>
+              <div class="val">
+                {{item.totalExpense | number:'1.2-2'}}
+              </div>
+            </div>
+
+            <div class="trend-grid right">
+              <div class="lbl">Remaining</div>
+              <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
+                {{item.deviate | number:'1.2-2'}}
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- MONTH ON MONTH SUMMARY TABLE -->
+      <div class="overview-section">
+        <h3 class="section-title">Month on Month Summary</h3>
+        <div class="cat-table-wrapper pw-glass">
+          <div class="table-responsive">
+            <table class="pw-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th class="text-right">Income (AED)</th>
+                  <th class="text-right">Expense (AED)</th>
+                  <th class="text-right">Savings (AED)</th>
+                  <th class="text-right">Budget (AED)</th>
+                  <th class="text-right">Remaining (AED)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of responseList" class="main-tr">
+                  <td><strong>{{item.month}}</strong></td>
+                  <td class="text-right">{{item.income | number:'1.2-2'}}</td>
+                  <td class="text-right">{{item.totalExpense | number:'1.2-2'}}</td>
+                  <td class="text-right">
+                    <strong [ngClass]="item.savings > 0 ? 'positive' : 'negative'">
+                      {{item.savings | number:'1.2-2'}}
+                    </strong>
+                  </td>
+                  <td class="text-right">{{item.totalBudget | number:'1.2-2'}}</td>
+                  <td class="text-right">
+                    <span [ngClass]="item.deviate >= 0 ? 'positive' : 'negative'">
+                      {{item.deviate | number:'1.2-2'}}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

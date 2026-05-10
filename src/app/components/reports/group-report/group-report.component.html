@@ -50,7 +50,7 @@
           <span class="s-value">{{totalDeviate | number:'1.2-2'}} <small>AED</small></span>
         </div>
       </div>
-      
+
       <div class="summary-progress-container">
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" [style.width.%]="getProgress(totalExpense, totalBudget)"></div>
@@ -84,9 +84,9 @@
       <section *ngFor="let mainCategoryObj of cumulativeReport" class="cat-card pw-glass">
         <button class="cat-card-header" (click)="mainCategoryObj.expanded = !mainCategoryObj.expanded">
           <div class="cat-icon-wrapper">
-             <i class="fa" [ngClass]="getCategoryIcon(mainCategoryObj.name)"></i>
+            <i class="fa" [ngClass]="getCategoryIcon(mainCategoryObj.name)"></i>
           </div>
-          
+
           <div class="cat-details">
             <div class="cat-title">{{ mainCategoryObj.name }}</div>
             <div class="cat-stats-row">
@@ -100,16 +100,19 @@
               </div>
               <div class="cat-stat">
                 <span class="lbl">Savings</span>
-                <span class="val" [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
+                <span class="val"
+                  [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
                   {{ (mainCategoryObj.budget - mainCategoryObj.expense) | number:'1.2-2' }} <small>AED</small>
                 </span>
               </div>
             </div>
           </div>
 
-          <div class="cat-progress-ring" [style.--progress]="getProgress(mainCategoryObj.expense, mainCategoryObj.budget) + '%'">
-             <span class="ring-val">{{getProgress(mainCategoryObj.expense, mainCategoryObj.budget) | number:'1.0-0'}}%</span>
-             <span class="ring-lbl">of budget</span>
+          <div class="cat-progress-ring"
+            [style.--progress]="getProgress(mainCategoryObj.expense, mainCategoryObj.budget) + '%'">
+            <span class="ring-val">{{getProgress(mainCategoryObj.expense, mainCategoryObj.budget) |
+              number:'1.0-0'}}%</span>
+            <span class="ring-lbl">of budget</span>
           </div>
 
           <div class="cat-arrow">
@@ -182,18 +185,22 @@
                 <td class="text-right"><strong>{{ mainCategoryObj.expense | number:'1.2-2' }}</strong></td>
                 <td class="text-right"><strong>{{ mainCategoryObj.budget | number:'1.2-2' }}</strong></td>
                 <td class="text-right">
-                  <strong [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
+                  <strong
+                    [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
                     {{ (mainCategoryObj.budget - mainCategoryObj.expense) | number:'1.2-2' }}
                   </strong>
                 </td>
                 <td class="text-right">
                   <div class="table-progress">
-                    <div class="tp-bg"><div class="tp-fill" [style.width.%]="getProgress(mainCategoryObj.expense, mainCategoryObj.budget)"></div></div>
+                    <div class="tp-bg">
+                      <div class="tp-fill"
+                        [style.width.%]="getProgress(mainCategoryObj.expense, mainCategoryObj.budget)"></div>
+                    </div>
                     <span>{{getProgress(mainCategoryObj.expense, mainCategoryObj.budget) | number:'1.0-0'}}%</span>
                   </div>
                 </td>
               </tr>
-              
+
               <!-- Sub Rows -->
               <ng-container *ngIf="mainCategoryObj.expanded">
                 <ng-container *ngFor="let subCategoryObj of mainCategoryObj?.subCategoryDtoList">
@@ -207,20 +214,25 @@
                     <td class="text-right">{{ subCategoryObj.expense | number:'1.2-2' }}</td>
                     <td class="text-right">{{ subCategoryObj.budget | number:'1.2-2' }}</td>
                     <td class="text-right">
-                      <span [ngClass]="{'positive': (subCategoryObj.budget - subCategoryObj.expense) >= 0, 'negative': (subCategoryObj.budget - subCategoryObj.expense) < 0}">
+                      <span
+                        [ngClass]="{'positive': (subCategoryObj.budget - subCategoryObj.expense) >= 0, 'negative': (subCategoryObj.budget - subCategoryObj.expense) < 0}">
                         {{ (subCategoryObj.budget - subCategoryObj.expense) | number:'1.2-2' }}
                       </span>
                     </td>
                     <td class="text-right">
                       <div class="table-progress">
-                        <div class="tp-bg"><div class="tp-fill" [style.width.%]="getProgress(subCategoryObj.expense, subCategoryObj.budget)"></div></div>
+                        <div class="tp-bg">
+                          <div class="tp-fill"
+                            [style.width.%]="getProgress(subCategoryObj.expense, subCategoryObj.budget)"></div>
+                        </div>
                       </div>
                     </td>
                   </tr>
 
                   <!-- Item Rows -->
                   <ng-container *ngIf="subCategoryObj.expanded">
-                    <tr class="item-tr" *ngFor="let categoryObj of subCategoryObj.categoryDtoList" (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 90, 100)">
+                    <tr class="item-tr" *ngFor="let categoryObj of subCategoryObj.categoryDtoList"
+                      (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 90, 100)">
                       <td>
                         <div class="td-cat item-indent">
                           <i class="fa fa-circle dot-icon"></i>
@@ -228,19 +240,24 @@
                         </div>
                       </td>
                       <td class="text-right">
-                        <span [ngClass]="{'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0, 'zero-val': categoryObj.expense == 0}">
+                        <span
+                          [ngClass]="{'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0, 'zero-val': categoryObj.expense == 0}">
                           {{ categoryObj.expense | number:'1.2-2' }}
                         </span>
                       </td>
                       <td class="text-right">{{ categoryObj.budget | number:'1.2-2' }}</td>
                       <td class="text-right">
-                        <span [ngClass]="{'positive': (categoryObj.budget - categoryObj.expense) >= 0, 'negative': (categoryObj.budget - categoryObj.expense) < 0}">
+                        <span
+                          [ngClass]="{'positive': (categoryObj.budget - categoryObj.expense) >= 0, 'negative': (categoryObj.budget - categoryObj.expense) < 0}">
                           {{ (categoryObj.budget - categoryObj.expense) | number:'1.2-2' }}
                         </span>
                       </td>
                       <td class="text-right">
                         <div class="table-progress">
-                          <div class="tp-bg"><div class="tp-fill" [style.width.%]="getProgress(categoryObj.expense, categoryObj.budget)"></div></div>
+                          <div class="tp-bg">
+                            <div class="tp-fill" [style.width.%]="getProgress(categoryObj.expense, categoryObj.budget)">
+                            </div>
+                          </div>
                         </div>
                       </td>
                     </tr>
