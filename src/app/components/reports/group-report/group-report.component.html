@@ -3,7 +3,7 @@
 
     <!-- Top Header -->
     <div
-      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
       <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
           Group </h2>
@@ -24,25 +24,48 @@
       </button>
     </div>
 
-    <!-- Month Sub-Header -->
-    <div
-      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 10px 4px;">
-      <div style="display: flex; justify-content: space-between; width: 45%;">
-        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;">
+    <!-- ================= SUMMARY CARD ================= -->
+    <div class="summary-card">
+      <div class="summary-header">
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')">
           <i class="fa fa-chevron-left"></i>
         </button>
-        <div
-          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; text-align: left;">
-          {{monthText}} {{year}}</div>
-        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;">
+        <div class="summary-month">{{monthText}} {{year}}</div>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')">
           <i class="fa fa-chevron-right"></i>
         </button>
       </div>
-      <span style="text-align: center; color: #38bdf8; font-weight: 700; font-size: 18px;">
-        {{totalExpense | number:'1.2-2'}}
-        <span style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED
-          total</span>
-      </span>
+
+      <div class="summary-stats">
+        <div class="s-stat s-total">
+          <span class="s-label">Total Expense</span>
+          <span class="s-value">{{totalExpense | number:'1.2-2'}} <small>AED</small></span>
+        </div>
+        <div class="s-stat">
+          <span class="s-label">Total Budget</span>
+          <span class="s-value">{{totalBudget | number:'1.2-2'}} <small>AED</small></span>
+        </div>
+        <div class="s-stat">
+          <span class="s-label">Total Savings</span>
+          <span class="s-value">{{totalDeviate | number:'1.2-2'}} <small>AED</small></span>
+        </div>
+      </div>
+      
+      <div class="summary-progress-container">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" [style.width.%]="getProgress(totalExpense, totalBudget)"></div>
+        </div>
+        <div class="progress-text">{{getProgress(totalExpense, totalBudget) | number:'1.0-0'}}% of budget used</div>
+      </div>
+    </div>
+
+    <!-- ================= CATEGORY BREAKDOWN ================= -->
+    <div class="cat-breakdown-header" *ngIf="!loading">
+      <h3>Categories</h3>
+      <div class="view-toggle">
+        <button class="toggle-btn" [class.active]="viewMode === 'cards'" (click)="setViewMode('cards')">Cards</button>
+        <button class="toggle-btn" [class.active]="viewMode === 'table'" (click)="setViewMode('table')">Table</button>
+      </div>
     </div>
 
     <!-- ================= CONTENT SKELETON ================= -->
@@ -54,47 +77,44 @@
         </div>
         <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
       </div>
-      <div class="skeleton-row">
-        <div class="skeleton-col" style="gap: 4px;">
-          <div class="skeleton skeleton-title" style="width: 40%;"></div>
-          <div class="skeleton skeleton-text" style="width: 70%;"></div>
-        </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
-      </div>
-      <div class="skeleton-row">
-        <div class="skeleton-col" style="gap: 4px;">
-          <div class="skeleton skeleton-title" style="width: 55%;"></div>
-          <div class="skeleton skeleton-text" style="width: 50%;"></div>
-        </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
-      </div>
     </div>
 
-    <!-- ================= CONTENT ================= -->
-    <div *ngIf="!loading" class="cat-accordion">
-      <section *ngFor="let mainCategoryObj of cumulativeReport" class="main-card">
-        <button class="main-head" (click)="mainCategoryObj.expanded = !mainCategoryObj.expanded">
-          <div class="main-head-content">
-            <div class="main-title">{{ mainCategoryObj.name }}</div>
-            <div class="main-stats">
-              <div class="stat-item">
-                <span class="stat-label">Expense</span>
-                <span class="stat-value">{{ mainCategoryObj.expense | number:'1.2-2' }} AED</span>
+    <!-- ================= CARDS CONTENT ================= -->
+    <div *ngIf="!loading && viewMode === 'cards'" class="cat-list">
+      <section *ngFor="let mainCategoryObj of cumulativeReport" class="cat-card pw-glass">
+        <button class="cat-card-header" (click)="mainCategoryObj.expanded = !mainCategoryObj.expanded">
+          <div class="cat-icon-wrapper">
+             <i class="fa" [ngClass]="getCategoryIcon(mainCategoryObj.name)"></i>
+          </div>
+          
+          <div class="cat-details">
+            <div class="cat-title">{{ mainCategoryObj.name }}</div>
+            <div class="cat-stats-row">
+              <div class="cat-stat">
+                <span class="lbl">Expense</span>
+                <span class="val">{{ mainCategoryObj.expense | number:'1.2-2' }} <small>AED</small></span>
               </div>
-              <div class="stat-item">
-                <span class="stat-label">Budget</span>
-                <span class="stat-value">{{ mainCategoryObj.budget | number:'1.2-2' }} AED</span>
+              <div class="cat-stat">
+                <span class="lbl">Budget</span>
+                <span class="val">{{ mainCategoryObj.budget | number:'1.2-2' }} <small>AED</small></span>
               </div>
-              <div class="stat-item stat-remaining">
-                <span class="stat-label">Savings</span>
-                <span class="stat-value"
-                  [ngClass]="{'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">{{
-                  (mainCategoryObj.budget - mainCategoryObj.expense) | number:'1.2-2' }}
-                  AED</span>
+              <div class="cat-stat">
+                <span class="lbl">Savings</span>
+                <span class="val" [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
+                  {{ (mainCategoryObj.budget - mainCategoryObj.expense) | number:'1.2-2' }} <small>AED</small>
+                </span>
               </div>
             </div>
           </div>
-          <i [ngClass]="mainCategoryObj.expanded ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+
+          <div class="cat-progress-ring" [style.--progress]="getProgress(mainCategoryObj.expense, mainCategoryObj.budget) + '%'">
+             <span class="ring-val">{{getProgress(mainCategoryObj.expense, mainCategoryObj.budget) | number:'1.0-0'}}%</span>
+             <span class="ring-lbl">of budget</span>
+          </div>
+
+          <div class="cat-arrow">
+            <i class="fa fa-chevron-right" [ngClass]="{'rotated': mainCategoryObj.expanded}"></i>
+          </div>
         </button>
 
         <div *ngIf="mainCategoryObj.expanded" class="main-body">
@@ -103,13 +123,11 @@
               <div class="sub-head-content">
                 <div class="sub-title">{{ subCategoryObj.name }}</div>
                 <div class="sub-stats">
-                  <span class="sub-stat">Expense: <strong>{{ subCategoryObj.expense | number:'1.2-2'
-                      }}</strong></span>
+                  <span class="sub-stat">Expense: <strong>{{ subCategoryObj.expense | number:'1.2-2' }}</strong></span>
                   <span class="sub-stat">Budget: <strong>{{ subCategoryObj.budget | number:'1.2-2' }}</strong></span>
                   <span class="sub-stat sub-stat--remaining"
                     [ngClass]="{'negative': (subCategoryObj.budget - subCategoryObj.expense) < 0}">Remaining:
-                    <strong>{{ (subCategoryObj.budget -
-                      subCategoryObj.expense) | number:'1.2-2' }}</strong></span>
+                    <strong>{{ (subCategoryObj.budget - subCategoryObj.expense) | number:'1.2-2' }}</strong></span>
                 </div>
               </div>
               <i [ngClass]="subCategoryObj.expanded ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
@@ -133,6 +151,106 @@
           </div>
         </div>
       </section>
+    </div>
+
+    <!-- ================= TABLE CONTENT ================= -->
+    <div *ngIf="!loading && viewMode === 'table'" class="cat-table-wrapper pw-glass">
+      <div class="table-responsive">
+        <table class="pw-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th class="text-right">Expense</th>
+              <th class="text-right">Budget</th>
+              <th class="text-right">Savings</th>
+              <th class="text-right" style="min-width: 100px;">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let mainCategoryObj of cumulativeReport">
+              <!-- Main Row -->
+              <tr class="main-tr" (click)="mainCategoryObj.expanded = !mainCategoryObj.expanded">
+                <td>
+                  <div class="td-cat">
+                    <i class="fa fa-chevron-right" [ngClass]="{'rotated': mainCategoryObj.expanded}"></i>
+                    <div class="cat-icon-small">
+                      <i class="fa" [ngClass]="getCategoryIcon(mainCategoryObj.name)"></i>
+                    </div>
+                    <strong>{{ mainCategoryObj.name }}</strong>
+                  </div>
+                </td>
+                <td class="text-right"><strong>{{ mainCategoryObj.expense | number:'1.2-2' }}</strong></td>
+                <td class="text-right"><strong>{{ mainCategoryObj.budget | number:'1.2-2' }}</strong></td>
+                <td class="text-right">
+                  <strong [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
+                    {{ (mainCategoryObj.budget - mainCategoryObj.expense) | number:'1.2-2' }}
+                  </strong>
+                </td>
+                <td class="text-right">
+                  <div class="table-progress">
+                    <div class="tp-bg"><div class="tp-fill" [style.width.%]="getProgress(mainCategoryObj.expense, mainCategoryObj.budget)"></div></div>
+                    <span>{{getProgress(mainCategoryObj.expense, mainCategoryObj.budget) | number:'1.0-0'}}%</span>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Sub Rows -->
+              <ng-container *ngIf="mainCategoryObj.expanded">
+                <ng-container *ngFor="let subCategoryObj of mainCategoryObj?.subCategoryDtoList">
+                  <tr class="sub-tr" (click)="subCategoryObj.expanded = !subCategoryObj.expanded">
+                    <td>
+                      <div class="td-cat sub-indent">
+                        <i class="fa fa-chevron-right" [ngClass]="{'rotated': subCategoryObj.expanded}"></i>
+                        {{ subCategoryObj.name }}
+                      </div>
+                    </td>
+                    <td class="text-right">{{ subCategoryObj.expense | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ subCategoryObj.budget | number:'1.2-2' }}</td>
+                    <td class="text-right">
+                      <span [ngClass]="{'positive': (subCategoryObj.budget - subCategoryObj.expense) >= 0, 'negative': (subCategoryObj.budget - subCategoryObj.expense) < 0}">
+                        {{ (subCategoryObj.budget - subCategoryObj.expense) | number:'1.2-2' }}
+                      </span>
+                    </td>
+                    <td class="text-right">
+                      <div class="table-progress">
+                        <div class="tp-bg"><div class="tp-fill" [style.width.%]="getProgress(subCategoryObj.expense, subCategoryObj.budget)"></div></div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Item Rows -->
+                  <ng-container *ngIf="subCategoryObj.expanded">
+                    <tr class="item-tr" *ngFor="let categoryObj of subCategoryObj.categoryDtoList" (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 90, 100)">
+                      <td>
+                        <div class="td-cat item-indent">
+                          <i class="fa fa-circle dot-icon"></i>
+                          {{ categoryObj.name }}
+                        </div>
+                      </td>
+                      <td class="text-right">
+                        <span [ngClass]="{'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0, 'zero-val': categoryObj.expense == 0}">
+                          {{ categoryObj.expense | number:'1.2-2' }}
+                        </span>
+                      </td>
+                      <td class="text-right">{{ categoryObj.budget | number:'1.2-2' }}</td>
+                      <td class="text-right">
+                        <span [ngClass]="{'positive': (categoryObj.budget - categoryObj.expense) >= 0, 'negative': (categoryObj.budget - categoryObj.expense) < 0}">
+                          {{ (categoryObj.budget - categoryObj.expense) | number:'1.2-2' }}
+                        </span>
+                      </td>
+                      <td class="text-right">
+                        <div class="table-progress">
+                          <div class="tp-bg"><div class="tp-fill" [style.width.%]="getProgress(categoryObj.expense, categoryObj.budget)"></div></div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- <app-footer></app-footer> -->

@@ -27,6 +27,7 @@ export class GroupReportComponent {
   totalBudget: any = 0;
   totalDeviate: any = 0;
   loading: boolean = false;
+  viewMode: string = 'cards';
 
   constructor(private reportsService: ReportService, private commonService: CommonService, private dialog: MatDialog,
     private router: Router, public themeService: ThemeService
@@ -55,6 +56,29 @@ export class GroupReportComponent {
       this.totalDeviate = this.totalBudget - this.totalExpense;
       this.loading = false;
     });
+  }
+
+  getCategoryIcon(name: string): string {
+    if (!name) return 'fa-folder';
+    const n = name.toLowerCase();
+    if (n.includes('living') || n.includes('home') || n.includes('housing')) return 'fa-home';
+    if (n.includes('saving') || n.includes('invest')) return 'fa-line-chart';
+    if (n.includes('family') || n.includes('support') || n.includes('kid')) return 'fa-users';
+    if (n.includes('food') || n.includes('dining') || n.includes('eat')) return 'fa-cutlery';
+    if (n.includes('transport') || n.includes('car') || n.includes('travel')) return 'fa-car';
+    if (n.includes('utilit') || n.includes('bill')) return 'fa-bolt';
+    if (n.includes('misc') || n.includes('other')) return 'fa-ellipsis-h';
+    return 'fa-folder';
+  }
+
+  getProgress(expense: number, budget: number): number {
+    if (!budget || budget === 0) return 0;
+    const progress = (expense / budget) * 100;
+    return progress > 100 ? 100 : progress;
+  }
+
+  setViewMode(mode: string) {
+    this.viewMode = mode;
   }
 
 

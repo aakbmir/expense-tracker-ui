@@ -2,7 +2,7 @@
   <div class="pw-container pw-stack">
     <!-- Top Header -->
     <div
-      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.8), transparent) 1;">
+      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
       <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
           Expense </h2>
@@ -28,7 +28,7 @@
       </div>
 
       <!-- Total Amount -->
-      <div style="font-weight: 700; font-size: 18px; color: #38bdf8; text-align: right;">
+      <div style="font-weight: 700; font-size: 18px; color: #10b981; text-align: right;">
         {{total | number:'1.2-2'}} <span
           style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED</span>
       </div>
@@ -40,11 +40,11 @@
 
       <!-- Expand & Collapse (Left) -->
       <div *ngIf="count > 0 && !loading" style="display: flex; gap: 16px;">
-        <button class="pw-btn-text" (click)="expandAll()" style="color: #0ea5e9; font-size: 12px;">
+        <button class="pw-btn-text" (click)="expandAll()" style="color: #10b981; font-size: 12px;">
           Expand All
         </button>
-        <div style="width: 1px; background: rgba(14, 165, 233, 0.2); height: 16px; align-self: center;"></div>
-        <button class="pw-btn-text" (click)="collapseAll()" style="color: #0ea5e9; font-size: 12px;">
+        <div style="width: 1px; background: rgba(16, 185, 129, 0.2); height: 16px; align-self: center;"></div>
+        <button class="pw-btn-text" (click)="collapseAll()" style="color: #10b981; font-size: 12px;">
           Collapse All
         </button>
       </div>
@@ -56,9 +56,9 @@
               : 'Items' }}</span>
         </div>
         <button class="pw-btn pw-btn-ghost pw-btn-sm"
-          style="border: 1px solid rgba(14, 165, 233, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
+          style="border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
           (click)="openDialog('', 'Expense-Add', 100, 100)">
-          <i class="fa fa-plus" style="margin-right: 4px; color: #14b8a6;"></i> Add
+          <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add
         </button>
       </div>
 
@@ -95,7 +95,7 @@
 
               <div class="row-right" style="flex-direction: row; align-items: center; gap: 16px;">
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
-                  <div style="font-weight: 500; font-size: 14px; color: #38bdf8;">
+                  <div style="font-weight: 500; font-size: 14px; color: #10b981;">
                     {{item.price | number:'1.2-2'}} <span
                       style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED</span>
                   </div>
