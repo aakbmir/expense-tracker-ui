@@ -84,6 +84,7 @@ export class DialogComponent {
 
   editCategoryForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
+    oldCategory: new FormControl(this.data.item.category, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
     subCategory: new FormControl(
       this.data.item.subCategory,
