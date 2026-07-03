@@ -29,7 +29,11 @@ export class BudgetService {
     return this.http.post(`${this.baseUrl}/update-budget`, form);
   }
 
-  addAllBudgets() {
-    return this.http.get(`${this.baseUrl}/add-all-budgets`);
+  addAllBudgets(year: any, month: any) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/add-all-budgets`, {
+      params: queryParams,
+    });
   }
 }

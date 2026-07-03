@@ -230,7 +230,7 @@ export class BudgetComponent implements OnInit {
   }
 
   addAllBudget() {
-    this.budgetService.addAllBudgets().subscribe((data: any) => {
+    this.budgetService.addAllBudgets(this.year, this.month).subscribe((data: any) => {
       this.fetchAllBudgetList(this.month, this.year);
     });
   }
