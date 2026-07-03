@@ -59,6 +59,8 @@ export class ExpenseComponent implements OnInit {
       data: {
         item: expense,
         screen: screen,
+        month: this.month,
+        year: this.year,
       },
     });
 

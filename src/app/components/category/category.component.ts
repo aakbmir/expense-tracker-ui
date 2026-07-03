@@ -3,6 +3,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { ThemeService } from 'src/app/services/theme.service';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -15,15 +16,27 @@ export class CategoryComponent implements OnInit {
   expandedMains: Record<string, boolean> = {};
   expandedSubs: Record<string, Record<string, boolean>> = {};
 
+  months = this.commonService.getMonths();
+  month = this.commonService.getCurrentMonth();
+  years = this.commonService.getYears();
+  year = this.commonService.getCurrentYear();
+  monthText = '';
+
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog,
-    public themeService: ThemeService
-  ) { }
+    public themeService: ThemeService,
+    private commonService: CommonService
+  ) {
+    this.months = this.commonService.getMonths();
+    this.month = this.commonService.getCurrentMonth();
+    this.years = this.commonService.getYears();
+    this.year = this.commonService.getCurrentYear();
+  }
 
   ngOnInit(): void {
     this.loading = true;
-    this.fetchAllCategories();
+    this.fetchAllCategories(this.month, this.year);
   }
 
   openDialog(cat: any, screen: string, height: number, width: number) {
@@ -57,17 +70,50 @@ export class CategoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.fetchAllCategories();
+        this.fetchAllCategories(this.month, this.year);
       }
     });
   }
 
-  fetchAllCategories() {
-    this.categoryService.getAllCategories().subscribe((data: any) => {
+  fetchAllCategories(month: any, year: any) {
+    this.monthText = this.commonService.getCurrentMonthString(month);
+    this.categoryService.getAllCategories(month, year).subscribe((data: any) => {
       this.loading = false;
       this.total = data.length;
       this.groupedData = this.groupDataByMain(data);
       this.initExpandedState();
+    });
+  }
+
+  applyFilters(clickedBtn: any) {
+    let calcMnth = Number(this.month) - 1;
+    let calcYear = Number(this.year);
+    if (clickedBtn === 'left') {
+      calcMnth = Number(this.month) - 1;
+      calcYear = Number(this.year);
+      if (calcMnth == 0) {
+        calcMnth = 12;
+        calcYear = calcYear - 1;
+      }
+    } else {
+      calcMnth = Number(this.month) + 1;
+      calcYear = Number(this.year);
+      if (calcMnth == 13) {
+        calcMnth = 1;
+        calcYear = calcYear + 1;
+      }
+    }
+
+    console.log(calcMnth + " : " + calcYear);
+    this.month = calcMnth;
+    this.year = calcYear;
+
+    this.fetchAllCategories(this.month, this.year);
+  }
+
+  addAllCategory() {
+    this.categoryService.addAllCategories(this.month, this.year).subscribe((data: any) => {
+      this.fetchAllCategories(this.month, this.year);
     });
   }
 

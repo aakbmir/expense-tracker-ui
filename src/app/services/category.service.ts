@@ -13,8 +13,17 @@ export class CategoryService {
     this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/category';
   }
 
-  getAllCategories(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/get-all-categories`);
+  getAllCategories(month?: any, year?: any): Observable<any> {
+    let queryParams = new HttpParams();
+    if (month !== undefined && month !== null) {
+      queryParams = queryParams.append('month', month);
+    }
+    if (year !== undefined && year !== null) {
+      queryParams = queryParams.append('year', year);
+    }
+    return this.http.get(`${this.baseUrl}/get-all-categories`, {
+      params: queryParams,
+    });
   }
 
   get(categoryName: any) {
@@ -31,5 +40,13 @@ export class CategoryService {
 
   deleteCategory(id: any) {
     return this.http.delete(`${this.baseUrl}/del-category/${id}`);
+  }
+
+  addAllCategories(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month - 1).append('year', year);
+    return this.http.get(`${this.baseUrl}/add-all-categories`, {
+      params: queryParams,
+    });
   }
 }

@@ -14,12 +14,18 @@
       </div>
     </div>
 
-    <!-- Items count & Add -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-      <div style="font-size: 15px; letter-spacing: 0px;">
-        <span style="font-weight: 700;">{{ total }}</span> <span class="pw-muted">&nbsp;Items</span>
+    <!-- Month & Year Filter -->
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
+            class="fa fa-chevron-left"></i></button>
+        <div
+          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 110px; text-align: center;">
+          {{monthText}} {{year}}</div>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
+            class="fa fa-chevron-right"></i></button>
       </div>
-
       <button class="pw-btn pw-btn-ghost pw-btn-sm"
         style="border: 1px solid rgba(15, 55, 130, 0.4); padding: 6px 14px; border-radius: 999px; font-weight: 600;"
         (click)="openDialog('', 'Category-Add', 100, 100)">
@@ -27,16 +33,25 @@
       </button>
     </div>
 
-    <!-- Expand/Collapse Actions -->
-    <div *ngIf="total > 0 && !loading" style="display: flex; gap: 16px; margin-bottom: 16px;">
-      <button class="pw-btn-text" (click)="expandAll()" style="color: #10b981; font-size: 12px;">
-        Expand All
-      </button>
-      <div style="width: 1px; background: rgba(16, 185, 129, 0.2); height: 16px; align-self: center;"></div>
-      <button class="pw-btn-text" (click)="collapseAll()" style="color: #10b981; font-size: 12px;">
-        Collapse All
-      </button>
+    <!-- Items count & Add -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+      <div style="font-size: 15px; letter-spacing: 0px;">
+        <span style="font-weight: 700;">{{ total }}</span> <span class="pw-muted">&nbsp;Items</span>
+      </div>
+      <div *ngIf="total > 0 && !loading" style="display: flex; gap: 16px; margin-bottom: 16px;">
+        <button class="pw-btn-text" (click)="expandAll()" style="color: #10b981; font-size: 12px;">
+          Expand All
+        </button>
+        <div style="width: 1px; background: rgba(16, 185, 129, 0.2); height: 16px; align-self: center;"></div>
+        <button class="pw-btn-text" (click)="collapseAll()" style="color: #10b981; font-size: 12px;">
+          Collapse All
+        </button>
+      </div>
+
     </div>
+
+    <!-- Expand/Collapse Actions -->
+
 
     <!-- Main List Card -->
     <div *ngIf="total > 0 && !loading" class="cat-main-card pw-glass">
@@ -92,6 +107,15 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Add All Button (when empty) -->
+    <div *ngIf="total == 0 && !loading" style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+      <button class="pw-btn pw-btn-ghost pw-btn-sm"
+        style="border: 1px solid rgba(16, 185, 129, 0.4); padding: 6px 14px; border-radius: 999px; font-weight: 600;"
+        (click)="addAllCategory()">
+        <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add All
+      </button>
     </div>
 
     <!-- EMPTY STATE -->

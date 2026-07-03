@@ -8,6 +8,7 @@ import { ExpenseService } from 'src/app/services/expense.service';
 import { ReportService } from 'src/app/services/report.service';
 import { BankService } from 'src/app/services/bank.service';
 import { IncomeService } from 'src/app/services/income.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-dialog',
@@ -18,9 +19,16 @@ export class DialogComponent {
   screen: any;
   feature: any;
   categoryList: any = [];
+  months: any = [];
+  years: any = [];
 
   reportsDetailsList: any = [];
   main = '';
+
+  copyCategoriesForm = new FormGroup({
+    month: new FormControl('', Validators.required),
+    year: new FormControl('', Validators.required),
+  });
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
@@ -31,6 +39,7 @@ export class DialogComponent {
     private reportsService: ReportService,
     private bankService: BankService,
     private incomeService: IncomeService,
+    private commonService: CommonService,
     private snackBar: MatSnackBar
   ) {
     this.screen = this.data.screen;
@@ -38,6 +47,13 @@ export class DialogComponent {
     console.log(this.data.item);
     this.categoryList = [];
     this.reportsDetailsList = [];
+    this.months = this.commonService.getMonths();
+    this.years = this.commonService.getYears();
+
+    this.copyCategoriesForm.patchValue({
+      month: this.data?.month || '',
+      year: this.data?.year || '',
+    });
 
     this.main = '';
     if (this.screen === 'fetch-sub-category-report-details') {
@@ -73,7 +89,7 @@ export class DialogComponent {
       this.screen === 'Expense-Edit'
     ) {
       console.log(this.data.item);
-      this.categoryService.getAllCategories().subscribe((data) => {
+      this.categoryService.getAllCategories(this.data.month, this.data.year).subscribe((data) => {
         this.categoryList = data;
         // this.mainCategoryList = Array.from(
         //   new Set(data.map((item: any) => item.main))
@@ -101,10 +117,24 @@ export class DialogComponent {
     mainCategory: new FormControl('', Validators.required),
     subCategory: new FormControl('', Validators.required),
     categoryGroup: new FormControl('', Validators.required),
+    date: new FormControl('', Validators.required),
   });
 
   addCategory() {
     this.categoryService.saveCategory(this.addCategoryForm.value).subscribe(
+      (data) => {
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        this.onCancel();
+      }
+    );
+  }
+
+  copyCategories() {
+    const month = this.copyCategoriesForm.value.month;
+    const year = this.copyCategoriesForm.value.year;
+    this.categoryService.addAllCategories(month, year).subscribe(
       (data) => {
         this.dialogRef.close(true);
       },
