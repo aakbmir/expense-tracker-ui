@@ -227,7 +227,6 @@ export class DialogComponent {
 
   addExpenseForm = new FormGroup({
     category: new FormControl(this.data.item.category, Validators.required),
-    completed: new FormControl(this.data.item.completed, Validators.required),
     main: new FormControl(this.data.item.main, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
@@ -237,7 +236,6 @@ export class DialogComponent {
   editExpenseForm = new FormGroup({
     id: new FormControl(this.data.item.id, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
-    completed: new FormControl(this.data.item.completed, Validators.required),
     price: new FormControl(this.data.item.price, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
     note: new FormControl(this.data.item.note, Validators.required),
