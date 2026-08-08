@@ -37,13 +37,13 @@
       </div>
 
       <div class="summary-stats">
+        <div class="s-stat">
+          <span class="s-label">Total Income</span>
+          <span class="s-value">{{totalIncome | number:'1.2-2'}} <small>AED</small></span>
+        </div>
         <div class="s-stat s-total">
           <span class="s-label">Total Expense</span>
           <span class="s-value">{{totalExpense | number:'1.2-2'}} <small>AED</small></span>
-        </div>
-        <div class="s-stat">
-          <span class="s-label">Total Budget</span>
-          <span class="s-value">{{totalBudget | number:'1.2-2'}} <small>AED</small></span>
         </div>
         <div class="s-stat">
           <span class="s-label">Total Savings</span>
@@ -53,19 +53,19 @@
 
       <div class="summary-progress-container">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill" [style.width.%]="getProgress(totalExpense, totalBudget)"></div>
+          <div class="progress-bar-fill" [style.width.%]="getProgress(totalExpense, totalIncome)"></div>
         </div>
-        <div class="progress-text">{{getProgress(totalExpense, totalBudget) | number:'1.0-0'}}% of budget used</div>
+        <div class="progress-text">{{getProgress(totalExpense, totalIncome) | number:'1.0-0'}}% of budget used</div>
       </div>
     </div>
 
     <!-- ================= CATEGORY BREAKDOWN ================= -->
     <div class="cat-breakdown-header" *ngIf="!loading">
       <h3>Categories</h3>
-      <div class="view-toggle">
+      <!-- <div class="view-toggle">
         <button class="toggle-btn" [class.active]="viewMode === 'cards'" (click)="setViewMode('cards')">Cards</button>
         <button class="toggle-btn" [class.active]="viewMode === 'table'" (click)="setViewMode('table')">Table</button>
-      </div>
+      </div> -->
     </div>
 
     <!-- ================= CONTENT SKELETON ================= -->
@@ -164,9 +164,9 @@
             <tr>
               <th>Category</th>
               <th class="text-right">Expense</th>
-              <th class="text-right">Budget</th>
-              <th class="text-right">Savings</th>
-              <th class="text-right" style="min-width: 100px;">Progress</th>
+              <!-- <th class="text-right">Budget</th> -->
+              <!-- <th class="text-right">Savings</th> -->
+              <!-- <th class="text-right" style="min-width: 100px;">Progress</th> -->
             </tr>
           </thead>
           <tbody>
@@ -183,7 +183,7 @@
                   </div>
                 </td>
                 <td class="text-right"><strong>{{ mainCategoryObj.expense | number:'1.2-2' }}</strong></td>
-                <td class="text-right"><strong>{{ mainCategoryObj.budget | number:'1.2-2' }}</strong></td>
+                <!-- <td class="text-right"><strong>{{ mainCategoryObj.budget | number:'1.2-2' }}</strong></td>
                 <td class="text-right">
                   <strong
                     [ngClass]="{'positive': (mainCategoryObj.budget - mainCategoryObj.expense) >= 0, 'negative': (mainCategoryObj.budget - mainCategoryObj.expense) < 0}">
@@ -198,7 +198,7 @@
                     </div>
                     <span>{{getProgress(mainCategoryObj.expense, mainCategoryObj.budget) | number:'1.0-0'}}%</span>
                   </div>
-                </td>
+                </td> -->
               </tr>
 
               <!-- Sub Rows -->
@@ -212,7 +212,7 @@
                       </div>
                     </td>
                     <td class="text-right">{{ subCategoryObj.expense | number:'1.2-2' }}</td>
-                    <td class="text-right">{{ subCategoryObj.budget | number:'1.2-2' }}</td>
+                    <!-- <td class="text-right">{{ subCategoryObj.budget | number:'1.2-2' }}</td>
                     <td class="text-right">
                       <span
                         [ngClass]="{'positive': (subCategoryObj.budget - subCategoryObj.expense) >= 0, 'negative': (subCategoryObj.budget - subCategoryObj.expense) < 0}">
@@ -226,7 +226,7 @@
                             [style.width.%]="getProgress(subCategoryObj.expense, subCategoryObj.budget)"></div>
                         </div>
                       </div>
-                    </td>
+                    </td> -->
                   </tr>
 
                   <!-- Item Rows -->
@@ -245,7 +245,7 @@
                           {{ categoryObj.expense | number:'1.2-2' }}
                         </span>
                       </td>
-                      <td class="text-right">{{ categoryObj.budget | number:'1.2-2' }}</td>
+                      <!-- <td class="text-right">{{ categoryObj.budget | number:'1.2-2' }}</td>
                       <td class="text-right">
                         <span
                           [ngClass]="{'positive': (categoryObj.budget - categoryObj.expense) >= 0, 'negative': (categoryObj.budget - categoryObj.expense) < 0}">
@@ -259,7 +259,7 @@
                             </div>
                           </div>
                         </div>
-                      </td>
+                      </td> -->
                     </tr>
                   </ng-container>
                 </ng-container>

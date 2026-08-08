@@ -24,10 +24,10 @@ export class GroupReportComponent {
   monthText = '';
 
   totalExpense: any = 0;
-  totalBudget: any = 0;
+  totalIncome: any = 0;
   totalDeviate: any = 0;
   loading: boolean = false;
-  viewMode: string = 'cards';
+  viewMode: string = 'table';
 
   constructor(private reportsService: ReportService, private commonService: CommonService, private dialog: MatDialog,
     private router: Router, public themeService: ThemeService
@@ -47,16 +47,18 @@ export class GroupReportComponent {
     this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
     this.loading = true;
     this.totalExpense = 0;
-    this.totalBudget = 0;
+    this.totalIncome = 0;
     this.totalDeviate = 0;
     this.reportsService.groupedReport(month, year).subscribe((data: any) => {
-      this.cumulativeReport = data;
+      this.cumulativeReport = data.parentCategoryDTOList;
+      this.totalIncome = data.income.price;
       for (let report of this.cumulativeReport) {
+        console.log(this.totalExpense);
+        console.log(report.expense);
         report.expanded = false;
         this.totalExpense = this.totalExpense + report.expense;
-        this.totalBudget = this.totalBudget + report.budget;
       }
-      this.totalDeviate = this.totalBudget - this.totalExpense;
+      this.totalDeviate = this.totalIncome - this.totalExpense;
       this.loading = false;
     });
   }

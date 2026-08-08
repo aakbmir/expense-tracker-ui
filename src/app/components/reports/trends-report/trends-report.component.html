@@ -127,42 +127,38 @@
             </div>
 
             <div class="trend-grid center">
-              <div class="lbl">Savings</div>
-              <div class="val" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
-                {{item.savings | number:'1.2-2'}}
-              </div>
-            </div>
-
-            <div class="trend-grid right">
               <div class="lbl">Income</div>
               <div class="val">
                 {{item.income | number:'1.2-2'}}
               </div>
             </div>
-          </div>
-
-          <div class="trend-body">
-            <div class="trend-grid">
-              <div class="lbl">Budget</div>
-              <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
-            </div>
-
-            <div class="trend-grid center">
+            
+            <div class="trend-grid right">
               <div class="lbl">Expense</div>
               <div class="val">
                 {{item.totalExpense | number:'1.2-2'}}
               </div>
             </div>
 
-            <div class="trend-grid right">
-              <div class="lbl">Remaining</div>
-              <div class="val" [ngClass]="item.totalBudget > item.totalExpense ? 'good' : 'bad'">
-                {{item.deviate | number:'1.2-2'}}
-              </div>
+          </div>
+
+          <div class="trend-body">
+            <!-- <div class="trend-grid">
+              <div class="lbl">Budget</div>
+              <div class="val">{{item.totalBudget | number:'1.2-2'}}</div>
+            </div> -->
+            <div class="trend-grid">
+              <div class="lbl"></div>
+              <div class="val"></div>
             </div>
 
-
-
+            <div class="trend-grid center">
+              <div class="lbl">Savings</div>
+              <div class="val" [ngClass]="item.savings > 0 ? 'good' : 'bad'">
+                {{item.savings | number:'1.2-2'}}
+              </div>
+            </div>
+            
 
           </div>
         </div>
@@ -180,7 +176,7 @@
                   <th class="text-right">Income (AED)</th>
                   <th class="text-right">Expense (AED)</th>
                   <th class="text-right">Savings (AED)</th>
-                  <th class="text-right">Budget (AED)</th>
+                  <!-- <th class="text-right">Budget (AED)</th> -->
                   <th class="text-right">Remaining (AED)</th>
                 </tr>
               </thead>
@@ -194,7 +190,7 @@
                       {{item.savings | number:'1.2-2'}}
                     </strong>
                   </td>
-                  <td class="text-right">{{item.totalBudget | number:'1.2-2'}}</td>
+                  <!-- <td class="text-right">{{item.totalBudget | number:'1.2-2'}}</td> -->
                   <td class="text-right">
                     <span [ngClass]="item.deviate >= 0 ? 'positive' : 'negative'">
                       {{item.deviate | number:'1.2-2'}}
