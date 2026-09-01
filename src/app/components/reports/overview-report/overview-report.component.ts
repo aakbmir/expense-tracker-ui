@@ -53,7 +53,7 @@ export class OverviewReportComponent {
     this.monthText = this.commonService.getCurrentMonthString(this.month);
     this.loading = true;
     this.reportService.overviewReport(month, year).subscribe((data) => {
-      this.totalIncome = data.income.price;
+      this.totalIncome = data.income?.price;
       for (let da of data.expenses) {
         this.totalSavings = this.totalSavings + da.deviate;
         this.totalExpense = this.totalExpense + da.expense;
@@ -67,8 +67,10 @@ export class OverviewReportComponent {
   fetchTransactions(clickedButton: any) {
     this.reportService
       .fetchTransactionForCategory(this.selectedCategory, clickedButton)
-      .subscribe((data) => {
-        this.categoryTransactionList = data;
+      .subscribe((data: any) => {
+        for (let d of data) {
+          this.categoryTransactionList.push(d.categoryApiDTO);
+        }
         this.groupDataByMonth(data);
       });
   }

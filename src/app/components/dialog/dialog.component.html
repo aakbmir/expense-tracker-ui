@@ -3,21 +3,41 @@
     <h3>Add Category</h3>
     <hr />
     <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
+
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category</span>
-            <input class="form-control" type="text" formControlName="category" id="category" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Financial Type</span>
+            <div class="btn-group" role="group" aria-label="Category type selector"
+                style="width: 100%; max-width: 260px;">
+                <input type="radio" class="btn-check" formControlName="financialType" value="EXPENSE"
+                    id="categoryTypeExpense" autocomplete="off" />
+                <label class="btn btn-outline-primary" for="categoryTypeExpense" style="flex: 1;">Expense</label>
+
+                <input type="radio" class="btn-check" formControlName="financialType" value="SAVINGS"
+                    id="categoryTypeSavings" autocomplete="off" />
+                <label class="btn btn-outline-primary" for="categoryTypeSavings" style="flex: 1;">Savings</label>
+            </div>
         </div>
+
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Sub Category</span>
-            <input class="form-control" type="text" formControlName="subCategory" id="subCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category Group</span>
+            <input class="form-control" type="text" formControlName="categoryGroup" id="categoryGroup" />
         </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Main Category</span>
             <input class="form-control" type="text" formControlName="mainCategory" id="mainCategory" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category Group</span>
-            <input class="form-control" type="text" formControlName="categoryGroup" id="categoryGroup" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Super Category</span>
+            <input class="form-control" type="text" formControlName="superCategory" id="superCategory" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category</span>
+            <input class="form-control" type="text" formControlName="category" id="category" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Budget Amount</span>
+            <input class="form-control" type="number" inputmode="decimal" formControlName="budgetAmount"
+                id="budgetAmount" />
         </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Date</span>
@@ -46,17 +66,55 @@
     <h3>Update Category</h3>
     <hr />
     <form [formGroup]="editCategoryForm" (ngSubmit)="updateCategory()">
+
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Financial Type</span>
+            <div class="btn-group" role="group" aria-label="Category type selector"
+                style="width: 100%; max-width: 260px;">
+                <input type="radio" class="btn-check" formControlName="financialType" value="EXPENSE"
+                    id="categoryTypeExpense" autocomplete="off" />
+                <label class="btn btn-outline-primary" for="categoryTypeExpense" style="flex: 1;">Expense</label>
+
+                <input type="radio" class="btn-check" formControlName="financialType" value="SAVINGS"
+                    id="categoryTypeSavings" autocomplete="off" />
+                <label class="btn btn-outline-primary" for="categoryTypeSavings" style="flex: 1;">Savings</label>
+            </div>
+        </div>
+
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category Group</span>
+            <input class="form-control" type="text" formControlName="categoryGroup" id="categoryGroup" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Main Category</span>
+            <input class="form-control" type="text" formControlName="mainCategory" id="mainCategory" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Super Category</span>
+            <input class="form-control" type="text" formControlName="superCategory" id="superCategory" />
+        </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Category</span>
             <input class="form-control" type="text" formControlName="category" id="category" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Sub Category</span>
-            <input class="form-control" type="text" formControlName="subCategory" id="subCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Budget Amount</span>
+            <input class="form-control" type="number" inputmode="decimal" formControlName="budgetAmount"
+                id="budgetAmount" />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Main Category</span>
-            <input class="form-control" type="text" formControlName="mainCategory" id="mainCategory" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 8em;">Date</span>
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date" (click)="datepicker.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
@@ -74,9 +132,25 @@
         <p></p> Are you sure?
     </span>
     <p></p>
+    <div class="d-flex flex-column align-items-center mb-3">
+        <div class="form-check" style="text-align: left; min-width: 180px;">
+            <input class="form-check-input" type="radio" name="deleteAction" id="actionSoft"
+                [value]="data.item.status ? 'INACTIVE' : 'ACTIVE'" [(ngModel)]="deleteAction" style="cursor: pointer;">
+            <label class="form-check-label" for="actionSoft" style="cursor: pointer; color: var(--pw-text);">
+                {{ data.item.status === 'ACTIVE' ? 'Mark as Inactive' : 'Mark as Active' }}
+            </label>
+        </div>
+        <div class="form-check mt-2" style="text-align: left; min-width: 180px;">
+            <input class="form-check-input" type="radio" name="deleteAction" id="actionPermanent" value="delete"
+                [(ngModel)]="deleteAction" style="cursor: pointer;">
+            <label class="form-check-label" for="actionPermanent" style="cursor: pointer; color: var(--pw-text);">
+                Delete permanently
+            </label>
+        </div>
+    </div>
     <div class="form-group row">
         <div class="col" style="text-align: center;">
-            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteCategory()">Delete</button>
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteCategory()">Confirm</button>
             <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
         </div>
     </div>
@@ -93,7 +167,8 @@
         </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
-            <input class="form-control" type="number" inputmode="decimal" formControlName="price" id="price" />
+            <input class="form-control" type="number" inputmode="decimal" formControlName="budgetAmount"
+                id="budgetAmount" />
         </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
@@ -124,18 +199,31 @@
     <hr />
     <form [formGroup]="addExpenseForm" (ngSubmit)="addExpense()">
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
-            <select class="form-select" formControlName="category">
-                <option *ngFor="let category of categoryList" [ngValue]="category.category">
-                    {{category.category}}</option>
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Category</span>
+            <select #categorySelect class="form-select" formControlName="categoryId"
+                (change)="onCategoryChange(categorySelect.value)">
+                <option *ngFor="let category of categoryList" [value]="category.categoryId">
+                    {{category.mainCategory}} - {{category.superCategory}} - {{category.category}}</option>
             </select>
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
-            <input class="form-control" type="number" inputmode="decimal" formControlName="price" id="price" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Main Category</span>
+            <input class="form-control" type="text" formControlName="mainCategory" readonly />
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Sub Category</span>
+            <input class="form-control" type="text" formControlName="superCategory" readonly />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Category Group</span>
+            <input class="form-control" type="text" formControlName="categoryGroup" readonly />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Amount</span>
+            <input class="form-control" type="number" inputmode="decimal" formControlName="amount" id="amount" />
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Date</span>
             <mat-form-field class="example-form-field">
                 <mat-label>Choose a date</mat-label>
                 <input matInput [matDatepicker]="datepicker" formControlName="date" (click)="datepicker.open()">
@@ -149,8 +237,8 @@
             </mat-form-field>
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
-            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 10em;">Description</span>
+            <textarea class="form-control" type="text" formControlName="description" id="description"></textarea>
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
@@ -169,12 +257,12 @@
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
             <select class="form-select" formControlName="category">
                 <option *ngFor="let category of categoryList" [ngValue]="category.category">
-                    {{category.category}}</option>
+                    {{category.mainCategory}} - {{category.superCategory}} - {{category.category}}</option>
             </select>
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Price</span>
-            <input class="form-control" type="number" inputmode="decimal" formControlName="price" id="price" />
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">amount</span>
+            <input class="form-control" type="number" inputmode="decimal" formControlName="amount" id="amount" />
         </div>
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Date</span>
@@ -191,8 +279,8 @@
             </mat-form-field>
         </div>
         <div class="input-group input-group-sm mb-3">
-            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Note</span>
-            <textarea class="form-control" type="text" formControlName="note" id="note"></textarea>
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Description</span>
+            <textarea class="form-control" type="text" formControlName="description" id="description"></textarea>
         </div>
         <div class="form-group row">
             <div class="col" style="text-align: center;">
@@ -397,19 +485,41 @@
 </div>
 
 <div class="pw-dialog pw-dialog--center" *ngIf="screen ==='Bank-Record-Delete'">
-    <h3>Delete Bank Record</h3>
-    <p></p>
-    <span>Deleting this Bank Record will impact
-        <p></p>the budget and reports.
-        <p></p> Are you sure?
-    </span>
+    <h3>Delete Record</h3>
+    <span>Are you sure?</span>
     <p></p>
     <div class="form-group row">
         <div class="col" style="text-align: center;">
-            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteBankRecord()">Delete</button>
+            <button class="btn btn-warning" style="margin-right: 1em;" (click)="deleteBankRecord()">Confirm</button>
             <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
         </div>
     </div>
+</div>
+
+<div class="pw-dialog" *ngIf="screen === 'Category-Copy'">
+    <h3>Copy Categories</h3>
+    <hr />
+    <form [formGroup]="copyCategoriesForm" (ngSubmit)="copyCategories()">
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em; width: 8em;">Month</span>
+            <select class="form-select" formControlName="month">
+                <option *ngFor="let m of months" [value]="m">{{m}}</option>
+            </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span id="inputGroup-sizing-sm" style="margin-right: 1em; width: 8em;">Year</span>
+            <select class="form-select" formControlName="year">
+                <option *ngFor="let y of years" [value]="y">{{y}}</option>
+            </select>
+        </div>
+        <div class="form-group row mt-4">
+            <div class="col" style="text-align: center;">
+                <button type="submit" class="btn btn-warning" style="margin-right: 1em;"
+                    [disabled]="!copyCategoriesForm.valid">Copy</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 <!-- Reports -->

@@ -1,7 +1,7 @@
 .pw-dialog {
   padding: 10px;
-  border-radius: var(--pw-r-xl);
-  background: var(--pw-glass);
+  margin-top: 10%;
+  background: linear-gradient(135deg, var(--pw-bg-0), var(--pw-bg-1));
   /* Increased brightness and opacity */
   border: 3px solid white;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 2px 20px rgba(255, 255, 255, 0.05);
@@ -51,16 +51,17 @@
 }
 
 .pw-dialog .btn {
-  border-radius: 999px;
+  /* border-radius: 999px; */
   font-weight: 750;
   padding: 10px 14px;
   border: 1px solid rgba(16, 185, 129, 0.4);
-  background: rgba(16, 25, 43, 0.6);
+  /* background: rgba(16, 25, 43, 0.6); */
   color: var(--pw-text);
+  margin: 0 5px;
 }
 
 .pw-dialog .btn:hover {
-  background: rgba(16, 25, 43, 0.9);
+  /* background: rgba(16, 25, 43, 0.9); */
   border-color: rgba(16, 185, 129, 0.8);
 }
 

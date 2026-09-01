@@ -6,11 +6,11 @@ import { CommonService } from 'src/app/services/common.service';
 import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
-  selector: 'app-budget',
-  templateUrl: './budget.component.html',
-  styleUrls: ['./budget.component.css'],
+  selector: 'app-savings',
+  templateUrl: './savings.component.html',
+  styleUrls: ['./savings.component.css']
 })
-export class BudgetComponent implements OnInit {
+export class SavingsComponent implements OnInit {
   filterOn = false;
   loading = false;
   count = 0;

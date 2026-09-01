@@ -49,14 +49,14 @@
           <div style="display: flex; flex-direction: column;">
             <span
               style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Saved</span>
-            <span style="font-size: 13px; font-weight: 800;"
-              [style.color]="totalSavings >= 0 ? '#10b981' : '#f43f5e'">{{ totalSavings | number:'1.0-0' }} <span
+            <span style="font-size: 13px; font-weight: 800;" [style.color]="totalSavings >= 0 ? '#10b981' : '#f43f5e'">
+              {{ totalSavings | number:'1.0-0' }} <span
                 style="font-size: 10px; font-weight: 500; opacity: 0.8;">AED</span></span>
           </div>
           <div style="text-align: right; display: flex; flex-direction: column;">
             <span
-              style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Income</span>
-            <span style="font-size: 13px; font-weight: 800; color: #10b981;">{{ totalIncome | number:'1.0-0' }} <span
+              style="font-size: 10px; font-weight: 700; color: var(--pw-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Budget</span>
+            <span style="font-size: 13px; font-weight: 800; color: #10b981;">{{ totalBudget | number:'1.0-0' }} <span
                 style="font-size: 10px; font-weight: 500; opacity: 0.8;">AED</span></span>
           </div>
         </div>
@@ -150,23 +150,23 @@
             </div>
           </div>
 
-          <div class="subcat-container"
-            style="padding-left: 10px; padding-right: 10px;">
+          <div class="subcat-container" style="padding-left: 10px; padding-right: 10px;">
             <div *ngFor="let item of group.items; let isLast = last" class="overview-item-row"
               [class.overview-item-row-last]="isLast"
               style="padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid rgba(150, 150, 150, 0.1);">
 
               <div class="row-left" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
-                <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.category }}</div>
+                <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.categoryApiDTO.category }}
+                </div>
                 <div
                   style="font-size: 12px; color: var(--pw-muted); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                  {{ item.note }}</div>
+                  {{ item.description }}</div>
               </div>
 
               <div class="row-right" style="display: flex; flex-direction: row; align-items: center; gap: 16px;">
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
                   <div style="font-weight: 500; font-size: 14px; color: #10b981;">
-                    {{item.price | number:'1.2-2'}} <span
+                    {{item.amount | number:'1.2-2'}} <span
                       style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text); text-shadow: none;">AED</span>
                   </div>
                   <div style="font-size: 12px; color: var(--pw-muted);">{{item.date | date : 'MMM dd, EEEE'}}</div>

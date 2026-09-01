@@ -1,9 +1,8 @@
 <div class="pw-page">
   <div class="pw-container pw-stack">
 
-    <!-- Top Header -->
     <div
-      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
+      style="padding: 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
       <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
           Category </h2>
@@ -14,93 +13,127 @@
       </div>
     </div>
 
-    <!-- Month & Year Filter -->
     <div
       style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
-      <div style="display: flex; gap: 12px; align-items: center;">
+      <div style="display: flex; gap: 4px; align-items: center;">
         <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
             class="fa fa-chevron-left"></i></button>
         <div
-          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 110px; text-align: center;">
+          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 150px; text-align: center;">
           {{monthText}} {{year}}</div>
         <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
             class="fa fa-chevron-right"></i></button>
       </div>
-      <button class="pw-btn pw-btn-ghost pw-btn-sm"
+      <button *ngIf="!loading && displayFinancialTypes.length > 0" class="pw-btn pw-btn-ghost pw-btn-sm"
         style="border: 1px solid rgba(15, 55, 130, 0.4); padding: 6px 14px; border-radius: 999px; font-weight: 600;"
         (click)="openDialog('', 'Category-Add', 100, 100)">
         <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add
       </button>
     </div>
 
-    <!-- Items count & Add -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-      <div style="font-size: 15px; letter-spacing: 0px;">
-        <span style="font-weight: 700;">{{ total }}</span> <span class="pw-muted">&nbsp;Items</span>
+    <div *ngIf="total > 0 && !loading"
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;">
+      <div style="font-weight: 700; font-size: 18px; color: #10b981; text-align: right;">
+        {{totalAmount | number:'1.2-2'}} <span
+          style="font-size: 12px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED</span>
       </div>
-      <div *ngIf="total > 0 && !loading" style="display: flex; gap: 16px; margin-bottom: 16px;">
-        <button class="pw-btn-text" (click)="expandAll()" style="color: #10b981; font-size: 12px;">
-          Expand All
-        </button>
-        <div style="width: 1px; background: rgba(16, 185, 129, 0.2); height: 16px; align-self: center;"></div>
-        <button class="pw-btn-text" (click)="collapseAll()" style="color: #10b981; font-size: 12px;">
-          Collapse All
+      <div style="font-size: 14px; letter-spacing: 0px;">
+        <span style="font-weight: 700">{{ total }}</span> <span class="pw-muted">&nbsp;Items</span>
+      </div>
+      <div style="display: flex; gap: 16px;">
+        <button class="pw-btn-text" (click)="toggleAllExpanded()" style="color: #10b981; font-size: 12px;">
+          {{ isAnyExpanded() ? 'Collapse All' : 'Expand All' }}
         </button>
       </div>
-
     </div>
 
-    <!-- Expand/Collapse Actions -->
+    <div *ngIf="loading" class="loading-wrapper">
+      <i class="fa fa-spinner fa-spin loading-icon"></i>
+      <span class="loading-text">Loading categories...</span>
+    </div>
 
-
-    <!-- Main List Card -->
-    <div *ngIf="total > 0 && !loading" class="cat-main-card pw-glass">
-      <div *ngFor="let main of groupedDataKeys(); let lastMain = last" class="main-block" [class.no-border]="lastMain">
-        <!-- Main Row -->
-        <button class="row-btn main-row" (click)="toggleMain(main)">
-          <div class="row-left">
-            <div class="dot-indicator"></div>
-            <div class="main-title">{{ main | uppercase }}</div>
+    <div *ngIf="!loading && displayFinancialTypes.length > 0" class="financial-types-list">
+      <div *ngFor="let financialType of displayFinancialTypes" class="financial-type-card pw-glass">
+        <button class="financial-type-header-btn" (click)="toggleMain(financialType.financialType)">
+          <div class="financial-title-info">
+            <span class="financial-type-title">{{ financialType.financialType | uppercase }}</span>
           </div>
-          <div class="row-right">
-            <span class="row-meta">{{ mainCount(main) }} items</span>
-            <i class="fa" [ngClass]="isMainExpanded(main) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          <div class="financial-header-right">
+            <span class="financial-type-total">AED {{ getFinancialTypeTotal(financialType) | number:'1.2-2' }}</span>
+            <i class="fa"
+              [ngClass]="isMainExpanded(financialType.financialType) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
           </div>
         </button>
 
-        <!-- Subcategories Block -->
-        <div *ngIf="isMainExpanded(main)" class="subcat-container">
-          <div *ngFor="let sub of groupedData[main] | keys" class="sub-block">
-
-            <!-- Subcategory Row -->
-            <button class="row-btn subcat-row" (click)="toggleSub(main, sub.key)">
-              <div class="row-left">
-                <div class="subcat-title">{{ sub.key }}</div>
+        <div *ngIf="isMainExpanded(financialType.financialType)" class="main-categories-list">
+          <div *ngFor="let mainCategory of financialType.mainCategories" class="main-category-card">
+            <button class="main-category-header-btn"
+              (click)="toggleMain(getMainCategoryKey(financialType, mainCategory))">
+              <span class="main-category-title">
+                {{ mainCategory.mainCategory | uppercase }}
+              </span>
+              <div class="main-header-right">
+                <span class="main-category-total">AED {{ getMainCategoryTotal(mainCategory) | number:'1.2-2' }}</span>
+                <i class="fa"
+                  [ngClass]="isMainExpanded(getMainCategoryKey(financialType, mainCategory)) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
               </div>
-              <div class="row-right">
-                <span class="row-meta">{{ sub.value.length }} items</span>
-                <i class="fa" [ngClass]="isSubExpanded(main, sub.key) ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
-              </div>
-            </button> <!-- Border line style is applied to subcat-row -->
+            </button>
 
-            <!-- Items Block -->
-            <div *ngIf="isSubExpanded(main, sub.key)" class="items-container">
-              <div *ngFor="let categoryObj of sub.value; let isLast = last" class="item-row"
-                [class.item-row-last]="isLast">
-
-                <div class="row-left">
-                  <div class="item-title">{{ categoryObj.category }}</div>
+            <div *ngIf="isMainExpanded(getMainCategoryKey(financialType, mainCategory))" class="super-categories-list">
+              <div *ngFor="let superCategory of mainCategory.superCategories" class="super-category-card">
+                <div class="super-category-header clickable"
+                  (click)="toggleSub(getMainCategoryKey(financialType, mainCategory), getSuperCategoryKey(financialType, mainCategory, superCategory))">
+                  <div class="super-title-info">
+                    <span class="super-category-title">{{ superCategory.superCategory }}</span>
+                  </div>
+                  <div class="super-header-right">
+                    <span class="super-category-amount">AED {{ superCategory.totalBudgetAmount | number:'1.2-2'
+                      }}</span>
+                    <i class="fa me-2"
+                      [ngClass]="isSubExpanded(getMainCategoryKey(financialType, mainCategory), getSuperCategoryKey(financialType, mainCategory, superCategory)) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                    <!-- <button class="action-menu-btn" [matMenuTriggerFor]="superMenu" (click)="$event.stopPropagation()">
+                      <i class="fa fa-ellipsis-v"></i>
+                    </button> -->
+                  </div>
+                  <mat-menu #superMenu="matMenu" xPosition="before">
+                    <button mat-menu-item (click)="openDialog('', 'Category-Add', 100, 100)"
+                      (click)="$event.stopPropagation()">
+                      <i class="fa fa-plus me-2"></i> Add Category
+                    </button>
+                  </mat-menu>
                 </div>
 
-                <div class="row-right">
-                  <button class="pw-btn-icon-small" [matMenuTriggerFor]="menu">
-                    <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>
-                  </button>
-
-                  <mat-menu #menu="matMenu" xPosition="after">
-                    <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Edit', 100, 100)">Edit</button>
-                    <button mat-menu-item (click)="openDialog(categoryObj, 'Category-Delete', 100, 100)">Delete</button>
-                  </mat-menu>
+                <div
+                  *ngIf="isSubExpanded(getMainCategoryKey(financialType, mainCategory), getSuperCategoryKey(financialType, mainCategory, superCategory))"
+                  class="inner-categories-list">
+                  <div *ngFor="let categoryObj of superCategory.categories" class="category-item-card">
+                    <div class="category-item-header">
+                      <div class="category-item-left">
+                        <span class="category-status-dot" [class.inactive]="categoryObj.status !== 'ACTIVE'"></span>
+                        <span class="category-item-name" [style.opacity]="categoryObj.status === 'ACTIVE' ? 1 : 0.5">
+                          {{ categoryObj.categoryName }}
+                        </span>
+                      </div>
+                      <div class="category-item-right">
+                        <span class="category-item-amount" [style.opacity]="categoryObj.status === 'ACTIVE' ? 1 : 0.5">
+                          AED {{ categoryObj.budgetAmount | number:'1.2-2' }}
+                        </span>
+                        <button class="category-action-btn" [matMenuTriggerFor]="catMenu">
+                          <i class="fa fa-ellipsis-v" style="opacity: 0.6;"></i>
+                        </button>
+                      </div>
+                      <mat-menu #catMenu="matMenu" xPosition="before">
+                        <button mat-menu-item
+                          (click)="openDialog(getFlatCategory(financialType, mainCategory, superCategory, categoryObj), 'Category-Edit', 100, 100)">
+                          <i class="fa fa-pencil me-2" style="color: var(--pw-primary, #10b981);"></i> Edit
+                        </button>
+                        <button mat-menu-item
+                          (click)="openDialog(getFlatCategory(financialType, mainCategory, superCategory, categoryObj), 'Category-Delete', 100, 100)">
+                          <i class="fa fa-trash me-2" style="color: #f43f5e;"></i> Delete
+                        </button>
+                      </mat-menu>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -109,48 +142,15 @@
       </div>
     </div>
 
-    <!-- Add All Button (when empty) -->
-    <div *ngIf="total == 0 && !loading" style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
-      <button class="pw-btn pw-btn-ghost pw-btn-sm"
-        style="border: 1px solid rgba(16, 185, 129, 0.4); padding: 6px 14px; border-radius: 999px; font-weight: 600;"
-        (click)="addAllCategory()">
-        <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add All
+    <div *ngIf="!loading && displayFinancialTypes.length === 0" class="empty-state">
+      <i class="fa fa-exclamation-circle"></i>
+      <p>No categories found for this month.</p>
+    </div>
+
+    <div *ngIf="!loading && displayFinancialTypes.length === 0" class="bottom-actions">
+      <button class="pw-btn copy-btn" (click)="addAllCategory()">
+        <i class="fa fa-clone me-2"></i> Copy From Previous Month
       </button>
     </div>
-
-    <!-- EMPTY STATE -->
-    <div *ngIf="total == 0 && !loading" class="empty-state">
-      <i class="fa fa-exclamation-triangle"></i>
-      <p>No records this month</p>
-      <small>Tap + to add a new category</small>
-    </div>
-
-    <!-- SKELETON LOADING -->
-    <div *ngIf="loading" class="skeleton-wrapper">
-      <div class="skeleton-row">
-        <div class="skeleton-col" style="gap: 4px;">
-          <div class="skeleton skeleton-title"></div>
-          <div class="skeleton skeleton-text" style="width: 60%;"></div>
-        </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
-      </div>
-      <div class="skeleton-row">
-        <div class="skeleton-col" style="gap: 4px;">
-          <div class="skeleton skeleton-title" style="width: 40%;"></div>
-          <div class="skeleton skeleton-text" style="width: 70%;"></div>
-        </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
-      </div>
-      <div class="skeleton-row">
-        <div class="skeleton-col" style="gap: 4px;">
-          <div class="skeleton skeleton-title" style="width: 55%;"></div>
-          <div class="skeleton skeleton-text" style="width: 50%;"></div>
-        </div>
-        <div class="skeleton skeleton-circle" style="width: 24px; height: 24px;"></div>
-      </div>
-    </div>
-
-    <!-- <app-footer></app-footer> -->
-
   </div>
 </div>

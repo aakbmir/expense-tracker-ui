@@ -64,7 +64,7 @@ body {
 /* ===== App layout ===== */
 .pw-page {
   min-height: 100vh;
-  padding: clamp(10px, 2vw, 16px);
+  padding: clamp(5px, 1vw, 16px);
   padding-top: calc(clamp(1px, 2vw, 1px) + env(safe-area-inset-top));
   padding-bottom: calc(clamp(1px, 2vw, 1px) + 80px + env(safe-area-inset-bottom));
 }

@@ -13,6 +13,7 @@ import { GroupReportComponent } from './components/reports/group-report/group-re
 import { BankComponent } from './components/bank/bank.component';
 import { BankReportComponent } from './components/reports/bank-report/bank-report.component';
 import { HomeComponent } from './components/home/home.component';
+import { SavingsComponent } from './components/savings/savings.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
     component: BudgetComponent,
   },
   {
+    path: 'savings',
+    component: SavingsComponent,
+  },
+  {
     path: 'category',
     component: CategoryComponent,
   },
@@ -81,4 +86,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

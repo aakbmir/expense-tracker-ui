@@ -1,21 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { ThemeService } from 'src/app/services/theme.service';
 import { CommonService } from 'src/app/services/common.service';
+
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
+  @Input() financialTypes: any[] = [];
+
   loading = false;
   total = 0;
   groupedData: any = {};
   expandedMains: Record<string, boolean> = {};
   expandedSubs: Record<string, Record<string, boolean>> = {};
 
+  categories: any[] = [];
+  displayFinancialTypes: any[] = [];
+  categoryDate = '';
+  totalAmount = 0;
+  showInactive = false;
+  isAllExpanded = false;
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
@@ -36,23 +45,35 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+    if (this.financialTypes && this.financialTypes.length) {
+      this.setFinancialTypes(this.financialTypes);
+      return;
+    }
     this.fetchAllCategories(this.month, this.year);
+  }
+
+  @Input()
+  set financialTypesInput(value: any[] | undefined) {
+    this.financialTypes = value || [];
+    this.setFinancialTypes(this.financialTypes);
   }
 
   openDialog(cat: any, screen: string, height: number, width: number) {
     let category = {};
     if (cat !== '') {
-      if (screen == 'Category-Edit') {
+      if (screen == 'Category-Edit' || screen == 'Category-Delete') {
+
+        console.log('cattt', cat);
         category = {
-          category: cat.category,
+          financialType: cat.financialType.financialType,
+          categoryGroup: cat.categoryGroup,
           mainCategory: cat.mainCategory,
-          subCategory: cat.subCategory,
-          id: cat.id,
-        };
-      } else {
-        category = {
+          superCategory: cat.superCategory,
           category: cat.category,
-          id: cat.id,
+          categoryId: cat.categoryId,
+          budgetAmount: cat.budgetAmount,
+          date: cat.date,
+          status: cat.status,
         };
       }
     }
@@ -70,19 +91,67 @@ export class CategoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.fetchAllCategories(this.month, this.year);
+        this.fetchAllCategories(this.month, this.year, cat?.active ?? this.showInactive);
       }
     });
   }
 
-  fetchAllCategories(month: any, year: any) {
+  fetchAllCategories(month: any, year: any, showInactive: boolean = false) {
+    this.loading = true;
+    this.total = 0;
+    this.groupedData = {};
     this.monthText = this.commonService.getCurrentMonthString(month);
-    this.categoryService.getAllCategories(month, year).subscribe((data: any) => {
+    this.categoryService.getAllCategories(month, year, showInactive).subscribe((data: any) => {
       this.loading = false;
-      this.total = data.length;
-      this.groupedData = this.groupDataByMain(data);
-      this.initExpandedState();
+      this.categoryDate = data?.date || '';
+      this.setFinancialTypes(data?.financialTypes || []);
     });
+  }
+
+  setFinancialTypes(data: any[] = []) {
+    this.categories = data || [];
+    this.displayFinancialTypes = Array.isArray(data) ? data : [];
+    this.total = this.getTotalCategoryCount(this.displayFinancialTypes);
+    this.totalAmount = this.getTotalAmount(this.displayFinancialTypes);
+    this.initExpandedState();
+    this.loading = false;
+  }
+
+  private getTotalCategoryCount(financialTypes: any[] = []): number {
+    return financialTypes.reduce((total, financialType) => {
+      const mainCategories = financialType?.mainCategories || [];
+      return (
+        total +
+        mainCategories.reduce((mainTotal: number, mainCategory: any) => {
+          const superCategories = mainCategory?.superCategories || [];
+          return (
+            mainTotal +
+            superCategories.reduce((superTotal: number, superCategory: any) => {
+              return superTotal + (superCategory?.categories || []).length;
+            }, 0)
+          );
+        }, 0)
+      );
+    }, 0);
+  }
+
+  private getTotalAmount(financialTypes: any[] = []): number {
+    return financialTypes.reduce((total, financialType) => {
+      const mainCategories = financialType?.mainCategories || [];
+      return (
+        total +
+        mainCategories.reduce((mainTotal: number, mainCategory: any) => {
+          const superCategories = mainCategory?.superCategories || [];
+          return (
+            mainTotal +
+            superCategories.reduce((superTotal: number, superCategory: any) => {
+              const categories = superCategory?.categories || [];
+              return superTotal + categories.reduce((cTotal: number, cat: any) => cTotal + (cat?.budgetAmount || 0), 0);
+            }, 0)
+          );
+        }, 0)
+      );
+    }, 0);
   }
 
   applyFilters(clickedBtn: any) {
@@ -103,8 +172,6 @@ export class CategoryComponent implements OnInit {
         calcYear = calcYear + 1;
       }
     }
-
-    console.log(calcMnth + " : " + calcYear);
     this.month = calcMnth;
     this.year = calcYear;
 
@@ -112,22 +179,31 @@ export class CategoryComponent implements OnInit {
   }
 
   addAllCategory() {
-    this.categoryService.addAllCategories(this.month, this.year).subscribe((data: any) => {
+    this.categoryService.addAllCategories(this.month, this.year).subscribe(() => {
       this.fetchAllCategories(this.month, this.year);
     });
   }
 
   private initExpandedState() {
-    const mains = Object.keys(this.groupedData || {});
+    this.isAllExpanded = false;
     const nextMains: Record<string, boolean> = {};
     const nextSubs: Record<string, Record<string, boolean>> = {};
 
-    mains.forEach((p, idx) => {
-      nextMains[p] = false;
-      const subs = Object.keys(this.groupedData[p] || {});
-      nextSubs[p] = {};
-      subs.forEach((s) => {
-        nextSubs[p][s] = false;
+    this.displayFinancialTypes.forEach((financialType) => {
+      const financialKey = `${financialType.financialType}`;
+      nextMains[financialKey] = false;
+      nextSubs[financialKey] = {};
+
+      (financialType.mainCategories || []).forEach((mainCategory) => {
+        const mainCategoryKey = `${financialType.financialType}-${mainCategory.mainCategory}`;
+        nextMains[mainCategoryKey] = false;
+        nextSubs[financialKey][mainCategoryKey] = false;
+        nextSubs[mainCategoryKey] = {};
+
+        (mainCategory.superCategories || []).forEach((superCategory) => {
+          const superCategoryKey = `${financialType.financialType}-${mainCategory.mainCategory}-${superCategory.superCategory}`;
+          nextSubs[mainCategoryKey][superCategoryKey] = false;
+        });
       });
     });
 
@@ -135,21 +211,26 @@ export class CategoryComponent implements OnInit {
     this.expandedSubs = nextSubs;
   }
 
-  toggleMain(main: string) {
-    this.expandedMains[main] = !this.isMainExpanded(main);
+  toggleMain(key: string) {
+    this.expandedMains[key] = !this.isMainExpanded(key);
   }
 
-  isMainExpanded(main: string) {
-    return this.expandedMains[main] ?? false;
+  isMainExpanded(key: string) {
+    return this.expandedMains[key] ?? false;
   }
 
-  toggleSub(main: string, sub: string) {
-    if (!this.expandedSubs[main]) this.expandedSubs[main] = {};
-    this.expandedSubs[main][sub] = !this.isSubExpanded(main, sub);
+  toggleSub(mainKey: string, subKey: string) {
+    if (!this.expandedSubs[mainKey]) this.expandedSubs[mainKey] = {};
+    this.expandedSubs[mainKey][subKey] = !this.isSubExpanded(mainKey, subKey);
   }
 
-  isSubExpanded(main: string, sub: string) {
-    return this.expandedSubs[main]?.[sub] ?? false;
+  isSubExpanded(mainKey: string, subKey: string) {
+    return this.expandedSubs[mainKey]?.[subKey] ?? false;
+  }
+
+  showInactiveRecords() {
+    this.showInactive = !this.showInactive;
+    this.fetchAllCategories(this.month, this.year, this.showInactive);
   }
 
   expandAll() {
@@ -160,34 +241,109 @@ export class CategoryComponent implements OnInit {
     this.setAllExpandedState(false);
   }
 
+  toggleAllExpanded() {
+    const shouldExpand = !this.isAnyExpanded();
+    this.isAllExpanded = shouldExpand;
+    this.setAllExpandedState(shouldExpand);
+  }
+
+  isAnyExpanded(): boolean {
+    const mainExpanded = Object.keys(this.expandedMains).some(key => this.expandedMains[key] === true);
+    if (mainExpanded) return true;
+
+    return Object.values(this.expandedSubs).some(subMap =>
+      Object.values(subMap).some(val => val === true)
+    );
+  }
+
   private setAllExpandedState(state: boolean) {
-    const mains = Object.keys(this.groupedData || {});
-    mains.forEach((p) => {
-      this.expandedMains[p] = state;
-      if (!this.expandedSubs[p]) this.expandedSubs[p] = {};
-      const subs = Object.keys(this.groupedData[p] || {});
-      subs.forEach((s) => {
-        this.expandedSubs[p][s] = state;
+    this.isAllExpanded = state;
+    this.displayFinancialTypes.forEach((financialType) => {
+      const financialKey = financialType.financialType;
+      this.expandedMains[financialKey] = state;
+      if (!this.expandedSubs[financialKey]) this.expandedSubs[financialKey] = {};
+
+      (financialType.mainCategories || []).forEach((mainCategory) => {
+        const mainKey = `${financialType.financialType}-${mainCategory.mainCategory}`;
+        this.expandedMains[mainKey] = state;
+        this.expandedSubs[financialKey][mainKey] = state;
+
+        if (!this.expandedSubs[mainKey]) this.expandedSubs[mainKey] = {};
+        (mainCategory.superCategories || []).forEach((superCategory) => {
+          const subKey = `${financialType.financialType}-${mainCategory.mainCategory}-${superCategory.superCategory}`;
+          this.expandedSubs[mainKey][subKey] = state;
+        });
       });
     });
   }
 
-  mainCount(main: string) {
-    const subs = this.groupedData?.[main] || {};
-    return Object.values(subs).reduce((acc: number, arr: any) => acc + (Array.isArray(arr) ? arr.length : 0), 0);
+  getMainCategoryKey(financialType: any, mainCategory: any) {
+    return `${financialType.financialType}-${mainCategory.mainCategory}`;
+  }
+
+  getSuperCategoryKey(financialType: any, mainCategory: any, superCategory: any) {
+    return `${financialType.financialType}-${mainCategory.mainCategory}-${superCategory.superCategory}`;
+  }
+
+  getCategoryCount(financialType: any) {
+    return (financialType?.mainCategories || []).reduce((total: number, mainCategory: any) => {
+      return total + (mainCategory?.superCategories || []).reduce((subTotal: number, superCategory: any) => {
+        return subTotal + (superCategory?.categories || []).length;
+      }, 0);
+    }, 0);
+  }
+
+  getMainCategoryCount(mainCategory: any) {
+    return (mainCategory?.superCategories || []).reduce((total: number, superCategory: any) => {
+      return total + (superCategory?.categories || []).length;
+    }, 0);
+  }
+
+  getFlatCategory(financialType: any, mainCategory: any, superCategory: any, categoryObj: any) {
+    return {
+      financialType: financialType,
+      categoryGroup: categoryObj.categoryGroup,
+      mainCategory: mainCategory.mainCategory,
+      superCategory: superCategory.superCategory,
+      category: categoryObj.categoryName,
+      categoryId: categoryObj.categoryId,
+      budgetAmount: categoryObj.budgetAmount,
+      date: this.categoryDate,
+      status: categoryObj.status
+    };
+  }
+
+  isSuperCategoryActive(superCategory: any): boolean {
+    return (superCategory?.categories || []).some((c: any) => c.status === 'ACTIVE');
+  }
+
+  getFinancialTypeTotal(financialType: any): number {
+    return (financialType?.mainCategories || []).reduce((total: number, mainCategory: any) => {
+      return total + this.getMainCategoryTotal(mainCategory);
+    }, 0);
+  }
+
+  getMainCategoryTotal(mainCategory: any): number {
+    return (mainCategory?.superCategories || []).reduce((total: number, superCategory: any) => {
+      const categories = superCategory?.categories || [];
+      return total + categories.reduce((cTotal: number, cat: any) => cTotal + (cat?.budgetAmount || 0), 0);
+    }, 0);
   }
 
   groupDataByMain(data: any[]): any {
-    const grouped = {};
+    const grouped: Record<string, any> = {};
     data.forEach((item) => {
       const mainCategory = item.mainCategory;
       const subCategory = item.subCategory;
 
-      let cat = {
+      const cat = {
+        categoryId: item.categoryId,
+        categoryGroup: item.categoryGroup,
         mainCategory: item.mainCategory,
         subCategory: item.subCategory,
         category: item.category,
-        id: item.id,
+        active: item.active,
+        date: item.date,
       };
 
       if (!grouped[mainCategory]) {
@@ -204,6 +360,6 @@ export class CategoryComponent implements OnInit {
   }
 
   groupedDataKeys() {
-    return Object.keys(this.groupedData);
+    return Object.keys(this.groupedData).sort((a, b) => a.localeCompare(b));
   }
 }

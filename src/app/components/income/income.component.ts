@@ -70,7 +70,6 @@ export class IncomeComponent implements OnInit {
   }
 
   fetchAllIncomeList(month: any, year: any) {
-    console.log(month)
     this.incomeService
       .getCurrentIncome(month, year)
       .subscribe((data: any) => {
@@ -106,7 +105,6 @@ export class IncomeComponent implements OnInit {
       }
     }
 
-    console.log(calcMnth + " : " + calcYear);
     this.month = calcMnth;
     this.year = calcYear;
 

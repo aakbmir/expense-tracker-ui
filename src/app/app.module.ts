@@ -37,6 +37,7 @@ import { SavingsReportComponent } from './components/reports/savings-report/savi
 import { BankComponent } from './components/bank/bank.component';
 import { BankReportComponent } from './components/reports/bank-report/bank-report.component';
 import { HomeComponent } from './components/home/home.component';
+import { SavingsComponent } from './components/savings/savings.component';
 
 export function initConfig(appConfig: AppConfigService) {
   return () => appConfig.loadConfig();
@@ -61,6 +62,7 @@ export function initConfig(appConfig: AppConfigService) {
     BankComponent,
     BankReportComponent,
     HomeComponent,
+    SavingsComponent,
   ],
   imports: [
     BrowserModule,

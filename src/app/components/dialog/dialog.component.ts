@@ -24,6 +24,7 @@ export class DialogComponent {
 
   reportsDetailsList: any = [];
   main = '';
+  deleteAction: string = '';
 
   copyCategoriesForm = new FormGroup({
     month: new FormControl('', Validators.required),
@@ -32,7 +33,7 @@ export class DialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private categoryService: CategoryService,
     private expenseService: ExpenseService,
     private budgetService: BudgetService,
@@ -40,11 +41,11 @@ export class DialogComponent {
     private bankService: BankService,
     private incomeService: IncomeService,
     private commonService: CommonService,
-    private snackBar: MatSnackBar
-  ) {
+    private snackBar: MatSnackBar) {
+
     this.screen = this.data.screen;
-    console.log(this.screen);
-    console.log(this.data.item);
+    console.log('this.screen', this.screen);
+    console.log('this.data.item', this.data.item);
     this.categoryList = [];
     this.reportsDetailsList = [];
     this.months = this.commonService.getMonths();
@@ -55,10 +56,13 @@ export class DialogComponent {
       year: this.data?.year || '',
     });
 
+    if (this.data?.item) {
+      this.deleteAction = this.data.item.active ? 'inactive' : 'active';
+    }
+
     this.main = '';
     if (this.screen === 'fetch-sub-category-report-details') {
       this.main = this.data.item.main;
-      console.log(this.main);
       this.reportsService
         .fetchSubCategoryReportDetails(
           this.data.item.main,
@@ -86,41 +90,89 @@ export class DialogComponent {
         });
     } else if (
       this.screen === 'Expense-Add' ||
-      this.screen === 'Expense-Edit'
-    ) {
-      console.log(this.data.item);
-      this.categoryService.getAllCategories(this.data.month, this.data.year).subscribe((data) => {
-        this.categoryList = data;
-        // this.mainCategoryList = Array.from(
-        //   new Set(data.map((item: any) => item.main))
-        // );
+      this.screen === 'Expense-Edit') {
+
+      this.categoryService.getAllCategories(this.data.month, this.data.year).subscribe((data: any) => {
+        this.categoryList = this.flattenCategories(data?.financialTypes || []);
       });
     }
   }
 
+  flattenCategories(financialTypes: any[]): any[] {
+    const flatList: any[] = [];
+    if (!financialTypes) return flatList;
+    financialTypes.forEach((ft: any) => {
+      (ft.mainCategories || []).forEach((mc: any) => {
+        (mc.superCategories || []).forEach((sc: any) => {
+          (sc.categories || []).forEach((c: any) => {
+            flatList.push({
+              categoryId: c.categoryId,
+              category: c.categoryName,
+              superCategory: sc.superCategory,
+              mainCategory: mc.mainCategory,
+              categoryGroup: c.categoryGroup,
+              status: c.status,
+              budgetAmount: c.budgetAmount
+            });
+          });
+        });
+      });
+    });
+    return flatList;
+  }
+
   editCategoryForm = new FormGroup({
-    id: new FormControl(this.data.item.id, Validators.required),
-    oldCategory: new FormControl(this.data.item.category, Validators.required),
+    financialType: new FormControl(this.data.item.financialType, Validators.required),
+    categoryGroup: new FormControl(this.data.item.categoryGroup, Validators.required),
+    mainCategory: new FormControl(this.data.item.mainCategory, Validators.required),
+    superCategory: new FormControl(this.data.item.superCategory, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
-    subCategory: new FormControl(
-      this.data.item.subCategory,
-      Validators.required
-    ),
-    mainCategory: new FormControl(
-      this.data.item.mainCategory,
-      Validators.required
-    ),
+    categoryId: new FormControl(this.data.item.categoryId, Validators.required),
+    budgetAmount: new FormControl(this.data.item.budgetAmount, Validators.required),
+    date: new FormControl(this.data.item.date, Validators.required),
+    status: new FormControl(this.data.item.status, Validators.required),
   });
 
   addCategoryForm = new FormGroup({
-    category: new FormControl('', Validators.required),
-    mainCategory: new FormControl('', Validators.required),
-    subCategory: new FormControl('', Validators.required),
+    financialType: new FormControl('EXPENSE', Validators.required),
     categoryGroup: new FormControl('', Validators.required),
-    date: new FormControl('', Validators.required),
+    mainCategory: new FormControl('', Validators.required),
+    superCategory: new FormControl('', Validators.required),
+    category: new FormControl('', Validators.required),
+    budgetAmount: new FormControl('', Validators.required),
+    status: new FormControl('ACTIVE', Validators.required),
+    date: new FormControl<Date | null>(null, Validators.required),
   });
 
   addCategory() {
+    // ensure selected date keeps chosen day but use current time
+    const dateControl = this.addCategoryForm.get('date');
+    if (dateControl && dateControl.value) {
+      const selected = new Date(dateControl.value);
+      const now = new Date();
+      selected.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+      const fv: any = this.addCategoryForm.value;
+      const payload: any = {
+        financialType: fv.financialType,
+        categoryGroup: fv.categoryGroup,
+        mainCategory: fv.mainCategory,
+        superCategory: fv.superCategory,
+        category: fv.category,
+        budgetAmount: fv.budgetAmount,
+        date: selected,
+        status: fv.status
+      };
+      this.categoryService.saveCategory(payload).subscribe(
+        (data) => {
+          this.dialogRef.close(true);
+        },
+        (error) => {
+          this.onCancel();
+        }
+      );
+      return;
+    }
+
     this.categoryService.saveCategory(this.addCategoryForm.value).subscribe(
       (data) => {
         this.dialogRef.close(true);
@@ -153,30 +205,44 @@ export class DialogComponent {
   }
 
   deleteCategory() {
-    console.log(this.data.item.id);
-    this.categoryService.deleteCategory(this.data.item.id).subscribe((data) => {
+    const action = this.deleteAction;
+    this.categoryService.deleteCategory(this.data.item.categoryId, action).subscribe((data) => {
       this.dialogRef.close(true);
     });
   }
 
   editBudgetForm = new FormGroup({
-    id: new FormControl(this.data.item.id, Validators.required),
+    budgetId: new FormControl(this.data.item.budgetId, Validators.required),
+    categoryId: new FormControl(this.data.item.categoryId, Validators.required),
     category: new FormControl(this.data.item.category, Validators.required),
     mainCategory: new FormControl(
       this.data.item.mainCategory,
       Validators.required
     ),
-    subCategory: new FormControl(
-      this.data.item.subCategory,
+    superCategory: new FormControl(
+      this.data.item.superCategory,
       Validators.required
     ),
-    price: new FormControl(this.data.item.price, Validators.required),
+    categoryGroup: new FormControl(this.data.item.categoryGroup, Validators.required),
+    budgetAmount: new FormControl(this.data.item.budgetAmount, Validators.required),
     date: new FormControl(this.data.item.date, Validators.required),
   });
 
   editBudget() {
-    this.budgetService
-      .updateBudget(this.editBudgetForm.value)
+    let budget = {
+      "budgetId": this.editBudgetForm.get("budgetId").value,
+      "categoryApiDTO": {
+        "categoryId": this.editBudgetForm.get("categoryId").value,
+        "category": this.editBudgetForm.get("category").value,
+        "mainCategory": this.editBudgetForm.get("mainCategory").value,
+        "superCategory": this.editBudgetForm.get("superCategory").value,
+        "categoryGroup": this.editBudgetForm.get("categoryGroup").value,
+        "date": this.editBudgetForm.get("date").value
+      },
+      "budgetAmount": Number(this.editBudgetForm.get("budgetAmount").value),
+      "date": this.editBudgetForm.get("date").value
+    }
+    this.budgetService.updateBudget(budget)
       .subscribe((data) => {
         this.dialogRef.close(true);
       });
@@ -226,23 +292,47 @@ export class DialogComponent {
   }
 
   addExpenseForm = new FormGroup({
-    category: new FormControl(this.data.item.category, Validators.required),
-    main: new FormControl(this.data.item.main, Validators.required),
-    price: new FormControl(this.data.item.price, Validators.required),
-    date: new FormControl(this.data.item.date, Validators.required),
-    note: new FormControl(this.data.item.date, Validators.required),
+    expenseId: new FormControl(this.data.item.expenseId, Validators.required),
+    categoryId: new FormControl(this.data.item?.categoryApiDTO?.categoryId, Validators.required),
+    categoryGroup: new FormControl(this.data.item?.categoryApiDTO?.categoryGroup, Validators.required),
+    mainCategory: new FormControl(this.data.item?.categoryApiDTO?.mainCategory, Validators.required),
+    superCategory: new FormControl(this.data.item?.categoryApiDTO?.superCategory, Validators.required),
+    category: new FormControl(this.data.item?.categoryApiDTO?.category, Validators.required),
+    amount: new FormControl(this.data.item?.amount, Validators.required),
+    date: new FormControl(new Date(this.data.item?.date), Validators.required),
+    description: new FormControl(this.data.item?.description, Validators.required)
   });
 
   editExpenseForm = new FormGroup({
-    id: new FormControl(this.data.item.id, Validators.required),
-    category: new FormControl(this.data.item.category, Validators.required),
-    price: new FormControl(this.data.item.price, Validators.required),
-    date: new FormControl(this.data.item.date, Validators.required),
-    note: new FormControl(this.data.item.note, Validators.required),
+    expenseId: new FormControl(this.data.item.expenseId, Validators.required),
+    categoryId: new FormControl(this.data.item?.categoryApiDTO?.categoryId, Validators.required),
+    category: new FormControl(this.data.item?.categoryApiDTO?.category, Validators.required),
+    mainCategory: new FormControl(
+      this.data.item?.categoryApiDTO?.mainCategory,
+      Validators.required
+    ),
+    superCategory: new FormControl(
+      this.data.item?.categoryApiDTO?.superCategory,
+      Validators.required
+    ),
+    categoryGroup: new FormControl(this.data.item?.categoryApiDTO?.categoryGroup, Validators.required),
+    amount: new FormControl(this.data.item?.amount, Validators.required),
+    date: new FormControl(new Date(this.data.item?.date), Validators.required),
+    description: new FormControl(this.data.item?.description, Validators.required),
+    miscellaneous: new FormControl(this.data.item?.miscellaneous, Validators.required),
   });
 
   addExpense() {
-    this.expenseService.saveExpense(this.addExpenseForm.value).subscribe(
+    let expense = {
+      "expenseId": this.addExpenseForm.get("expenseId").value,
+      "categoryId": this.addExpenseForm.get("categoryId").value,
+      "amount": Number(this.addExpenseForm.get("amount").value),
+      "date": this.addExpenseForm.get("date").value,
+      "description": this.addExpenseForm.get("description").value,
+      "miscellaneous": false
+    }
+
+    this.expenseService.saveExpense(expense).subscribe(
       (data) => {
         this.dialogRef.close(true);
       },
@@ -252,16 +342,49 @@ export class DialogComponent {
     );
   }
 
+  onCategoryChange(categoryId: string) {
+    const selectedCategoryId = Number(categoryId);
+    const selectedCategory = this.categoryList.find(
+      (category: any) => category.categoryId === selectedCategoryId
+    );
+
+    console.log('sele', selectedCategory);
+    if (selectedCategory) {
+      this.addExpenseForm.patchValue({
+        category: selectedCategory.category,
+        categoryId: selectedCategory.categoryId,
+        mainCategory: selectedCategory.mainCategory,
+        superCategory: selectedCategory.superCategory,
+        categoryGroup: selectedCategory.categoryGroup,
+      });
+    }
+  }
+
   editExpense() {
+    let expense = {
+      "expenseId": this.editExpenseForm.get("expenseId").value,
+      "categoryApiDTO": {
+        "categoryId": this.editExpenseForm.get("categoryId").value,
+        "category": this.editExpenseForm.get("category").value,
+        "mainCategory": this.editExpenseForm.get("mainCategory").value,
+        "superCategory": this.editExpenseForm.get("superCategory").value,
+        "categoryGroup": this.editExpenseForm.get("categoryGroup").value,
+        "date": this.editExpenseForm.get("date").value
+      },
+      "amount": Number(this.editExpenseForm.get("amount").value),
+      "date": this.editExpenseForm.get("date").value,
+      "description": this.editExpenseForm.get("description").value,
+      "miscellaneous": this.editExpenseForm.get("miscellaneous").value
+    }
     this.expenseService
-      .updateExpense(this.editExpenseForm.value)
+      .updateExpense(expense)
       .subscribe((data) => {
         this.dialogRef.close(true);
       });
   }
 
   deleteExpense() {
-    this.expenseService.deleteExpense(this.data.item.id).subscribe((data) => {
+    this.expenseService.deleteExpense(this.data.item.expenseId).subscribe((data) => {
       this.dialogRef.close(true);
     });
   }

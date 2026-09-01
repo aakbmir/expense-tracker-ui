@@ -46,7 +46,6 @@ export class BankComponent  implements OnInit {
   }
 
   openDialog(bankRecord: any, screen: string, height: number, width: number) {
-    console.log('bank : ', bankRecord);
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
@@ -70,7 +69,6 @@ export class BankComponent  implements OnInit {
     this.bankService
       .getCurrentBankRecord(month, year)
       .subscribe((data: any) => {
-        console.log('data', JSON.stringify(data));
         this.groupDataByDate(data);
         this.loading = false;
         this.count = data.length > 0 ? data.length : 0;

@@ -50,6 +50,8 @@ export class ExpenseComponent implements OnInit {
   }
 
   openDialog(expense: any, screen: string, height: number, width: number) {
+
+    console.log('expense', expense);
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
@@ -72,20 +74,24 @@ export class ExpenseComponent implements OnInit {
   }
 
   fetchAllExpenseList(month: any, year: any) {
-    console.log(month)
-    this.expenseService
-      .getCurrentExpense(month, year)
-      .subscribe((data: any) => {
-        this.groupDataByDate(data);
-        this.loading = false;
-        this.count = data.length > 0 ? data.length : 0;
-        this.total = 0;
-        for (let bud of data) {
-          if (bud.price != null && bud.price !== '') {
-            this.total = this.total + Number(bud.price);
-          }
+    this.loading = true;
+    this.count = 0;
+    this.total = 0;
+    this.groupedData = {};
+    this.groupedDataArray = [];
+    this.expandedGroups = {};
+
+    this.expenseService.getCurrentExpense(month, year).subscribe((data: any) => {
+      this.groupDataByDate(data);
+      this.loading = false;
+      this.count = data.length > 0 ? data.length : 0;
+      this.total = 0;
+      for (let bud of data) {
+        if (bud.amount != null && bud.amount !== '') {
+          this.total = this.total + Number(bud.amount);
         }
-      });
+      }
+    });
     this.monthText = this.commonService.getCurrentMonthString(month);
   }
 
@@ -108,7 +114,6 @@ export class ExpenseComponent implements OnInit {
       }
     }
 
-    console.log(calcMnth + " : " + calcYear);
     this.month = calcMnth;
     this.year = calcYear;
 

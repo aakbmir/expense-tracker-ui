@@ -58,7 +58,7 @@ export class TrendReportComponent {
         obj['totalSalary'] = obj['totalIncome'];
         //obj['totalBudget'] = this.commonService.getBudget();
         obj['savings'] = obj['totalSalary'] - obj['totalExpense'];
-        obj['deviate'] = obj['totalBudget'] - obj['totalExpense'];
+        obj['deviate'] = obj['totalIncome'] - obj['totalExpense'];
         this.responseList.push(obj);
 
         sumSavings += obj['savings'];
@@ -69,18 +69,18 @@ export class TrendReportComponent {
         if (obj['totalExpense'] > maxVal) maxVal = obj['totalExpense'];
         if (obj['savings'] > maxVal) maxVal = obj['savings'];
       }
-      
+
       this.totalSavings = sumSavings;
       this.totalIncome = sumIncome;
       this.totalExpense = sumExpense;
-      
+
       const count = this.responseList.length || 1;
       this.averageSavings = sumSavings / count;
       this.averageIncome = sumIncome / count;
       this.averageExpense = sumExpense / count;
       this.maxChartValue = maxVal > 0 ? maxVal * 1.1 : 1;
       this.savingsRate = this.totalIncome > 0 ? (this.totalSavings / this.totalIncome) * 100 : 0;
-      
+
       this.loading = false;
     });
   }
@@ -94,12 +94,12 @@ export class TrendReportComponent {
   getMomProgress(item: any, type: string): string {
     const total = (item.income || 0) + (item.totalExpense || 0) + Math.abs(item.savings || 0);
     if (total === 0) return '0%';
-    
+
     let val = 0;
     if (type === 'income') val = item.income || 0;
     if (type === 'expense') val = item.totalExpense || 0;
     if (type === 'savings') val = Math.abs(item.savings || 0);
-    
+
     return ((val / total) * 100) + '%';
   }
 

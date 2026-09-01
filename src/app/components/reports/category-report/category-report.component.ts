@@ -68,7 +68,7 @@ export class CategoryReportComponent {
   }
 
   groupedDataKeys() {
-    return Object.keys(this.groupedData);
+    return Object.keys(this.groupedData).sort((a, b) => a.localeCompare(b));
   }
 
   openDialog(category: any, screen: string, height: number, width: number) {

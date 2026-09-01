@@ -132,7 +132,7 @@
                 {{item.income | number:'1.2-2'}}
               </div>
             </div>
-            
+
             <div class="trend-grid right">
               <div class="lbl">Expense</div>
               <div class="val">
@@ -158,7 +158,7 @@
                 {{item.savings | number:'1.2-2'}}
               </div>
             </div>
-            
+
 
           </div>
         </div>
@@ -175,9 +175,9 @@
                   <th>Month</th>
                   <th class="text-right">Income (AED)</th>
                   <th class="text-right">Expense (AED)</th>
-                  <th class="text-right">Savings (AED)</th>
+                  <th class="text-right">Budget (AED)</th>
                   <!-- <th class="text-right">Budget (AED)</th> -->
-                  <th class="text-right">Remaining (AED)</th>
+                  <th class="text-right">Savings (AED)</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,7 +187,7 @@
                   <td class="text-right">{{item.totalExpense | number:'1.2-2'}}</td>
                   <td class="text-right">
                     <strong [ngClass]="item.savings > 0 ? 'positive' : 'negative'">
-                      {{item.savings | number:'1.2-2'}}
+                      {{item.totalBudget | number:'1.2-2'}}
                     </strong>
                   </td>
                   <!-- <td class="text-right">{{item.totalBudget | number:'1.2-2'}}</td> -->
