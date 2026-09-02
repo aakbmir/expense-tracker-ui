@@ -13,7 +13,7 @@ export class CategoryService {
     this.baseUrl = this.config.getConfig().bffServiceUrl + '/api/v1/category';
   }
 
-  getAllCategories(month?: any, year?: any, showInactive: boolean = false): Observable<any> {
+  getAllCategories(month?: any, year?: any, showInactive: boolean = false, feature?: any): Observable<any> {
     let queryParams = new HttpParams();
     if (month !== undefined && month !== null) {
       queryParams = queryParams.append('month', month);
@@ -21,6 +21,10 @@ export class CategoryService {
     if (year !== undefined && year !== null) {
       queryParams = queryParams.append('year', year);
     }
+    if (feature !== undefined && feature !== null) {
+      queryParams = queryParams.append('feature', feature);
+    }
+
     queryParams = queryParams.append('showInactive', showInactive.toString());
     return this.http.get(`${this.baseUrl}/get-all-categories`, {
       params: queryParams,

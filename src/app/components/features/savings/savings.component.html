@@ -5,7 +5,7 @@
       style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
       <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
-          Expense </h2>
+          Savings </h2>
         <button class="pw-btn-icon-small mobile-only" (click)="themeService.toggleTheme()"
           style="font-size: 18px; color: var(--pw-text); margin: 0; padding: 0; width: auto; height: auto;">
           <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
@@ -21,7 +21,7 @@
         <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
             class="fa fa-chevron-left"></i></button>
         <div
-          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 110px; text-align: center;">
+          style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 150px; text-align: center;">
           {{monthText}} {{year}}</div>
         <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
             class="fa fa-chevron-right"></i></button>
@@ -57,7 +57,7 @@
         </div>
         <button class="pw-btn pw-btn-ghost pw-btn-sm"
           style="border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
-          (click)="openDialog('', 'Expense-Add', 100, 100)">
+          (click)="openDialog('', 'Savings-Add', 100, 100)">
           <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add
         </button>
       </div>
@@ -72,7 +72,7 @@
         <!-- Date Header Row -->
         <button class="row-btn main-row" (click)="toggleGroup(group.date)">
           <div class="row-left">
-            <!-- Expense dots get red highlight -->
+            <!-- Savings dots get red highlight -->
             <div class="dot-indicator"></div>
             <div class="main-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
           </div>
@@ -110,8 +110,8 @@
                     <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>
                   </button>
                   <mat-menu #beforeMenu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="openDialog(item, 'Expense-Edit', 100, 100)">Edit</button>
-                    <button mat-menu-item (click)="openDialog(item, 'Expense-Delete', 100, 100)">Delete</button>
+                    <button mat-menu-item (click)="openDialog(item, 'Savings-Edit', 100, 100)">Edit</button>
+                    <button mat-menu-item (click)="openDialog(item, 'Savings-Delete', 100, 100)">Delete</button>
                   </mat-menu>
                 </div>
               </div>
@@ -127,7 +127,7 @@
     <div *ngIf="count == 0 && !loading" class="empty-state">
       <i class="fa fa-exclamation-triangle"></i>
       <p>No records in this month</p>
-      <small>Tap + to add new Expense.</small>
+      <small>Tap + to add new Savings.</small>
     </div>
 
     <!-- SKELETON LOADING -->

@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReportsComponent } from './components/reports/reports.component';
-import { ExpenseComponent } from './components/expense/expense.component';
-import { IncomeComponent } from './components/income/income.component';
-import { CategoryComponent } from './components/category/category.component';
-import { BudgetComponent } from './components/budget/budget.component';
+import { ExpenseComponent } from './components/features/expense/expense.component';
+import { IncomeComponent } from './components/features/income/income.component';
+import { CategoryComponent } from './components/features/category/category.component';
 import { OverviewReportComponent } from './components/reports/overview-report/overview-report.component';
 import { CategoryReportComponent } from './components/reports/category-report/category-report.component';
 import { TrendReportComponent } from './components/reports/trends-report/trends-report.component';
 import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
 import { GroupReportComponent } from './components/reports/group-report/group-report.component';
-import { BankComponent } from './components/bank/bank.component';
-import { BankReportComponent } from './components/reports/bank-report/bank-report.component';
-import { HomeComponent } from './components/home/home.component';
-import { SavingsComponent } from './components/savings/savings.component';
+
+import { HomeComponent } from './components/layout/home/home.component';
+import { SavingsComponent } from './components/features/savings/savings.component';
 
 const routes: Routes = [
   {
@@ -44,10 +42,6 @@ const routes: Routes = [
         path: 'group',
         component: GroupReportComponent
       },
-      {
-        path: 'bank',
-        component: BankReportComponent
-      },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
     ],
   },
@@ -58,14 +52,6 @@ const routes: Routes = [
   {
     path: 'income',
     component: IncomeComponent,
-  },
-  {
-    path: 'bank',
-    component: BankComponent,
-  },
-  {
-    path: 'budget',
-    component: BudgetComponent,
   },
   {
     path: 'savings',

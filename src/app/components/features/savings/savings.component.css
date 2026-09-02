@@ -38,36 +38,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
   text-align: left;
   transition: background 150ms ease;
   color: var(--pw-text);
   font-family: inherit;
 }
 
-.row-btn:hover {
-  background: rgba(16, 185, 129, 0.05);
-}
-
 .row-left {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 12px;
 }
 
 .row-right {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 12px;
   color: var(--pw-text);
   font-size: 14px;
 }
 
-.row-meta {
-  color: var(--pw-muted);
-  font-weight: 600;
-  font-size: 13px;
-}
 
 /* Main Block */
 .main-block {
@@ -97,14 +89,15 @@
 .main-row {
   /* Subtle glow indicator for mains */
   box-shadow: inset 0 20px 20px -20px rgba(16, 185, 129, 0.15);
+  background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
 }
 
 .dot-indicator {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 10px #10b981, 0 0 20px #22d3ee;
+  background: #f43f5e;
+  box-shadow: 0 0 10px #f43f5e, 0 0 20px #fb7185;
 }
 
 .main-title {
@@ -118,27 +111,6 @@
   display: grid;
   gap: 0;
   padding-bottom: 10px;
-}
-
-.sub-block {
-  /* Subblocks have soft borders matching mockups */
-  margin: 0px 14px 10px 14px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(225, 29, 72, 0.02));
-  border-radius: 10px;
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: inset 0 1px 10px rgba(16, 185, 129, 0.05);
-  overflow: hidden;
-}
-
-.subcat-row {
-  padding: 14px 16px;
-  background: linear-gradient(to right, rgba(16, 185, 129, 0.08), transparent);
-}
-
-.subcat-title {
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--pw-text);
 }
 
 /* Items Block */
@@ -155,10 +127,13 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   /* inner divider */
   transition: background 150ms ease;
+  margin: 0px 14px;
+  /* Matches sub-block margins to indent */
 }
 
 .item-row:hover {
   background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
 }
 
 .item-title {
@@ -193,6 +168,7 @@
   font-size: 60px;
   margin-bottom: 15px;
   color: #10b981;
+  display: block;
 }
 
 .loading {

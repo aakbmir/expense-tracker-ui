@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
-import { IncomeService } from 'src/app/services/income.service';
+import { DialogComponent } from '../../dialog/dialog.component';
+import { ExpenseService } from 'src/app/services/expense.service';
 import { CommonService } from 'src/app/services/common.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
-  selector: 'app-income',
-  templateUrl: './income.component.html',
-  styleUrls: ['./income.component.css'],
+  selector: 'app-expense',
+  templateUrl: './expense.component.html',
+  styleUrls: ['./expense.component.css'],
 })
-export class IncomeComponent implements OnInit {
+export class ExpenseComponent implements OnInit {
   filterOn = false;
   loading = false;
   count = 0;
@@ -24,7 +24,7 @@ export class IncomeComponent implements OnInit {
 
 
   constructor(
-    private incomeService: IncomeService,
+    private expenseService: ExpenseService,
     private dialog: MatDialog,
     private commonService: CommonService,
     public themeService: ThemeService
@@ -46,10 +46,12 @@ export class IncomeComponent implements OnInit {
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
     this.loading = true;
-    this.fetchAllIncomeList(this.month, this.year);
+    this.fetchAllExpenseList(this.month, this.year);
   }
 
-  openDialog(income: any, screen: string, height: number, width: number) {
+  openDialog(expense: any, screen: string, height: number, width: number) {
+
+    console.log('expense', expense);
     let dialogRef = this.dialog.open(DialogComponent, {
       panelClass: 'custom-modalbox',
       maxHeight: height + 'vh',
@@ -57,36 +59,43 @@ export class IncomeComponent implements OnInit {
       maxWidth: width - 3 + 'vw',
       position: { top: '0px' },
       data: {
-        item: income,
+        item: expense,
         screen: screen,
+        month: this.month,
+        year: this.year,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.fetchAllIncomeList(this.month, this.year);
+        this.fetchAllExpenseList(this.month, this.year);
       }
     });
   }
 
-  fetchAllIncomeList(month: any, year: any) {
-    this.incomeService
-      .getCurrentIncome(month, year)
-      .subscribe((data: any) => {
-        this.groupDataByDate(data);
-        this.loading = false;
-        this.count = data.length > 0 ? data.length : 0;
-        this.total = 0;
-        for (let bud of data) {
-          if (bud.price != null && bud.price !== '') {
-            this.total = this.total + Number(bud.price);
-          }
+  fetchAllExpenseList(month: any, year: any) {
+    this.loading = true;
+    this.count = 0;
+    this.total = 0;
+    this.groupedData = {};
+    this.groupedDataArray = [];
+    this.expandedGroups = {};
+
+    this.expenseService.getCurrentExpense(month, year).subscribe((data: any) => {
+      this.groupDataByDate(data);
+      this.loading = false;
+      this.count = data.length > 0 ? data.length : 0;
+      this.total = 0;
+      for (let bud of data) {
+        if (bud.amount != null && bud.amount !== '') {
+          this.total = this.total + Number(bud.amount);
         }
-      });
+      }
+    });
     this.monthText = this.commonService.getCurrentMonthString(month);
   }
 
-  applyFilters(clickedBtn: string) {
+  applyFilters(clickedBtn) {
     let calcMnth = Number(this.month) - 1;
     let calcYear = Number(this.year);
     if (clickedBtn === 'left') {
@@ -108,7 +117,7 @@ export class IncomeComponent implements OnInit {
     this.month = calcMnth;
     this.year = calcYear;
 
-    this.fetchAllIncomeList(this.month, this.year);
+    this.fetchAllExpenseList(this.month, this.year);
   }
 
   groupedData: { [key: string]: any[] } = {};
@@ -136,8 +145,8 @@ export class IncomeComponent implements OnInit {
   }
 
   groupDataByDate(data: any) {
-    this.groupedData = data.reduce((grouped: any, item: any) => {
-      const date = item.date;
+    this.groupedData = data.reduce((grouped, item) => {
+      const date = item.date; // Assuming 'date' is the property name for the date
 
       if (!grouped[date]) {
         grouped[date] = [];
@@ -152,5 +161,6 @@ export class IncomeComponent implements OnInit {
       items: this.groupedData[date],
     }));
   }
+
 
 }
