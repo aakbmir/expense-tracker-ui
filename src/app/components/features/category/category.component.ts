@@ -101,7 +101,7 @@ export class CategoryComponent implements OnInit {
     this.total = 0;
     this.groupedData = {};
     this.monthText = this.commonService.getCurrentMonthString(month);
-    this.categoryService.getAllCategories(month, year, showInactive, "Category").subscribe((data: any) => {
+    this.categoryService.getAllCategories(month, year, showInactive, "All").subscribe((data: any) => {
       this.loading = false;
       this.categoryDate = data?.date || '';
       this.setFinancialTypes(data?.financialTypes || []);
