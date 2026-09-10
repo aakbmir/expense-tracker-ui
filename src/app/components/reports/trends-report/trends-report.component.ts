@@ -4,13 +4,16 @@ import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import { Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
-
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-trends-report',
   templateUrl: './trends-report.component.html',
   styleUrls: ['./trends-report.component.css'],
 })
 export class TrendReportComponent {
+  faSun = faSun;
+  faMoon = faMoon;
+
   filterOn = false;
   trendFlag = true;
   responseList: any = [];

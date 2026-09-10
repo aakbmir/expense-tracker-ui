@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { SavingsService } from 'src/app/services/savings.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { faChevronLeft, faChevronRight, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-savings',
@@ -12,23 +13,29 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./savings.component.css']
 })
 export class SavingsComponent implements OnInit {
+
+  faChevronLeft = faChevronLeft;
+  faChevronRight = faChevronRight;
+  faSun = faSun;
+  faMoon = faMoon;
+
   filterOn = false;
   loading = false;
   count = 0;
-  total: number = 0;
+  totalSavings: number = 0;
+  totalBudgetSavings: number = 0;
+  deficitSavings: number = 0;
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
   year = this.commonService.getCurrentYear();
   monthText = '';
 
-
   constructor(
     private savingsService: SavingsService,
     private dialog: MatDialog,
     private commonService: CommonService,
-    public themeService: ThemeService
-  ) {
+    public themeService: ThemeService) {
     this.months = this.commonService.getMonths();
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
@@ -76,7 +83,8 @@ export class SavingsComponent implements OnInit {
   fetchAllSavingsList(month: any, year: any) {
     this.loading = true;
     this.count = 0;
-    this.total = 0;
+    this.totalSavings = 0;
+    this.totalBudgetSavings = 0;
     this.groupedData = {};
     this.groupedDataArray = [];
     this.expandedGroups = {};
@@ -84,14 +92,19 @@ export class SavingsComponent implements OnInit {
     this.savingsService.getCurrentSavings(month, year).subscribe((data: any) => {
       this.groupDataByDate(data);
       this.loading = false;
-      this.count = data.length > 0 ? data.length : 0;
-      this.total = 0;
-      for (let bud of data) {
+      this.count = data.savingsList.length > 0 ? data.savingsList.length : 0;
+      this.totalSavings = 0;
+      this.totalBudgetSavings = 0;
+      for (let bud of data.savingsList) {
         if (bud.amount != null && bud.amount !== '') {
-          this.total = this.total + Number(bud.amount);
+          this.totalSavings = this.totalSavings + Number(bud.amount);
         }
       }
+      this.totalBudgetSavings = data.budgetAmount;
+      this.deficitSavings = this.totalBudgetSavings - this.totalSavings
     });
+
+
     this.monthText = this.commonService.getCurrentMonthString(month);
   }
 
@@ -145,7 +158,10 @@ export class SavingsComponent implements OnInit {
   }
 
   groupDataByDate(data: any) {
-    this.groupedData = data.reduce((grouped, item) => {
+    console.log(data);
+    this.groupedData = data.savingsList.reduce((grouped, item) => {
+
+      console.log("item", item);
       const date = item.date; // Assuming 'date' is the property name for the date
 
       if (!grouped[date]) {
@@ -160,6 +176,8 @@ export class SavingsComponent implements OnInit {
       date,
       items: this.groupedData[date],
     }));
+
+    console.log(this.groupedDataArray);
   }
 
 }

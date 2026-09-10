@@ -2,13 +2,13 @@
   <div class="pw-container pw-stack">
     <!-- Top Header -->
     <div
-      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
+      style="padding: 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
       <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
           Income </h2>
         <button class="pw-btn-icon-small mobile-only" (click)="themeService.toggleTheme()"
           style="font-size: 18px; color: var(--pw-text); margin: 0; padding: 0; width: auto; height: auto;">
-          <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+          <fa-icon [icon]="(themeService.isLightMode$ | async) ? faMoon : faSun"></fa-icon>
         </button>
       </div>
     </div>
@@ -18,13 +18,13 @@
       style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 0 0px;">
       <!-- Month selection -->
       <div style="display: flex; gap: 12px; align-items: center;">
-        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
-            class="fa fa-chevron-left"></i></button>
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;">
+          <fa-icon [icon]="faChevronLeft"></fa-icon></button>
         <div
           style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 150px; text-align: center;">
           {{monthText}} {{year}}</div>
-        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
-            class="fa fa-chevron-right"></i></button>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;">
+          <fa-icon [icon]="faChevronRight"></fa-icon></button>
       </div>
 
       <!-- Total Amount -->
@@ -58,7 +58,7 @@
         <button class="pw-btn pw-btn-ghost pw-btn-sm"
           style="border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 999px; font-weight: 600;"
           (click)="openDialog('', 'Income-Add', 100, 100)">
-          <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add
+          <fa-icon [icon]="faPlus" style="margin-right: 4px; color: #10b981;"></fa-icon> Add
         </button>
       </div>
 
@@ -77,7 +77,7 @@
             <div class="main-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
           </div>
           <div class="row-right">
-            <i class="fa" [ngClass]="isGroupExpanded(group.date) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            <fa-icon [icon]="isGroupExpanded(group.date) ? faChevronUp : faChevronDown"></fa-icon>
           </div>
         </button>
 
@@ -104,7 +104,7 @@
 
                 <div style="margin-left: 0px;">
                   <button class="pw-btn-icon-small" [matMenuTriggerFor]="beforeMenu">
-                    <i class="fa fa-ellipsis-h" style="opacity: 0.5;"></i>
+                    <fa-icon [icon]="faEllipsisH" style="opacity: 0.5;"></fa-icon>
                   </button>
                   <mat-menu #beforeMenu="matMenu" xPosition="before">
                     <button mat-menu-item (click)="openDialog(item, 'Income-Edit', 100, 100)">Edit</button>
@@ -122,7 +122,7 @@
 
     <!-- EMPTY STATE -->
     <div *ngIf="count == 0 && !loading" class="empty-state">
-      <i class="fa fa-exclamation-triangle"></i>
+      <fa-icon [icon]="faExclamationTriangle"></fa-icon>
       <p>No records in this month</p>
       <small>Tap + to add new Income.</small>
     </div>

@@ -8,7 +8,7 @@
           Category </h2>
         <button class="pw-btn-icon-small mobile-only" (click)="themeService.toggleTheme()"
           style="font-size: 18px; color: var(--pw-text); margin: 0; padding: 0; width: auto; height: auto;">
-          <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+          <fa-icon [icon]="(themeService.isLightMode$ | async) ? faMoon : faSun"></fa-icon>
         </button>
       </div>
     </div>
@@ -16,18 +16,20 @@
     <div
       style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
       <div style="display: flex; gap: 4px; align-items: center;">
-        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;"><i
-            class="fa fa-chevron-left"></i></button>
+        <button class="pw-btn-icon-small" (click)="applyFilters('left')" style="font-size: 14px;">
+          <fa-icon [icon]="faChevronLeft"></fa-icon></button>
         <div
           style="margin: 0; font-weight: 500; font-size: 16px; color: var(--pw-text); letter-spacing: 0.5px; width: 150px; text-align: center;">
           {{monthText}} {{year}}</div>
-        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;"><i
-            class="fa fa-chevron-right"></i></button>
+        <button class="pw-btn-icon-small" (click)="applyFilters('right')" style="font-size: 14px;">
+          <fa-icon [icon]="faChevronRight"></fa-icon>
+        </button>
       </div>
       <button *ngIf="!loading && displayFinancialTypes.length > 0" class="pw-btn pw-btn-ghost pw-btn-sm"
         style="border: 1px solid rgba(15, 55, 130, 0.4); padding: 6px 14px; border-radius: 999px; font-weight: 600;"
         (click)="openDialog('', 'Category-Add', 100, 100)">
-        <i class="fa fa-plus" style="margin-right: 4px; color: #10b981;"></i> Add
+        <fa-icon [icon]="faPlus" style="margin-right: 4px; color: #10b981;"></fa-icon>
+        Add
       </button>
     </div>
 
@@ -48,7 +50,8 @@
     </div>
 
     <div *ngIf="loading" class="loading-wrapper">
-      <i class="fa fa-spinner fa-spin loading-icon"></i>
+      <fa-icon [icon]="faSpinner" [spin]="true" class="loading-icon">
+      </fa-icon>
       <span class="loading-text">Loading categories...</span>
     </div>
 
@@ -60,8 +63,8 @@
           </div>
           <div class="financial-header-right">
             <span class="financial-type-total">AED {{ getFinancialTypeTotal(financialType) | number:'1.2-2' }}</span>
-            <i class="fa"
-              [ngClass]="isMainExpanded(financialType.financialType) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            <fa-icon [icon]="isMainExpanded(financialType.financialType) ? faChevronUp : faChevronDown">
+            </fa-icon>
           </div>
         </button>
 
@@ -74,8 +77,9 @@
               </span>
               <div class="main-header-right">
                 <span class="main-category-total">AED {{ getMainCategoryTotal(mainCategory) | number:'1.2-2' }}</span>
-                <i class="fa"
-                  [ngClass]="isMainExpanded(getMainCategoryKey(financialType, mainCategory)) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                <fa-icon
+                  [icon]="isMainExpanded(getMainCategoryKey(financialType, mainCategory)) ? faChevronUp: faChevronDown">
+                </fa-icon>
               </div>
             </button>
 
@@ -89,16 +93,14 @@
                   <div class="super-header-right">
                     <span class="super-category-amount">AED {{ superCategory.totalBudgetAmount | number:'1.2-2'
                       }}</span>
-                    <i class="fa me-2"
-                      [ngClass]="isSubExpanded(getMainCategoryKey(financialType, mainCategory), getSuperCategoryKey(financialType, mainCategory, superCategory)) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-                    <!-- <button class="action-menu-btn" [matMenuTriggerFor]="superMenu" (click)="$event.stopPropagation()">
-                      <i class="fa fa-ellipsis-v"></i>
-                    </button> -->
+                    <fa-icon class="me-2"
+                      [icon]="isSubExpanded(getMainCategoryKey(financialType, mainCategory), getSuperCategoryKey(financialType, mainCategory, superCategory)) ? faChevronUp : faChevronDown">
+                    </fa-icon>
                   </div>
                   <mat-menu #superMenu="matMenu" xPosition="before">
                     <button mat-menu-item (click)="openDialog('', 'Category-Add', 100, 100)"
                       (click)="$event.stopPropagation()">
-                      <i class="fa fa-plus me-2"></i> Add Category
+                      <fa-icon class="me-2" [icon]="faPlus"></fa-icon> Add Category
                     </button>
                   </mat-menu>
                 </div>
@@ -119,17 +121,20 @@
                           AED {{ categoryObj.budgetAmount | number:'1.2-2' }}
                         </span>
                         <button class="category-action-btn" [matMenuTriggerFor]="catMenu">
-                          <i class="fa fa-ellipsis-v" style="opacity: 0.6;"></i>
+                          <fa-icon [icon]="faEllipsisV" style="opacity: 0.6;">
+                          </fa-icon>
                         </button>
                       </div>
                       <mat-menu #catMenu="matMenu" xPosition="before">
                         <button mat-menu-item
                           (click)="openDialog(getFlatCategory(financialType, mainCategory, superCategory, categoryObj), 'Category-Edit', 100, 100)">
-                          <i class="fa fa-pencil me-2" style="color: var(--pw-primary, #10b981);"></i> Edit
+                          <fa-icon class="me-2" [icon]="faPencilAlt" style="color: var(--pw-primary, #10b981);">
+                          </fa-icon> Edit
                         </button>
                         <button mat-menu-item
                           (click)="openDialog(getFlatCategory(financialType, mainCategory, superCategory, categoryObj), 'Category-Delete', 100, 100)">
-                          <i class="fa fa-trash me-2" style="color: #f43f5e;"></i> Delete
+                          <fa-icon class="me-2" [icon]="faTrash" style="color: #f43f5e;">
+                          </fa-icon> Delete
                         </button>
                       </mat-menu>
                     </div>
@@ -143,13 +148,13 @@
     </div>
 
     <div *ngIf="!loading && displayFinancialTypes.length === 0" class="empty-state">
-      <i class="fa fa-exclamation-circle"></i>
+      <fa-icon [icon]="faExclamationCircle"></fa-icon>
       <p>No categories found for this month.</p>
     </div>
 
     <div *ngIf="!loading && displayFinancialTypes.length === 0" class="bottom-actions">
       <button class="pw-btn copy-btn" (click)="addAllCategory()">
-        <i class="fa fa-clone me-2"></i> Copy From Previous Month
+        <fa-icon class="me-2" [icon]="faClone"></fa-icon> Copy From Previous Month
       </button>
     </div>
   </div>

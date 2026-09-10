@@ -5,6 +5,7 @@ import { ReportService } from 'src/app/services/report.service';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
+import { faChevronLeft, faChevronRight, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-group-report',
@@ -12,6 +13,11 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./group-report.component.css'],
 })
 export class GroupReportComponent {
+
+  faChevronLeft = faChevronLeft;
+  faChevronRight = faChevronRight;
+  faSun = faSun;
+  faMoon = faMoon;
 
   cumulativeReport: any = [];
 

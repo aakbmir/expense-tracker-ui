@@ -5,6 +5,7 @@ import { ExpenseService } from 'src/app/services/expense.service';
 import { CommonService } from 'src/app/services/common.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemeService } from 'src/app/services/theme.service';
+import { faChevronLeft, faChevronRight, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-expense',
@@ -12,6 +13,12 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./expense.component.css'],
 })
 export class ExpenseComponent implements OnInit {
+
+  faChevronLeft = faChevronLeft;
+  faChevronRight = faChevronRight;
+  faMoon = faMoon;
+  faSun = faSun;
+
   filterOn = false;
   loading = false;
   count = 0;

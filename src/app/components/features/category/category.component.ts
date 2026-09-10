@@ -4,6 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { ThemeService } from 'src/app/services/theme.service';
 import { CommonService } from 'src/app/services/common.service';
+import {
+  faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faMoon, faSun, faPlus, faSpinner,
+  faEllipsisV, faPencilAlt, faTrash, faExclamationCircle, faClone
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-category',
@@ -11,6 +15,21 @@ import { CommonService } from 'src/app/services/common.service';
   styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
+  faChevronLeft = faChevronLeft;
+  faChevronRight = faChevronRight;
+  faMoon = faMoon;
+  faSun = faSun;
+  faPlus = faPlus;
+  faSpinner = faSpinner;
+
+  faEllipsisV = faEllipsisV;
+  faPencilAlt = faPencilAlt;
+  faTrash = faTrash;
+  faExclamationCircle = faExclamationCircle;
+  faClone = faClone;
+
   @Input() financialTypes: any[] = [];
 
   loading = false;

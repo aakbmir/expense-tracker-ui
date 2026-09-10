@@ -3,13 +3,14 @@
 
     <!-- Top Header -->
     <div
-      style="padding: 0px 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
+      style="padding: 10px; padding-bottom: 10px; margin-bottom: 0px; border-bottom: 1px solid transparent; border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;">
       <div style="position: relative; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <h2 style="margin: 0; font-weight: 500; font-size: 20px; color: var(--pw-text); letter-spacing: 0.5px;">
           Group </h2>
         <button class="pw-btn-icon-small mobile-only" (click)="themeService.toggleTheme()"
           style="font-size: 18px; color: var(--pw-text); margin: 0; padding: 0; width: auto; height: auto;">
-          <i class="fa" [ngClass]="(themeService.isLightMode$ | async) ? 'fa-moon-o' : 'fa-sun-o'"></i>
+          <fa-icon [icon]="(themeService.isLightMode$ | async) ? faMoon : faSun">
+          </fa-icon>
         </button>
       </div>
     </div>
@@ -28,11 +29,11 @@
     <div class="summary-card">
       <div class="summary-header">
         <button class="pw-btn-icon-small" (click)="applyFilters('left')">
-          <i class="fa fa-chevron-left"></i>
+          <fa-icon [icon]="faChevronLeft"></fa-icon>
         </button>
         <div class="summary-month">{{monthText}} {{year}}</div>
         <button class="pw-btn-icon-small" (click)="applyFilters('right')">
-          <i class="fa fa-chevron-right"></i>
+          <fa-icon [icon]="faChevronRight"></fa-icon>
         </button>
       </div>
 

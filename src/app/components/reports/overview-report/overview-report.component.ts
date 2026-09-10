@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import { ThemeService } from 'src/app/services/theme.service';
+import { faChevronUp, faChevronDown, faSun, faMoon, faSlidersH } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-overview-report',
@@ -10,6 +11,13 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./overview-report.component.css'],
 })
 export class OverviewReportComponent {
+
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
+  faSun = faSun;
+  faMoon = faMoon;
+  faSlidersH = faSlidersH;
+
   months = this.commonService.getMonths();
   month = this.commonService.getCurrentMonth();
   years = this.commonService.getYears();
@@ -40,24 +48,30 @@ export class OverviewReportComponent {
   }
 
   ngOnInit(): void {
-    this.fetchOverviewReport(this.month, this.year);
+    this.fetchOverviewReport('Category', this.selectedCategory, this.month, this.year);
     this.fetchDistinctCategories();
-    this.fetchTransactions('Category');
+    //this.fetchTransactions('Category');
   }
 
-  fetchOverviewReport(month: any, year: any) {
+  fetchOverviewReport(option: any, selectedCategory: any, month: any, year: any) {
     this.totalSavings = 0;
     this.totalBudget = 0;
     this.totalExpense = 0;
     this.totalIncome = 0;
     this.monthText = this.commonService.getCurrentMonthString(this.month);
     this.loading = true;
-    this.reportService.overviewReport(month, year).subscribe((data) => {
+    this.reportService.overviewReport(option, selectedCategory, month, year).subscribe((data) => {
+
+      for (let d of data.expenses) {
+        this.categoryTransactionList.push(d.categoryApiDTO);
+      }
+      this.groupDataByMonth(data.expenses);
+
       this.totalIncome = data.income?.price;
       for (let da of data.expenses) {
         this.totalSavings = this.totalSavings + da.deviate;
-        this.totalExpense = this.totalExpense + da.expense;
-        this.totalBudget = this.totalBudget + da.budget;
+        this.totalExpense = this.totalExpense + da.amount;
+        this.totalBudget = this.totalBudget + da.categoryApiDTO.budgetAmount;
       }
       this.totalSavings = this.totalIncome - this.totalExpense;
       this.loading = false;
@@ -166,7 +180,7 @@ export class OverviewReportComponent {
     this.month = calcMnth;
     this.year = calcYear;
 
-    this.fetchOverviewReport(this.month, this.year);
+    this.fetchOverviewReport('Category', this.selectedCategory, this.month, this.year);
   }
 
 

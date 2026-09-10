@@ -33,7 +33,7 @@ import { TrendReportComponent } from './components/reports/trends-report/trends-
 import { SavingsReportComponent } from './components/reports/savings-report/savings-report.component';
 import { HomeComponent } from './components/layout/home/home.component';
 import { SavingsComponent } from './components/features/savings/savings.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export function initConfig(appConfig: AppConfigService) {
   return () => appConfig.loadConfig();
 }
@@ -73,6 +73,7 @@ export function initConfig(appConfig: AppConfigService) {
     MatNativeDateModule,
     MatIconModule,
     NgChartsModule,
+    FontAwesomeModule
   ],
   providers: [
     {
@@ -85,4 +86,4 @@ export function initConfig(appConfig: AppConfigService) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
