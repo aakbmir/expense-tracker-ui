@@ -6,7 +6,7 @@ import { ThemeService } from 'src/app/services/theme.service';
 import { CommonService } from 'src/app/services/common.service';
 import {
   faChevronUp, faChevronDown, faChevronLeft, faChevronRight, faMoon, faSun, faPlus, faSpinner,
-  faEllipsisV, faPencilAlt, faTrash, faExclamationCircle, faClone
+  faEllipsisV, faPencilAlt, faTrash, faExclamationCircle, faClone, faCalendarAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -23,7 +23,7 @@ export class CategoryComponent implements OnInit {
   faSun = faSun;
   faPlus = faPlus;
   faSpinner = faSpinner;
-
+  faCalendarAlt = faCalendarAlt;
   faEllipsisV = faEllipsisV;
   faPencilAlt = faPencilAlt;
   faTrash = faTrash;

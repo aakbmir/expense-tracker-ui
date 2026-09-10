@@ -1,105 +1,75 @@
-.overview {
-  display: grid;
-  gap: 10px;
+/* ==========================================================================
+   Overview Component Styles - Mobile Fidelity & Desktop Responsiveness
+   ========================================================================== */
+
+.overview-page {
+  padding: 12px 16px 90px 16px;
+  background-color: var(--pw-bg-0, #f8fafc);
+  min-height: 100vh;
 }
 
-.month-nav button {
-  font-size: 18px;
-}
-
-/* ===== HERO ===== */
-.hero {
-  text-align: center;
-}
-
-.hero-title {
-  font-size: 14px;
-  color: var(--pw-muted);
-  font-weight: 650;
-  letter-spacing: 0.2px;
-}
-
-.hero-amount {
-  font-size: clamp(26px, 4.2vw, 38px);
-  font-weight: 900;
-  margin: 2px 0;
-}
-
-.positive {
-  color: var(--pw-good);
-}
-
-.negative {
-  color: var(--pw-bad);
-}
-
-/* ===== PROGRESS BAR ===== */
-.progress-bar {
-  height: 10px;
-  background: rgba(9, 19, 42, 0.06);
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(15, 55, 130, 0.12);
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, rgba(96, 165, 250, 1), rgba(37, 99, 235, 1));
-  transition: width 0.5s ease;
-}
-
-/* ===== QUICK ACTIONS ===== */
-.quick-actions {
-  justify-content: space-between;
-}
-
-/* ===== FILTERS ===== */
-.filters {
-  display: grid;
-  gap: 10px;
-}
-
-/* ===== UNIFIED TRANSACTIONS ===== */
-.cat-main-card {
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  padding: 0px;
-  background: linear-gradient(180deg, rgba(8, 20, 42, 0.80) 0%, rgba(15, 20, 30, 0.70) 100%);
-  box-shadow: 0 4px 40px rgba(16, 185, 129, 0.15), inset 0 2px 20px rgba(16, 185, 129, 0.1), inset 0 -2px 20px rgba(225, 29, 72, 0.05);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.items-container {
+.overview-container {
+  max-width: 520px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 14px;
 }
 
-.overview-item-row {
+/* ================= TOP HEADER ================= */
+.overview-header {
+  padding: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.8), transparent) 1;
+
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0px 0px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 150ms ease;
-  margin: 0px 14px;
+  align-items: flex-start;
+  /* padding: 8px 2px 2px 2px; */
 }
 
-.overview-item-row:first-child {
-  border-top: none;
+.header-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.overview-item-row:hover {
-  background: rgba(255, 255, 255, 0.02);
+.header-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+  letter-spacing: -0.1px;
+}
+
+.header-calendar-btn {
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
+  border: 1.5px solid #1e293b;
+  background: transparent;
+  color: #0f172a;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.item-title {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--pw-text);
-  padding-left: 2px;
+.header-calendar-btn:hover {
+  background: rgba(15, 23, 42, 0.05);
+  transform: scale(1.04);
 }
 
 .pw-btn-icon-small {
@@ -114,4 +84,838 @@
 
 .pw-btn-icon-small:hover {
   opacity: 1 !important;
+}
+
+/* ================= MONTH PILL BAR ================= */
+.month-pill-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 6px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.month-arrow-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 14px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.month-arrow-btn:hover {
+  color: #0f172a;
+  background: #f1f5f9;
+}
+
+.month-center-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.month-calendar-icon {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* ================= FILTERS DRAWER ================= */
+.filters-panel {
+  padding: 12px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* ================= KPI SUMMARY GRID ================= */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.kpi-card {
+  border-radius: 14px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kpi-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-amount {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 2px;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding-left: 2px;
+}
+
+.kpi-currency {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.2px;
+}
+
+.kpi-currency-sm {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.card-badge {
+  /* background-color: #f0fdf4; */
+  border-color: #adb2b1;
+}
+
+.badge-income {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.badge-expense-budget {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.badge-total-expenses {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.badge-savings-budget {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+/* Full Width Card */
+.kpi-card-full {
+  grid-column: 1 / -1;
+  /* background-color: #f0fdf4; */
+  border-color: #10b981;
+  padding: 10px 14px;
+}
+
+.kpi-full-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge-total-savings {
+  background-color: #059669;
+  color: #ffffff;
+}
+
+.kpi-icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* Progress Bars */
+.kpi-progress-wrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.track-expense {
+  background-color: #fee2e2;
+}
+
+.fill-expense {
+  height: 100%;
+  background-color: #ef4444;
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.track-savings {
+  background-color: #e2e8f0;
+}
+
+.fill-savings {
+  height: 100%;
+  background-color: #059669;
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.kpi-progress-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.full-progress {
+  margin-top: 12px;
+}
+
+.full-progress .kpi-progress-track {
+  height: 7px;
+}
+
+/* ================= SEGMENTED CAPSULE CONTROL ================= */
+.segmented-control-container {
+  background-color: #f1f5f9;
+  border-radius: 999px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.segment-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.segment-btn.active {
+  background-color: #0d7a60;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(13, 122, 96, 0.25);
+}
+
+.segment-icon {
+  font-size: 15px;
+}
+
+/* ================= SUB-TABS (EXPENSES / SAVINGS) ================= */
+.subtabs-bar {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #e2e8f0;
+  /* margin-top: 10px;
+  padding-bottom: 2px; */
+}
+
+.subtab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  padding: 8px 16px 12px 16px;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  text-align: center;
+}
+
+.subtab-btn.active {
+  color: #0d7a60;
+  font-weight: 700;
+}
+
+.subtab-indicator {
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background-color: #0d7a60;
+  border-radius: 3px 3px 0 0;
+}
+
+/* ================= TAB CONTENT PANE ================= */
+.tab-content-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+/* Section Header (Expenses / Savings total row) */
+.list-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.section-total {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chevron-indicator {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* Transaction List Rows */
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 2px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.1);
+  border-color: var(--pw-border) !important;
+}
+
+.transaction-row:hover {
+  background-color: rgba(0, 0, 0, 0.015);
+  border-radius: 8px;
+}
+
+.transaction-row:last-child {
+  border-bottom: none;
+}
+
+.transaction-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.transaction-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.transaction-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.transaction-date {
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.transaction-desc {
+  font-size: 11.5px;
+  color: #64748b;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-amount-group {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 1px;
+}
+
+.transaction-amount {
+  font-size: 15px;
+  font-weight: 700;
+  color: #10b981;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  text-align: center;
+  gap: 10px;
+}
+
+.empty-state-icon {
+  font-size: 32px;
+  color: #94a3b8;
+  opacity: 0.6;
+}
+
+.empty-state-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ================= BOTTOM HIGHLIGHT CARD ================= */
+.bottom-highlight-card {
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bottom-highlight-card:hover {
+  transform: translateY(-1px);
+}
+
+.savings-highlight {
+  background-color: #f0fdf4;
+  border: 1px solid #d1fae5;
+}
+
+.savings-highlight:hover {
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.12);
+}
+
+.expenses-highlight {
+  background-color: #fff1f2;
+  border: 1px solid #ffe4e6;
+}
+
+.expenses-highlight:hover {
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.12);
+}
+
+.highlight-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.highlight-icon-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.badge-savings-circle {
+  background-color: #059669;
+  color: #ffffff;
+}
+
+.badge-expenses-circle {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.highlight-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.highlight-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.highlight-amount {
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.savings-highlight .highlight-amount {
+  color: #059669;
+}
+
+.savings-highlight .chevron-indicator {
+  color: #059669;
+}
+
+.expenses-highlight .highlight-amount {
+  color: #ef4444;
+}
+
+.expenses-highlight .chevron-indicator {
+  color: #ef4444;
+}
+
+/* ================= SUMMARY VIEW ================= */
+.summary-view-wrapper {
+  margin-top: 12px;
+}
+
+.summary-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.summary-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 16px 0;
+}
+
+.summary-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.breakdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.breakdown-cat-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.breakdown-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.breakdown-values {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breakdown-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.breakdown-percent {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.breakdown-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: #f1f5f9;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.breakdown-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* ================= SKELETON LOADERS ================= */
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.skeleton-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #e2e8f0;
+}
+
+.skeleton-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-title {
+  width: 45%;
+  height: 14px;
+  border-radius: 4px;
+  background: #e2e8f0;
+}
+
+.skeleton-text {
+  width: 25%;
+  height: 11px;
+  border-radius: 4px;
+  background: #e2e8f0;
+}
+
+/* ================= DESKTOP / WEB RESPONSIVE OVERRIDES ================= */
+@media (min-width: 900px) {
+  .overview-page {
+    padding: 24px 36px;
+  }
+
+  .overview-container {
+    max-width: 1040px;
+    gap: 14px;
+  }
+
+  .kpi-card {
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .kpi-card-full {
+    grid-column: 1 / -1;
+  }
+
+  .segmented-control-container {
+    max-width: 500px;
+    margin: 8px auto 0 auto;
+    width: 100%;
+  }
+
+  .subtabs-bar {
+    max-width: 500px;
+    /* margin: 10px auto; */
+  }
+
+  .tab-content-pane,
+  .summary-view-wrapper {
+    max-width: 1040px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .transactions-list {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 8px 18px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  }
+
+  .transaction-row {
+    padding: 5px 0px;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.1);
+    border-color: var(--pw-border) !important;
+  }
+
+  .transaction-desc {
+    max-width: 450px;
+  }
+}
+
+/* ================= DARK THEME OVERRIDES ================= */
+body:not(.light-theme) .overview-page {
+  background-color: var(--pw-bg-0, #0a0e17);
+}
+
+body:not(.light-theme) .header-title {
+  color: #f8fafc;
+}
+
+body:not(.light-theme) .header-subtitle {
+  color: #94a3b8;
+}
+
+body:not(.light-theme) .header-calendar-btn {
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+body:not(.light-theme) .month-pill-bar {
+  background: #162441;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body:not(.light-theme) .month-center-display {
+  color: #f8fafc;
+}
+
+body:not(.light-theme) .card-income {
+  background-color: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+body:not(.light-theme) .card-expense-budget,
+body:not(.light-theme) .card-total-expenses {
+  background-color: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+body:not(.light-theme) .card-savings-budget {
+  background-color: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+body:not(.light-theme) .kpi-card-full {
+  background-color: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+body:not(.light-theme) .kpi-label {
+  color: #94a3b8;
+}
+
+body:not(.light-theme) .kpi-amount {
+  color: #f8fafc;
+}
+
+body:not(.light-theme) .segmented-control-container {
+  background-color: #162441;
+}
+
+body:not(.light-theme) .section-title,
+body:not(.light-theme) .section-total,
+body:not(.light-theme) .transaction-name,
+body:not(.light-theme) .transaction-amount {
+  color: #f8fafc;
+}
+
+body:not(.light-theme) .transaction-row {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+body:not(.light-theme) .summary-card {
+  background: #162441;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body:not(.light-theme) .summary-section-title,
+body:not(.light-theme) .breakdown-cat-name,
+body:not(.light-theme) .breakdown-amount {
+  color: #f8fafc;
+}
+
+body:not(.light-theme) .highlight-title {
+  color: #f8fafc;
+}
+
+@media (min-width: 900px) {
+  body:not(.light-theme) .transactions-list {
+    background: #162441;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
 }

@@ -5,7 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { SavingsService } from 'src/app/services/savings.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { faChevronLeft, faChevronRight, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faMoon, faSun, faCalendarAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-savings',
@@ -18,6 +18,8 @@ export class SavingsComponent implements OnInit {
   faChevronRight = faChevronRight;
   faSun = faSun;
   faMoon = faMoon;
+  faCalendarAlt = faCalendarAlt;
+  faPlus = faPlus;
 
   filterOn = false;
   loading = false;

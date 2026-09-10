@@ -5,7 +5,10 @@ import { IncomeService } from 'src/app/services/income.service';
 import { CommonService } from 'src/app/services/common.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemeService } from 'src/app/services/theme.service';
-import { faExclamationTriangle, faChevronUp, faChevronDown, faPlus, faEllipsisH, faChevronLeft, faChevronRight, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle, faChevronUp, faChevronDown, faPlus,
+  faEllipsisH, faChevronLeft, faChevronRight, faMoon, faSun, faCalendarAlt
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-income',
@@ -23,7 +26,7 @@ export class IncomeComponent implements OnInit {
   faChevronRight = faChevronRight;
   faMoon = faMoon;
   faSun = faSun;
-
+  faCalendarAlt = faCalendarAlt;
   filterOn = false;
   loading = false;
   count = 0;

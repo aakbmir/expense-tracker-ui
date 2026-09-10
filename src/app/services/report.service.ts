@@ -29,9 +29,9 @@ export class ReportService {
     });
   }
 
-  overviewReport(option: any, selectedCategory: any, month: any, year: any): Observable<any> {
+  overviewReport(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append('expenseName', selectedCategory).append('option', option).append('month', month).append('year', year);
+    queryParams = queryParams.append('month', month).append('year', year);
     return this.http.get(`${this.baseUrl}/overview-report`, {
       params: queryParams,
     });
