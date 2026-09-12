@@ -38,17 +38,7 @@ export class CategoryReportComponent {
     this.month = this.commonService.getCurrentMonth();
     this.years = this.commonService.getYears();
     this.year = this.commonService.getCurrentYear();
-    this.fetchCategoryReport(this.month, this.year);
-  }
-
-  fetchCategoryReport(month: any, year: any) {
-    this.reportService.categoryReport(month, year).subscribe((data) => {
-      this.categoryList = data;
-      this.groupedData = this.groupDataByMain(data);
-      for (let dd of data) {
-        this.expensesTotal = this.expensesTotal + dd.expense;
-      }
-    });
+    
   }
 
   groupDataByMain(data: any[]): any {

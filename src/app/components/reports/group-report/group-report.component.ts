@@ -5,7 +5,9 @@ import { ReportService } from 'src/app/services/report.service';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
-import { faChevronLeft, faChevronRight, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faSun, faMoon,  faCar,  faUtensils,  faPlane } from '@fortawesome/free-solid-svg-icons';
+
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'app-group-report',
@@ -18,6 +20,9 @@ export class GroupReportComponent {
   faChevronRight = faChevronRight;
   faSun = faSun;
   faMoon = faMoon;
+  faCar = faCar;
+  faUtensils = faUtensils;
+  faPlane = faPlane;
 
   cumulativeReport: any = [];
 
@@ -69,18 +74,29 @@ export class GroupReportComponent {
     });
   }
 
-  getCategoryIcon(name: string): string {
-    if (!name) return 'fa-folder';
-    const n = name.toLowerCase();
-    if (n.includes('living') || n.includes('home') || n.includes('housing')) return 'fa-home';
-    if (n.includes('saving') || n.includes('invest')) return 'fa-line-chart';
-    if (n.includes('family') || n.includes('support') || n.includes('kid')) return 'fa-users';
-    if (n.includes('food') || n.includes('dining') || n.includes('eat')) return 'fa-cutlery';
-    if (n.includes('transport') || n.includes('car') || n.includes('travel')) return 'fa-car';
-    if (n.includes('utilit') || n.includes('bill')) return 'fa-bolt';
-    if (n.includes('misc') || n.includes('other')) return 'fa-ellipsis-h';
-    return 'fa-folder';
-  }
+  private categoryIcons: Record<string, IconDefinition> = {
+  housing: faCar,
+  transport: faCar,
+  food: faUtensils,
+  travel: faPlane
+};
+
+getCategoryIcon(name: string): IconDefinition {
+  return this.categoryIcons[name.toLowerCase()] ?? faChevronRight;
+}
+
+  // getCategoryIcon(name: string): string {
+  //   if (!name) return 'faChevronRight';
+  //   const n = name.toLowerCase();
+  //   if (n.includes('living') || n.includes('home') || n.includes('housing')) return 'fa-home';
+  //   if (n.includes('saving') || n.includes('invest')) return 'fa-line-chart';
+  //   if (n.includes('family') || n.includes('support') || n.includes('kid')) return 'fa-users';
+  //   if (n.includes('food') || n.includes('dining') || n.includes('eat')) return 'fa-cutlery';
+  //   if (n.includes('transport') || n.includes('car') || n.includes('travel')) return 'fa-car';
+  //   if (n.includes('utilit') || n.includes('bill')) return 'fa-bolt';
+  //   if (n.includes('misc') || n.includes('other')) return 'fa-ellipsis-h';
+  //   return 'faChevronRight';
+  // }
 
   getProgress(expense: number, budget: number): number {
     if (!budget || budget === 0) return 0;

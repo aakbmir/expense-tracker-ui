@@ -21,14 +21,6 @@ export class ReportService {
     });
   }
 
-  categoryReport(month: any, year: any): Observable<any> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/category-report`, {
-      params: queryParams,
-    });
-  }
-
   overviewReport(month: any, year: any): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('month', month).append('year', year);
@@ -48,14 +40,6 @@ export class ReportService {
       .append('month', month)
       .append('year', year);
     return this.http.get(`${this.baseUrl}/category-report-details`, {
-      params: queryParams,
-    });
-  }
-
-  subCategoryReport(month: any, year: any): Observable<any> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('month', month).append('year', year);
-    return this.http.get(`${this.baseUrl}/sub-category-report`, {
       params: queryParams,
     });
   }
@@ -90,6 +74,16 @@ export class ReportService {
   fetchAllCategoriesDetails() {
     return this.http.get(`${this.baseUrl}/get-distinct-categories`);
   }
+
+  fetchExpenseCategories(month: any, year: any): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('month', month).append('year', year);
+    return this.http.get(`${this.baseUrl}/get-expense-categories`, {
+      params: queryParams,
+    });
+  }
+
+  
 
   fetchTransactionForCategory(selectedCategory: string, option: string) {
     let queryParams = new HttpParams();

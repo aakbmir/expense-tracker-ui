@@ -4,7 +4,12 @@ import { CommonService } from 'src/app/services/common.service';
 import { ReportService } from 'src/app/services/report.service';
 import { SavingsService } from 'src/app/services/savings.service';
 import { ThemeService } from 'src/app/services/theme.service';
+import { DialogComponent } from '../../dialog/dialog.component';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+
 import {
+  faCircle,
+  faPlane,
   faWallet,
   faBullseye,
   faPiggyBank,
@@ -31,6 +36,7 @@ import {
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface OverviewTransaction {
   category: string;
@@ -84,14 +90,12 @@ export class OverviewReportComponent implements OnInit {
   faSun = faSun;
   faMoon = faMoon;
   faArrowRight = faArrowRight;
-
+  faPlane = faPlane;
+  faCircle = faCircle;
   // View Controls
-  activeSegment: 'actual' | 'summary' = 'actual';
-  activeSubTab: 'expenses' | 'savings' = 'expenses';
-  searchFlag: boolean = false;
+
+
   loading: boolean = false;
-  expenseLoading: boolean = false;
-  savingsLoading: boolean = false;
   currencySymbol: string = 'AED';
 
   // Date Navigation (defaults dynamically to current month and year)
@@ -103,51 +107,39 @@ export class OverviewReportComponent implements OnInit {
 
   // KPI Metrics (Populated directly from API)
   totalIncome: number = 0;
-  totalExpenseBudget: number = 0;
-  totalExpenseSpent: number = 0;
-  totalSavingsBudget: number = 0;
-  totalSavingsDone: number = 0;
+  totalPlannedExpenses: number = 0;
+  totalActualExpenses: number = 0;
+  totalPlannedSavings: number = 0;
+  totalActualSavings: number = 0;
 
   get expenseBudgetPercent(): number {
-    if (!this.totalExpenseBudget || this.totalExpenseBudget <= 0) return 0;
-    return Math.min(100, Math.round((this.totalExpenseSpent / this.totalExpenseBudget) * 100));
+    if (!this.totalPlannedExpenses || this.totalPlannedExpenses <= 0) return 0;
+    return Math.min(100, Math.round((this.totalActualExpenses / this.totalPlannedExpenses) * 100));
   }
 
   get savingsBudgetPercent(): number {
-    if (!this.totalSavingsBudget || this.totalSavingsBudget <= 0) return 0;
-    return Math.min(100, Math.round((this.totalSavingsDone / this.totalSavingsBudget) * 100));
+    if (!this.totalPlannedSavings || this.totalPlannedSavings <= 0) return 0;
+    return Math.min(100, Math.round((this.totalActualSavings / this.totalPlannedSavings) * 100));
   }
-
-  // Categories & Filtering
-  selectedCategory = '';
-  categoryList: string[] = [];
-  subCategoryList: string[] = [];
-  mainCategoryList: string[] = [];
-
-  // Transaction Lists from API
-  expensesList: OverviewTransaction[] = [];
-  savingsList: OverviewTransaction[] = [];
-  categoryBreakdownList: OverviewCategoryBreakdown[] = [];
 
   // Legacy flags for compatibility
   overviewFlag = true;
   groupFlag = false;
-  bankFlag = false;
   trendFlag = false;
+
+  cumulativeReport: any = [];
 
   constructor(
     private reportService: ReportService,
-    private savingsService: SavingsService,
     private commonService: CommonService,
-    private expenseService: ExpenseService,
     private router: Router,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.updateMonthString();
     this.fetchOverviewReport(this.month, this.year);
-    this.fetchDistinctCategories();
   }
 
   updateMonthString(): void {
@@ -156,45 +148,29 @@ export class OverviewReportComponent implements OnInit {
 
   fetchOverviewReport(month: any, year: any): void {
     this.loading = true;
-    this.expenseLoading = true;
     this.totalIncome = 0;
-    this.totalExpenseSpent = 0;
-    this.totalExpenseBudget = 0;
-    this.expensesList = [];
-    this.categoryBreakdownList = [];
+    this.totalActualExpenses = 0;
+    this.totalPlannedExpenses = 0;
     this.updateMonthString();
     this.fetchOverviewData(this.month, this.year);
-    this.fetchSavingsData(this.month, this.year);
-    this.fetchAllExpenseList(this.month, this.year);
+    this.fetchAllData(this.month, this.year);
   }
 
-  fetchAllExpenseList(month: any, year: any) {
-    this.expenseLoading = true;
-    this.expenseService.getCurrentExpense(month, year).subscribe({
-      next: (data: any) => {
-        if (data) {
-          if (data && Array.isArray(data) && data.length > 0) {
-            const items: OverviewTransaction[] = [];
-            for (let s of data) {
-              console.log('s', s);
-              items.push({
-                category: s.expenseName || s.categoryApiDTO?.category,
-                description: s.description || '',
-                amount: s.amount,
-                date: s.savingsDate || s.date || new Date()
-              });
-            }
-            this.expensesList = items;
-          } else {
-            // If savingsList is empty, calculate net savings from Income - Expense
-            this.expensesList = [];
-          }
-        }
-        this.expenseLoading = false;
-      },
-      error: () => {
-        this.expenseLoading = false;
+  fetchAllData(month, year) {
+    this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
+    this.loading = true;
+    
+    this.reportService.groupedReport(month, year).subscribe((data: any) => {
+      this.cumulativeReport = data.parentCategoryDTOList;
+      this.totalIncome = data.income.price;
+      for (let report of this.cumulativeReport) {
+        
+        
+        report.expanded = false;
+        //this.totalExpense = this.totalExpense + report.expense;
       }
+      //this.totalDeviate = this.totalIncome - this.totalExpense;
+      this.loading = false;
     });
   }
 
@@ -202,10 +178,10 @@ export class OverviewReportComponent implements OnInit {
     this.reportService.overviewReport(month, year).subscribe({
       next: (data: any) => {
         this.totalIncome = data.totalIncome;
-        this.totalExpenseBudget = data.totalExpenseBudget;
-        this.totalExpenseSpent = data.totalExpenseSpent;
-        this.totalSavingsBudget = data.totalSavingsBudget;
-        this.totalSavingsDone = data.totalSavingsDone;
+        this.totalPlannedExpenses = data.totalPlannedExpenses;
+        this.totalActualExpenses = data.totalActualExpenses;
+        this.totalPlannedSavings = data.totalPlannedSavings;
+        this.totalActualSavings = data.totalActualSavings;
 
       },
       error: (err) => {
@@ -214,48 +190,6 @@ export class OverviewReportComponent implements OnInit {
     });
   }
 
-  fetchSavingsData(month: any, year: any): void {
-    this.savingsService.getCurrentSavings(month, year).subscribe({
-      next: (data: any) => {
-        if (data) {
-          if (data.savingsList && Array.isArray(data.savingsList) && data.savingsList.length > 0) {
-            const items: OverviewTransaction[] = [];
-            for (let s of data.savingsList) {
-              items.push({
-                category: s.savingsName || s.categoryApiDTO?.category || 'Savings',
-                description: s.description || '',
-                amount: s.amount,
-                date: s.savingsDate || s.date || new Date()
-              });
-            }
-            this.savingsList = items;
-          } else {
-            // If savingsList is empty, calculate net savings from Income - Expense
-            this.savingsList = [];
-          }
-        }
-        this.savingsLoading = false;
-      },
-      error: () => {
-        this.savingsLoading = false;
-      }
-    });
-  }
-
-  fetchDistinctCategories(): void {
-    this.reportService.fetchAllCategoriesDetails().subscribe({
-      next: (data: any) => {
-        if (Array.isArray(data)) {
-          this.categoryList = [...new Set(data.map((item: any) => item.category).filter(Boolean))];
-          this.subCategoryList = [...new Set(data.map((item: any) => item.subCategory).filter(Boolean))];
-          this.mainCategoryList = [...new Set(data.map((item: any) => item.mainCategory).filter(Boolean))];
-        }
-      },
-      error: () => { }
-    });
-  }
-
-  // Month Navigation
   applyFilters(direction: 'left' | 'right'): void {
     let m = Number(this.month);
     let y = Number(this.year);
@@ -277,14 +211,6 @@ export class OverviewReportComponent implements OnInit {
     this.month = m < 10 ? '0' + m : '' + m;
     this.year = y;
     this.fetchOverviewReport(this.month, this.year);
-  }
-
-  setActiveSegment(segment: 'actual' | 'summary'): void {
-    this.activeSegment = segment;
-  }
-
-  setActiveSubTab(subTab: 'expenses' | 'savings'): void {
-    this.activeSubTab = subTab;
   }
 
   // Dynamic Category Icon & Pastel Color Mapping
@@ -321,5 +247,41 @@ export class OverviewReportComponent implements OnInit {
     else if (value === 'bank') this.router.navigateByUrl('/reports/bank');
     else if (value === 'trend') this.router.navigateByUrl('/reports/trend');
     else if (value === 'search') this.router.navigateByUrl('/reports/search');
+  }
+
+  openDialog(category: any, screen: string, height: number, width: number) {
+    let item = {
+      main: category,
+      month: this.month,
+      year: this.year,
+    };
+    let dialogRef = this.dialog.open(DialogComponent, {
+      panelClass: 'custom-modalbox',
+      maxHeight: height + 'vh',
+      width: width + 'vw',
+      maxWidth: width - 3 + 'vw',
+      position: { top: '10px' },
+      data: {
+        item: item,
+        screen: screen,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+      }
+    });
+  }
+
+
+  private categoryIcons: Record<string, IconDefinition> = {
+    housing: faCar,
+    transport: faCar,
+    food: faUtensils,
+    travel: faPlane
+  };
+
+  getCategoryIcon(name: string): IconDefinition {
+    return this.categoryIcons[name.toLowerCase()] ?? faChevronRight;
   }
 }
