@@ -8,6 +8,7 @@ import { DialogComponent } from '../../dialog/dialog.component';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 import {
+  faCaretRight,
   faCircle,
   faPlane,
   faWallet,
@@ -66,6 +67,7 @@ export interface OverviewCategoryBreakdown {
 })
 export class OverviewReportComponent implements OnInit {
   // FontAwesome Icons
+  faCaretRight = faCaretRight;
   faWallet = faWallet;
   faBullseye = faBullseye;
   faPiggyBank = faPiggyBank;
