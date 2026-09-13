@@ -164,7 +164,9 @@
                           [class.rotated]="mainCategoryObj.expanded"></fa-icon>
                         <div class="main-category-name">{{ mainCategoryObj.name }}</div>
                       </div>
-                      <span class="kpi-main-category-amount green">{{ mainCategoryObj.expense | number:'1.2-2' }} <span
+                      <span class="kpi-main-category-amount" 
+                      [ngStyle]="{color: mainCategoryObj.expense <= mainCategoryObj.budget ? 'green' : 'red'}">
+                      {{ mainCategoryObj.expense | number:'1.2-2' }} <span
                           class="kpi-currency">AED</span></span>
                     </div>
                     <!-- <div class="kpi-progress-wrapper full-progress">
@@ -174,7 +176,7 @@
                       </div> -->
                     <div class="main-category-numbers">
                       <span>{{ mainCategoryObj?.subCategoryDtoList.length }} super categories</span>
-                      <span class="actual">{{ mainCategoryObj.expense | number:'1.2-2' }}<span class="kpi-currency">
+                      <span class="actual">{{ mainCategoryObj.budget | number:'1.2-2' }}<span class="kpi-currency">
                           AED</span></span>
                     </div>
                   </div>
@@ -190,32 +192,45 @@
                           <fa-icon class="category-chevron" size="sm" [icon]="faCaretRight"
                             [class.rotated]="subCategoryObj.expanded"></fa-icon>
                           <div class="super-category-name">{{ subCategoryObj.name }}</div>
-                          <span class="actual">Spent AED {{ mainCategoryObj.expense | number:'1.2-2' }}</span>
+                          <span class="actual"
+                          
+                           [ngStyle]="{color: subCategoryObj.expense <= subCategoryObj.budget ? 'green' : 'red'}"
+                          >{{ subCategoryObj.expense | number:'1.2-2' }}
+<span class="kpi-currency">
+                          AED</span>
+
+                          </span>
                         </div>
                         <div class="super-category-numbers">
                           <span></span>
                           <span>{{subCategoryObj.categoryDtoList.length}} categories</span>
-                          <span>Budget AED {{ subCategoryObj.expense | number:'1.2-2' }}</span>
+                          <span class="actual">{{ subCategoryObj.budget | number:'1.2-2' }}
+                            <span class="kpi-currency">
+                          AED</span>
+                          </span>
                         </div>
                       </div>
                     </td>
                   </tr>
 
-                  <!-- Item Rows -->
                   <ng-container *ngIf="subCategoryObj.expanded">
                     <tr *ngFor="let categoryObj of subCategoryObj.categoryDtoList"
                       (click)="openDialog(categoryObj.name, 'fetch-category-report-details', 90, 100)">
-
                       <td colspan="2" style="width:100%">
                         <div class="category-row">
-                          <div class="td-cat item-indent">
-                            <i class="fa fa-circle dot-icon"></i>
-                            {{ categoryObj.name }}
+                          <div class="td-cat">
+                            <span style="margin-top: 10px;font-weight: bold;">{{ categoryObj.name }}</span>
+                            <div class="category-amounts">
+                              <span style="text-align:right;font-weight: bold;font-size: 12px;"
+                              [ngStyle]="{color: categoryObj.expense ===0? 'black' : categoryObj.expense <= categoryObj.budget ? 'green' : 'red'}">
+                                {{ categoryObj.expense === 0 ? '-' : categoryObj.expense | number:'1.2-2' }}<span class="kpi-currency"> AED</span>
+                              </span>
+                              <span style="font-weight: bold;font-size: 12px;"
+                                [ngClass]="{'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0, 'zero-val': categoryObj.expense == 0}">
+                                {{ categoryObj.budget | number:'1.2-2' }}<span class="kpi-currency"> AED</span>
+                              </span>
+                            </div>
                           </div>
-                          <span
-                            [ngClass]="{'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0, 'zero-val': categoryObj.expense == 0}">
-                            {{ categoryObj.expense | number:'1.2-2' }}
-                          </span>
                         </div>
                       </td>
                       <!-- <td class="text-right">{{ categoryObj.budget | number:'1.2-2' }}</td>
