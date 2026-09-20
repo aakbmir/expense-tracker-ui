@@ -94,8 +94,13 @@ export class OverviewReportComponent implements OnInit {
   faArrowRight = faArrowRight;
   faPlane = faPlane;
   faCircle = faCircle;
+  
   // View Controls
+  activeSegment: 'actual' | 'summary' = 'actual';
+  activeSubTab: any = 'expense-cat'; // 'expenses' | 'savings' | 'expenses-cat' | 'savings-cat'
 
+  groupedData: { [key: string]: any[] } = {};
+  groupedDataArray: { date: string; items: any[] }[] = [];
 
   loading: boolean = false;
   currencySymbol: string = 'AED';
@@ -130,10 +135,12 @@ export class OverviewReportComponent implements OnInit {
   trendFlag = false;
 
   cumulativeReport: any = [];
+expenseList: any = [];
 
   constructor(
     private reportService: ReportService,
     private commonService: CommonService,
+    private expenseService: ExpenseService,
     private router: Router,
     public themeService: ThemeService,
     private dialog: MatDialog
@@ -286,4 +293,44 @@ export class OverviewReportComponent implements OnInit {
   getCategoryIcon(name: string): IconDefinition {
     return this.categoryIcons[name.toLowerCase()] ?? faChevronRight;
   }
+
+    setActiveSegment(segment): void {
+    this.activeSegment = segment;
+  }
+
+  setActiveSubTab(subTab): void {
+    this.activeSubTab = subTab;
+
+    if (subTab === 'expenses') {
+      this.fetchAllExpenseList(this.month, this.year);
+    }
+  }
+
+  fetchAllExpenseList(month: any, year: any) {
+    this.loading = true;
+    this.expenseService.getCurrentExpense(month, year).subscribe((data: any) => {
+      this.loading = false;
+       this.groupDataByDate(data);
+      this.loading = false;
+    });
+  }
+
+  groupDataByDate(data: any) {
+    this.groupedData = data.reduce((grouped, item) => {
+      const date = item.date; // Assuming 'date' is the property name for the date
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+
+      grouped[date].push(item);
+
+      return grouped;
+    }, {});
+    this.groupedDataArray = Object.keys(this.groupedData).map((date) => ({
+      date,
+      items: this.groupedData[date],
+    }));
+  }
+
+
 }

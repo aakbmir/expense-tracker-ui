@@ -18,6 +18,7 @@
     </div>
 
     <section class="month-pill-bar">
+
       <button class="month-arrow-btn" (click)="applyFilters('left')" aria-label="Previous Month">
         <fa-icon [icon]="faChevronLeft"></fa-icon>
       </button>
@@ -30,22 +31,26 @@
       <button class="month-arrow-btn" (click)="applyFilters('right')" aria-label="Next Month">
         <fa-icon [icon]="faChevronRight"></fa-icon>
       </button>
+
     </section>
 
     <section class="kpi-grid">
-      <div class="kpi-card card-badge">
-        <div class="kpi-header">
-          <div class="kpi-icon-badge badge-income">
-            <fa-icon [icon]="faWallet"></fa-icon>
+
+      <div class="kpi-card kpi-card-full card-badge">
+        <div style="display: flex; justify-content: space-between;">
+          <div class="kpi-header">
+            <div class="kpi-icon-badge badge-income">
+              <fa-icon [icon]="faWallet"></fa-icon>
+            </div>
+            <span class="kpi-label">Total Income</span>
           </div>
-          <span class="kpi-label">Total Income</span>
-        </div>
-        <div class="kpi-amount">
-          {{ totalIncome | number:'1.2-2' }} <span class="kpi-currency">AED</span>
+          <div class="kpi-amount green">
+            {{ totalIncome | number:'1.2-2' }} <span class="kpi-currency">AED</span>
+          </div>
         </div>
       </div>
 
-      <div class="kpi-card card-badge">
+      <!-- <div class="kpi-card card-badge">
         <div class="kpi-header">
           <div class="kpi-icon-badge badge-expense-budget">
             <fa-icon [icon]="faBullseye"></fa-icon>
@@ -55,7 +60,7 @@
         <div class="kpi-amount">
           {{ totalActualExpenses | number:'1.2-2' }} <span class="kpi-currency">AED</span>
         </div>
-      </div>
+      </div> 
 
       <div class="kpi-card card-badge">
         <div class="kpi-header">
@@ -79,13 +84,11 @@
         <div class="kpi-amount">
           {{ totalPlannedExpenses | number:'1.2-2' }} <span class="kpi-currency">AED</span>
         </div>
-      </div>
+      </div>-->
 
       <div class="kpi-card kpi-card-full card-total-savings">
-
         <div class="kpi-full-header">
-          <div class="kpi-header" style="margin-bottom:10px">
-
+          <div class="kpi-header" style="margin-bottom:5px">
             <span class="kpi-label2">Expense Budget</span>
           </div>
         </div>
@@ -94,8 +97,9 @@
           <span class="kpi-label">Budget</span>
         </div>
         <div class="kpi-full-header">
-          <span class="kpi-amount">{{totalActualExpenses | number:'1.2-2' }} <span
-              class="kpi-currency">AED</span></span>
+          <span class="kpi-amount" [ngStyle]="{color: totalPlannedExpenses >= totalActualExpenses ? 'green' : 'red'}">
+            {{totalActualExpenses | number:'1.2-2' }}
+            <span class="kpi-currency">AED</span></span>
           <span class="kpi-amount">{{ totalPlannedExpenses | number:'1.2-2' }}</span>
         </div>
         <div class="kpi-progress-wrapper full-progress">
@@ -103,13 +107,11 @@
             <div class="kpi-progress-fill fill-savings" [style.width.%]="expenseBudgetPercent"></div>
           </div>
           <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-
-            <span class="kpi-label">{{ totalPlannedExpenses - totalActualExpenses | number:'1.2-2' }} <span
-                class="kpi-label">AED remaining</span></span>
+            <span class="kpi-label">{{ totalPlannedExpenses - totalActualExpenses | number:'1.2-2' }}
+              <span class="kpi-label">AED remaining</span></span>
             <span class="kpi-progress-text">{{ expenseBudgetPercent }}% used</span>
           </div>
         </div>
-
       </div>
 
       <div class="kpi-card kpi-card-full card-total-savings">
@@ -124,8 +126,9 @@
             <span class="kpi-label">Planned</span>
           </div>
           <div class="kpi-full-header">
-            <span class="kpi-amount">{{totalActualSavings | number:'1.2-2' }} <span
-                class="kpi-currency">AED</span></span>
+            <span class="kpi-amount" [ngStyle]="{color: totalPlannedSavings >= totalActualSavings ? 'green' : 'red'}">
+              {{totalActualSavings | number:'1.2-2' }}
+              <span class="kpi-currency">AED</span></span>
             <span class="kpi-amount">{{ totalPlannedSavings | number:'1.2-2' }}</span>
           </div>
           <div class="kpi-progress-wrapper full-progress">
@@ -133,9 +136,8 @@
               <div class="kpi-progress-fill fill-savings" [style.width.%]="savingsBudgetPercent"></div>
             </div>
             <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-
-              <span class="kpi-label">{{ totalPlannedSavings - totalActualSavings | number:'1.2-2' }} <span
-                  class="kpi-label">AED unallocated</span></span>
+              <span class="kpi-label">{{ totalPlannedSavings - totalActualSavings | number:'1.2-2' }}
+                <span class="kpi-label">AED unallocated</span></span>
               <span class="kpi-progress-text">{{ savingsBudgetPercent }}% saved</span>
             </div>
           </div>
@@ -143,12 +145,28 @@
       </div>
     </section>
 
-    <div class="category-list-expenses" *ngIf="!loading">
-      <div class="category-list-expense-header">
-        <span class="kpi-label2">Expense Categories</span>
-        <span class="kpi-label">Budget vs actual</span>
-      </div>
+    <div class="subtabs-bar">
+      <button class="subtab-btn" [class.active]="activeSubTab === 'expense-cat'"
+        (click)="setActiveSubTab('expense-cat')">
+        Expenses Cat
+        <div *ngIf="activeSubTab === 'expense-cat'" class="subtab-indicator"></div>
+      </button>
+      <button class="subtab-btn" [class.active]="activeSubTab === 'expenses'" (click)="setActiveSubTab('expenses')">
+        Expenses
+        <div *ngIf="activeSubTab === 'expenses'" class="subtab-indicator"></div>
+      </button>
+      <button class="subtab-btn" [class.active]="activeSubTab === 'savings'" (click)="setActiveSubTab('savings')">
+        Savings
+        <div *ngIf="activeSubTab === 'savings'" class="subtab-indicator"></div>
+      </button>
+      <button class="subtab-btn" [class.active]="activeSubTab === 'savings-cat'"
+        (click)="setActiveSubTab('savings-cat')">
+        Savings Cat
+        <div *ngIf="activeSubTab === 'savings-cat'" class="subtab-indicator"></div>
+      </button>
+    </div>
 
+    <div class="category-list-expenses" *ngIf="!loading && activeSubTab === 'expense-cat'">
       <div class="cat-table-wrapper pw-glas">
         <div class="table-responsive">
           <table class="pw-table">
@@ -164,10 +182,9 @@
                           [class.rotated]="mainCategoryObj.expanded"></fa-icon>
                         <div class="main-category-name">{{ mainCategoryObj.name }}</div>
                       </div>
-                      <span class="kpi-main-category-amount" 
-                      [ngStyle]="{color: mainCategoryObj.expense <= mainCategoryObj.budget ? 'green' : 'red'}">
-                      {{ mainCategoryObj.expense | number:'1.2-2' }} <span
-                          class="kpi-currency">AED</span></span>
+                      <span class="kpi-main-category-amount"
+                        [ngStyle]="{color: mainCategoryObj.expense <= mainCategoryObj.budget ? 'green' : 'red'}">
+                        {{ mainCategoryObj.expense | number:'1.2-2' }} <span class="kpi-currency">AED</span></span>
                     </div>
                     <!-- <div class="kpi-progress-wrapper full-progress">
                         <div class="kpi-progress-track track-savings">
@@ -185,7 +202,6 @@
               <ng-container *ngIf="mainCategoryObj.expanded">
                 <ng-container *ngFor="let subCategoryObj of mainCategoryObj?.subCategoryDtoList">
                   <tr class="sub-tr" (click)="subCategoryObj.expanded = !subCategoryObj.expanded">
-
                     <td colspan="2">
                       <div class="super-category super">
                         <div class="super-category-top">
@@ -193,12 +209,10 @@
                             [class.rotated]="subCategoryObj.expanded"></fa-icon>
                           <div class="super-category-name">{{ subCategoryObj.name }}</div>
                           <span class="actual"
-                          
-                           [ngStyle]="{color: subCategoryObj.expense <= subCategoryObj.budget ? 'green' : 'red'}"
-                          >{{ subCategoryObj.expense | number:'1.2-2' }}
-<span class="kpi-currency">
-                          AED</span>
-
+                            [ngStyle]="{color: subCategoryObj.expense <= subCategoryObj.budget ? 'green' : 'red'}">{{
+                            subCategoryObj.expense | number:'1.2-2' }}
+                            <span class="kpi-currency">
+                              AED</span>
                           </span>
                         </div>
                         <div class="super-category-numbers">
@@ -206,7 +220,7 @@
                           <span>{{subCategoryObj.categoryDtoList.length}} categories</span>
                           <span class="actual">{{ subCategoryObj.budget | number:'1.2-2' }}
                             <span class="kpi-currency">
-                          AED</span>
+                              AED</span>
                           </span>
                         </div>
                       </div>
@@ -222,8 +236,9 @@
                             <span style="margin-top: 10px;font-weight: bold;">{{ categoryObj.name }}</span>
                             <div class="category-amounts">
                               <span style="text-align:right;font-weight: bold;font-size: 12px;"
-                              [ngStyle]="{color: categoryObj.expense ===0? 'black' : categoryObj.expense <= categoryObj.budget ? 'green' : 'red'}">
-                                {{ categoryObj.expense === 0 ? '-' : categoryObj.expense | number:'1.2-2' }}<span class="kpi-currency"> AED</span>
+                                [ngStyle]="{color: categoryObj.expense ===0? 'black' : categoryObj.expense <= categoryObj.budget ? 'green' : 'red'}">
+                                {{ categoryObj.expense === 0 ? '-' : categoryObj.expense | number:'1.2-2' }}<span
+                                  class="kpi-currency"> AED</span>
                               </span>
                               <span style="font-weight: bold;font-size: 12px;"
                                 [ngClass]="{'negative': categoryObj.expense > categoryObj.budget && categoryObj.expense != 0, 'zero-val': categoryObj.expense == 0}">
@@ -256,27 +271,44 @@
           </table>
         </div>
       </div>
+    </div>
 
-      <div class="category-list">
+    <div class="category-list-expenses" *ngIf="!loading && activeSubTab === 'expenses'">
+      <div *ngFor="let group of groupedDataArray; let lastMain = last" class="main-block" [class.no-border]="lastMain">
 
-        <!-- 
-        <div class="category">
-          <div class="category-top">
-            <div class="main-category-name">Food</div>
-            <div class="category-status green">WITHIN BUDGET</div>
+        <!-- Date Header Row -->
+        <div class="row-left">
+          <div class="main-title">{{ group.date | date : 'MMM dd, EEEE' | uppercase }}</div>
+        </div>
+
+        <div class="subcat-container">
+          <!-- Items Block -->
+          <div class="items-container">
+            <div *ngFor="let item of group.items; let isLast = last" class="item-row" [class.item-row-last]="isLast"
+              style="padding-top: 9px; padding-bottom: 9px;">
+
+              <div class="row-left" style="flex-direction: column; align-items: flex-start; gap: 4px;margin-left:4px">
+                <div class="item-title" style="font-weight: 500; font-size: 15px;">{{ item.categoryApiDTO.category }}
+                </div>
+                <div style="font-size: 12px; color: var(--pw-muted);">{{ item.categoryApiDTO.superCategory }} - {{
+                  item.categoryApiDTO.mainCategory}}</div>
+              </div>
+
+              <div class="row-right" style="flex-direction: row; align-items: center; gap: 16px;;margin-right:4px">
+                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                  <div style="font-weight: 500; font-size: 14px; color: #10b981;">
+                    {{item.amount | number:'1.2-2'}} <span
+                      style="font-size: 11px; opacity: 0.8; font-weight: 400; color: var(--pw-text);">AED</span>
+                  </div>
+                  <div
+                    style="font-size: 12px; color: var(--pw-muted); max-width: 110px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{item.description}}</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:91.7%"></div>
-          </div>
-          <div class="main-category-numbers">
-            <span>Budget AED 1,800</span>
-            <span class="actual">Spent AED 1,650</span>
-          </div>
-          <div class="main-category-numbers">
-            <span></span>
-            <span class="green">AED 150 remaining</span>
-          </div>
-        </div> -->
+        </div>
+
       </div>
     </div>
 

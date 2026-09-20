@@ -2,27 +2,6 @@
    Overview Component Styles - Mobile Fidelity & Desktop Responsiveness
    ========================================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .cat-table-wrapper {
   border-radius: 12px;
   /* border: 1px solid var(--pw-border); */
@@ -94,6 +73,7 @@ body.light-theme .pw-table td {
 .category-amounts {
   display: grid;
 }
+
 .td-cat {
   display: flex;
     justify-content: space-between;
@@ -154,6 +134,13 @@ body.light-theme .pw-table td {
   font-size: 12px;
 }
 
+.green {
+  color: #059669;
+}
+
+.red {
+  color: #ef4444;
+}
 .table-progress {
   display: flex;
   align-items: center;
@@ -390,7 +377,6 @@ font-size: 18px;
 .kpi-amount {
   font-size: 18px;
   font-weight: 800;
-  color: #0f172a;
   margin-top: 2px;
   letter-spacing: -0.3px;
   display: flex;
@@ -439,7 +425,7 @@ font-size: 18px;
 
 /* Full Width Card */
 .kpi-card-full {
-  grid-column: span 2;
+  grid-column: span 4;
   /* background-color: #f0fdf4; */
   border-color: #10b981;
   padding: 10px 14px;
@@ -512,7 +498,7 @@ font-size: 18px;
 }
 
 .full-progress {
-  margin-top: 12px;
+  margin-top: 3px;
 }
 
 .full-progress .kpi-progress-track {
@@ -695,6 +681,42 @@ display: grid;
   height: 3px;
   background-color: #0d7a60;
   border-radius: 3px 3px 0 0;
+}
+
+.subcat-container {
+  display: grid;
+  gap: 0;
+  padding-bottom: 10px;
+}
+
+/* Items Block */
+.items-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  /* inner divider */
+  transition: background 150ms ease;
+  margin: 0px 1px;
+  /* Matches sub-block margins to indent */
+}
+
+.item-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+}
+
+.item-title {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--pw-text);
+  padding-left: 2px;
 }
 
 /* ================= TAB CONTENT PANE ================= */
@@ -1174,7 +1196,7 @@ display: grid;
   }
 
   .kpi-card-full {
-    grid-column: span 2;
+    grid-column: span 4;
   }
 
   .segmented-control-container {
