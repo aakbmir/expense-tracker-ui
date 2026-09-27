@@ -94,7 +94,7 @@ export class OverviewReportComponent implements OnInit {
   faArrowRight = faArrowRight;
   faPlane = faPlane;
   faCircle = faCircle;
-  
+
   // View Controls
   activeSegment: 'actual' | 'summary' = 'actual';
   activeSubTab: any = 'expense-cat'; // 'expenses' | 'savings' | 'expenses-cat' | 'savings-cat'
@@ -135,7 +135,7 @@ export class OverviewReportComponent implements OnInit {
   trendFlag = false;
 
   cumulativeReport: any = [];
-expenseList: any = [];
+  expenseList: any = [];
 
   constructor(
     private reportService: ReportService,
@@ -168,17 +168,12 @@ expenseList: any = [];
   fetchAllData(month, year) {
     this.monthText = this.commonService.getCurrentMonthStringShort(this.month);
     this.loading = true;
-    
+
     this.reportService.groupedReport(month, year).subscribe((data: any) => {
       this.cumulativeReport = data.parentCategoryDTOList;
-      this.totalIncome = data.income.price;
       for (let report of this.cumulativeReport) {
-        
-        
         report.expanded = false;
-        //this.totalExpense = this.totalExpense + report.expense;
       }
-      //this.totalDeviate = this.totalIncome - this.totalExpense;
       this.loading = false;
     });
   }
@@ -294,7 +289,7 @@ expenseList: any = [];
     return this.categoryIcons[name.toLowerCase()] ?? faChevronRight;
   }
 
-    setActiveSegment(segment): void {
+  setActiveSegment(segment): void {
     this.activeSegment = segment;
   }
 
@@ -310,7 +305,7 @@ expenseList: any = [];
     this.loading = true;
     this.expenseService.getCurrentExpense(month, year).subscribe((data: any) => {
       this.loading = false;
-       this.groupDataByDate(data);
+      this.groupDataByDate(data);
       this.loading = false;
     });
   }

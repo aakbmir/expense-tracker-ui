@@ -50,6 +50,20 @@
         </div>
       </div>
 
+      <div class="kpi-card kpi-card-full card-badge">
+        <div style="display: flex; justify-content: space-between;">
+          <div class="kpi-header">
+            <div class="kpi-icon-badge badge-income">
+              <fa-icon [icon]="faWallet"></fa-icon>
+            </div>
+            <span class="kpi-label">Total Savings</span>
+          </div>
+          <div class="kpi-amount green">
+            {{ totalIncome - totalActualExpenses | number:'1.2-2' }} <span class="kpi-currency">AED</span>
+          </div>
+        </div>
+      </div>
+
       <!-- <div class="kpi-card card-badge">
         <div class="kpi-header">
           <div class="kpi-icon-badge badge-expense-budget">

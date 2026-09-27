@@ -255,7 +255,7 @@
     <form [formGroup]="editExpenseForm" (ngSubmit)="editExpense()">
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
-            
+
             <select #categorySelect class="form-select" formControlName="categoryId"
                 (change)="onCategoryEditChange(categorySelect.value)">
                 <option *ngFor="let category of categoryList" [value]="category.categoryId">
@@ -372,7 +372,7 @@
     <form [formGroup]="editSavingsForm" (ngSubmit)="editSavings()">
         <div class="input-group input-group-sm mb-3">
             <span id="inputGroup-sizing-sm" style="margin-right: 1em;width: 6em;">Category</span>
-            
+
             <select #categorySelect class="form-select" formControlName="categoryId"
                 (change)="onCategoryEditChange(categorySelect.value)">
                 <option *ngFor="let category of categoryList" [value]="category.categoryId">
@@ -651,13 +651,13 @@
     <div class="row" *ngFor="let item of reportsDetailsList"
         style="margin-bottom: 1em; border-bottom: 1px solid dimgrey">
         <div class="col-8" style="text-align: left;">
-            <span style="color: rgba(22, 163, 74, 0.95);font-weight: bold;">{{item.note}}</span>
+            <span style="color: rgba(22, 163, 74, 0.95);font-weight: bold;">{{item.description}}</span>
             <br />
             <span style="color: dimgrey">{{item.date | date : 'dd, MMM'}}</span>
         </div>
         <div class="col-4" style="text-align: right;">
             <span style="color: #6d9773">
-                {{item.price | number:'1.2-2'}}
+                {{item.amount | number:'1.2-2'}}
                 <small style="font-size: 0.475em">AED</small>
             </span>
         </div>
